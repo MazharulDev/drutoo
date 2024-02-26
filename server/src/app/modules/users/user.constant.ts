@@ -1,6 +1,8 @@
-// export const gender = ["male", "female"];
-// // export const bloodGroup = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
+import { roleType, statusType } from "./user.interface";
 
-export const userSearchableFields = ["email", "name", "username"];
+export const roles: roleType[] = ["user", "agent", "admin"];
+export const status: statusType[] = ["active", "inactive", "block"];
 
-export const userFilterableFields = ["searchTerm", "email", "name"];
+export const userSearchableFields = ["email", "name", "mobile"];
+
+export const userFilterableFields = ["searchTerm", "mobile", "email", "name"];

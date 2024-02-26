@@ -5,16 +5,18 @@ const createUserZodSchema = z.object({
     name: z.string({
       required_error: "name is required",
     }),
+    mobile: z.string({ required_error: "Mobile Number is require" }),
+    pin: z.string({ required_error: "Pin is required" }),
     email: z
       .string({
         required_error: "Email is required",
       })
       .email(),
+    nid: z.string({ required_error: "National Id is required" }),
+    role: z.string({ required_error: "Role select is required" }),
+    status: z.string().optional(),
+    balance: z.string().optional(),
     image: z.string().optional(),
-    username: z.string({
-      required_error: "username is required",
-    }),
-    posts: z.string().optional(),
   }),
 });
 

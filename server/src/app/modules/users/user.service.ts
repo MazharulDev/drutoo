@@ -3,14 +3,30 @@ import { User } from "./user.model";
 import ApiError from "../../../errors/ApiError";
 import httpStatus from "http-status";
 
-const createUser = async (payload: IUser): Promise<IUser> => {
-  const userExist = await User.find({ username: payload?.username });
-  const exist = userExist[0]?.username;
-  if (payload.username === exist) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "Username already exist!");
+const createUser = async (payload: IUser): Promise<IUser | null> => {
+  const userExist = await User.findOne({ mobile: payload.mobile });
+  if (userExist) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      "User already exists. Please login."
+    );
   }
-  const result = await User.create(payload);
-  return result;
+
+  let status;
+  if (payload.role === "agent") {
+    status = "inactive";
+  }
+
+  const userData = {
+    ...payload,
+    balance: payload.role === "agent" ? 100000 : 40,
+    status: status,
+  };
+
+  const newUser = await User.create(userData);
+  const newUserResponse = await User.findById(newUser._id).select("-pin");
+
+  return newUserResponse;
 };
 
 export const UserService = {
