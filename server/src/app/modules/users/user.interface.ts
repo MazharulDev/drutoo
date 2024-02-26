@@ -15,7 +15,13 @@ export type IUser = {
   balance: number;
   image: string;
 };
-export type UserModel = Model<IUser, Record<string, unknown>>;
+export type UserModel = {
+  isUserExist(mobile: string): Promise<Pick<IUser, "mobile" | "pin" | "role">>;
+  isPasswordMatched(
+    givenPassword: string,
+    savedPassword: string
+  ): Promise<boolean>;
+} & Model<IUser>;
 
 export type IUserFilters = {
   searchTerm?: string;

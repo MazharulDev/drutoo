@@ -19,7 +19,7 @@ export const UserSchema = new Schema<IUser, UserModel>({
     required: true,
     select: false,
     minlength: 4,
-    maxlength: 5,
+    maxlength: 4,
   },
   email: {
     type: String,
