@@ -3,6 +3,7 @@ import { UserRoutes } from "../modules/users/user.route";
 import { AuthRoutes } from "../modules/auth/auth.route";
 import { SendMoneyRoutes } from "../modules/sendMoney/sendMoney.route";
 import { CashoutRoutes } from "../modules/cashOut/cashout.route";
+import { CashinRoutes } from "../modules/cashIn/cashin.route";
 
 const router = express.Router();
 
@@ -22,6 +23,10 @@ const modulesRoutes = [
   {
     path: "/cashout",
     route: CashoutRoutes,
+  },
+  {
+    path: "/cashin",
+    route: CashinRoutes,
   },
 ];
 modulesRoutes.forEach((route) => router.use(route.path, route.route));

@@ -1,18 +1,13 @@
 import mongoose from "mongoose";
-
 import ApiError from "../../../errors/ApiError";
 import httpStatus from "http-status";
 import { User } from "../users/user.model";
 import { generateTransactionId } from "../../../utils/transIdGenarate";
+import { ICashin } from "./cashin.interface";
+import { Cashin } from "./cashin.model";
 
-import config from "../../../config";
-import { AddAdminBalance } from "../users/user.utlis";
-import { ICashout } from "./cashout.interface";
-import { Cashout } from "./cashout.model";
-
-const cashout = async (payload: ICashout) => {
+const cashin = async (payload: ICashin) => {
   const { senderId, receivedId, amount, pin } = payload;
-  const adminId = config.adminId;
   const session = await mongoose.startSession();
 
   try {
@@ -22,10 +17,10 @@ const cashout = async (payload: ICashout) => {
       const receiver = await User.findOne({ mobile: receivedId }).session(
         session
       );
-      if (receiver?.role !== "agent" || receiver?.status === "inactive") {
+      if (receiver?.role !== "user") {
         throw new ApiError(
           httpStatus.BAD_REQUEST,
-          "This number is not an agent number"
+          "This number is not a personal number"
         );
       }
       if (!sender || !receiver) {
@@ -59,20 +54,8 @@ const cashout = async (payload: ICashout) => {
       }
       let transferAmount = Number(amount);
 
-      // charge
-      const charge = amount * 0.015; // Calculate 1.5% of the amount
-      if (charge + transferAmount > sender.balance) {
-        throw new ApiError(httpStatus.BAD_REQUEST, "Insufficient balance");
-      }
-      transferAmount += charge;
-
-      const adminShare = amount * 0.005;
-      const agentShare = amount * 0.01;
-      const adminPercent = await AddAdminBalance(adminShare);
-      await User.updateOne({ mobile: adminId }, { balance: adminPercent });
-
       sender.balance -= Number(transferAmount);
-      receiver.balance += Number(amount + agentShare);
+      receiver.balance += Number(amount);
       // Transaction id
       const transId = await generateTransactionId(10);
 
@@ -91,7 +74,7 @@ const cashout = async (payload: ICashout) => {
         amount: amount,
         transactionId: transId,
       };
-      const transHistory = await Cashout.create(transData);
+      const transHistory = await Cashin.create(transData);
       // push user transaction store array
       await User.findByIdAndUpdate(sender?._id, {
         $push: { transactions: { $each: [transHistory?._id], $position: 0 } },
@@ -100,7 +83,7 @@ const cashout = async (payload: ICashout) => {
         $push: { transactions: { $each: [transHistory?._id], $position: 0 } },
       });
     });
-    return `${amount} taka has been cashout to number  ${receivedId}`;
+    return `${amount} taka has been cashin to number  ${receivedId}`;
   } catch (error) {
     throw new ApiError(httpStatus.BAD_REQUEST, `${error}`);
   } finally {
@@ -108,6 +91,6 @@ const cashout = async (payload: ICashout) => {
   }
 };
 
-export const CashoutService = {
-  cashout,
+export const CashinService = {
+  cashin,
 };
