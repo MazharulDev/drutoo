@@ -11,5 +11,11 @@ router.post(
   validateRequest(UserValidation.createUserZodSchema),
   UserController.createUser
 );
+
 router.get("/agents", auth(ENUM_USER_ROLE.ADMIN), UserController.agents);
+router.patch(
+  "/update/:id",
+  auth(ENUM_USER_ROLE.ADMIN),
+  UserController.updateAgentStatus
+);
 export const UserRoutes = router;

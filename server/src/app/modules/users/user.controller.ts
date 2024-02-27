@@ -32,7 +32,20 @@ const agents = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const updateAgentStatus = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { ...statusData } = req.body;
+  const result = await UserService.updateAgentStatus(id, statusData);
+  sendResponse<IUser>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Agent status update successfully",
+    data: result,
+  });
+});
+
 export const UserController = {
   createUser,
   agents,
+  updateAgentStatus,
 };
