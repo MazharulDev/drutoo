@@ -5,9 +5,12 @@ import httpStatus from "http-status";
 import { User } from "../users/user.model";
 import { generateTransactionId } from "../../../utils/transIdGenarate";
 import { SendMoney } from "./sendMoney.model";
+import config from "../../../config";
+import { AddAdminBalance } from "../users/user.utlis";
 
 const transactions = async (payload: ISendMoney) => {
   const { senderId, receivedId, amount, pin } = payload;
+  const adminId = config.adminId;
   const session = await mongoose.startSession();
 
   try {
@@ -38,20 +41,25 @@ const transactions = async (payload: ISendMoney) => {
       if (sender.balance < amount) {
         throw new ApiError(httpStatus.BAD_REQUEST, "Insufficient balance");
       }
+      // check balance less than 10 taka
+
       if (sender.balance < 10) {
         throw new ApiError(
           httpStatus.BAD_GATEWAY,
           "Send less than 10 taka cannot be accepted"
         );
       }
-      let transferAmount = amount;
+      let transferAmount = Number(amount);
 
+      // Charge 5 taka if the amount is over 100 taka
       if (amount > 100) {
-        transferAmount += 5; // Charge 5 taka if the amount is over 100 taka
+        transferAmount += 5;
+        const balance = await AddAdminBalance(5);
+        await User.updateOne({ mobile: adminId }, { balance: balance });
       }
-      sender.balance -= transferAmount;
+      sender.balance -= Number(transferAmount);
       receiver.balance += Number(amount);
-
+      // Transaction id
       const transId = await generateTransactionId(10);
 
       // Save updated balances
@@ -70,7 +78,6 @@ const transactions = async (payload: ISendMoney) => {
         transactionId: transId,
       };
       const transHistory = await SendMoney.create(transData);
-      // console.log(senderStore, receiverStore);
       // push user transaction store array
       await User.findByIdAndUpdate(sender?._id, {
         $push: { transactions: { $each: [transHistory?._id], $position: 0 } },
