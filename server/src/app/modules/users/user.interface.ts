@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { Model, Types } from "mongoose";
+import { ISendMoney } from "../sendMoney/sendMoney.interface";
 export type roleType = "user" | "agent" | "admin";
 export type statusType = "active" | "inactive" | "block";
 
@@ -14,6 +15,7 @@ export type IUser = {
   nid: string;
   balance: number;
   image: string;
+  transactions?: Types.ObjectId | ISendMoney;
 };
 export type UserModel = {
   isUserExist(mobile: string): Promise<Pick<IUser, "mobile" | "pin" | "role">>;

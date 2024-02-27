@@ -4,50 +4,64 @@ import { roles, status } from "./user.constant";
 import bcrypt from "bcrypt";
 import config from "../../../config";
 
-export const UserSchema = new Schema<IUser, UserModel>({
-  name: {
-    type: String,
-    required: true,
+export const UserSchema = new Schema<IUser, UserModel>(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    mobile: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    pin: {
+      type: String,
+      required: true,
+      select: false,
+      minlength: 4,
+      maxlength: 4,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    nid: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    role: {
+      type: String,
+      enum: roles,
+      required: true,
+    },
+    status: {
+      type: String,
+      enum: status,
+      default: "active",
+    },
+    balance: {
+      type: Number,
+    },
+    image: {
+      type: String,
+    },
+    transactions: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "SendMoney",
+      },
+    ],
   },
-  mobile: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  pin: {
-    type: String,
-    required: true,
-    select: false,
-    minlength: 4,
-    maxlength: 4,
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  nid: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  role: {
-    type: String,
-    enum: roles,
-    required: true,
-  },
-  status: {
-    type: String,
-    enum: status,
-    default: "active",
-  },
-  balance: {
-    type: Number,
-  },
-  image: {
-    type: String,
-  },
-});
+  {
+    timestamps: true,
+    toJSON: {
+      virtuals: true,
+    },
+  }
+);
 
 UserSchema.statics.isUserExist = async function (
   mobile: string
