@@ -22,6 +22,12 @@ const cashout = async (payload: ICashout) => {
       const receiver = await User.findOne({ mobile: receivedId }).session(
         session
       );
+      if (receiver?.role !== "agent") {
+        throw new ApiError(
+          httpStatus.BAD_REQUEST,
+          "This number is not an agent number"
+        );
+      }
       if (!sender || !receiver) {
         throw new ApiError(
           httpStatus.BAD_REQUEST,
@@ -53,14 +59,20 @@ const cashout = async (payload: ICashout) => {
       }
       let transferAmount = Number(amount);
 
-      // Charge 5 taka if the amount is over 100 taka
-      if (amount > 100) {
-        transferAmount += 5;
-        const balance = await AddAdminBalance(5);
-        await User.updateOne({ mobile: adminId }, { balance: balance });
+      // charge
+      const charge = amount * 0.015; // Calculate 1.5% of the amount
+      if (charge + transferAmount > sender.balance) {
+        throw new ApiError(httpStatus.BAD_REQUEST, "Insufficient balance");
       }
+      transferAmount += charge;
+
+      const adminShare = amount * 0.005;
+      const agentShare = amount * 0.01;
+      const adminPercent = await AddAdminBalance(adminShare);
+      await User.updateOne({ mobile: adminId }, { balance: adminPercent });
+
       sender.balance -= Number(transferAmount);
-      receiver.balance += Number(amount);
+      receiver.balance += Number(amount + agentShare);
       // Transaction id
       const transId = await generateTransactionId(10);
 
@@ -88,7 +100,7 @@ const cashout = async (payload: ICashout) => {
         $push: { transactions: { $each: [transHistory?._id], $position: 0 } },
       });
     });
-    return `${amount} taka has been sent to number ${senderId} to ${receivedId}`;
+    return `${amount} taka has been cashout to number  ${receivedId}`;
   } catch (error) {
     throw new ApiError(httpStatus.BAD_REQUEST, `${error}`);
   } finally {
