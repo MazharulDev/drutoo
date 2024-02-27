@@ -1,0 +1,42 @@
+{
+	"info": {
+		"_postman_id": "96311ee8-08e1-4393-92ca-3a66d42de25e",
+		"name": "Cashout",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23769390"
+	},
+	"item": [
+		{
+			"name": "cashout",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{accessToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"senderId\":\"01981719082\",\r\n    \"receivedId\":\"01518684785\",\r\n    \"amount\":\"100\",\r\n    \"pin\":\"1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/cashout",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"cashout"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

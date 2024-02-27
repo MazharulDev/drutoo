@@ -1,0 +1,43 @@
+{
+	"info": {
+		"_postman_id": "ba922bd5-c229-4367-849c-108b0b9fb5ab",
+		"name": "Transfer",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23769390"
+	},
+	"item": [
+		{
+			"name": "sendMoney",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{accessToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"senderId\":\"01981719082\",\r\n    \"receivedId\":\"01911111111\",\r\n    \"amount\":\"105\",\r\n    \"pin\":\"1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/money/send-money",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"money",
+						"send-money"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
