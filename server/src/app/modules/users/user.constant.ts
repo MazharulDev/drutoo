@@ -5,4 +5,10 @@ export const status: statusType[] = ["active", "inactive", "block"];
 
 export const userSearchableFields = ["email", "name", "mobile"];
 
-export const userFilterableFields = ["searchTerm", "mobile", "email", "name"];
+export const userFilterableFields = [
+  "searchTerm",
+  "mobile",
+  "email",
+  "name",
+  "role",
+];
