@@ -7,6 +7,8 @@ import { IGenericResponse } from "../../../interface/common";
 import { paginationHelpers } from "../../../helpers/paginationHelpers";
 import { userSearchableFields } from "./user.constant";
 import { SortOrder } from "mongoose";
+import { AddSystemBalance } from "./user.utlis";
+import { System } from "../system/system.model";
 
 const createUser = async (payload: IUser): Promise<IUser | null> => {
   const userExist = await User.findOne({ mobile: payload.mobile });
@@ -29,6 +31,9 @@ const createUser = async (payload: IUser): Promise<IUser | null> => {
   };
 
   const newUser = await User.create(userData);
+  const amount = newUser.balance;
+  const incrementAmount = await AddSystemBalance(amount);
+  await System.updateOne({ name: "systemAmount" }, { amount: incrementAmount });
   const newUserResponse = await User.findById(newUser._id).select("-pin");
 
   return newUserResponse;
