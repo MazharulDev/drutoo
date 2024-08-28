@@ -36,6 +36,7 @@ export const UserSchema = new Schema<IUser, UserModel>(
       type: String,
       enum: roles,
       required: true,
+      default: "user",
     },
     status: {
       type: String,

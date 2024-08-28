@@ -18,6 +18,14 @@ export const getUserInfo = () => {
 
 export const isLoggedIn = () => {
   const authToken = getFromLocalStorage(authkey);
+  const decodedData = authToken ? decodedToken(authToken) : null;
+  if (decodedData) {
+    const exp = (decodedData as { exp: number })?.exp * 1000;
+    const currentTime = new Date().getTime();
+    if (currentTime > exp) {
+      removeUserInfo(authkey);
+    }
+  }
   return !!authToken;
 };
 

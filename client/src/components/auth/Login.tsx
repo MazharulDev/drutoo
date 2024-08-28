@@ -4,12 +4,12 @@ import loginImage from "../../assets/login.webp";
 import Image from "next/image";
 
 import { SubmitHandler } from "react-hook-form";
-import { useUserLoginMutation } from "@/redux/api/authApi";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { storeUserInfo } from "@/services/auth.service";
 import Form from "../forms/Form";
 import FormInput from "../forms/FormInput";
+import { useLoginMutation } from "@/redux/api/authApi";
 
 type FormValues = {
   mobile: string;
@@ -18,7 +18,7 @@ type FormValues = {
 
 const LoginPage = () => {
   const router = useRouter();
-  const [loginUser] = useUserLoginMutation();
+  const [loginUser] = useLoginMutation();
   const onSubmit: SubmitHandler<FormValues> = async (data: any) => {
     try {
       const res = await loginUser({ ...data }).unwrap();
@@ -26,10 +26,10 @@ const LoginPage = () => {
       if (res?.accessToken) {
         router.push("/");
         message.success("User logged in successfully");
+        storeUserInfo({ accessToken: res?.accessToken });
       } else {
         message.error("Rechack your email and password");
       }
-      storeUserInfo({ accessToken: res?.accessToken });
     } catch (error) {
       console.error(error);
     }
@@ -80,7 +80,8 @@ const LoginPage = () => {
           </Form>
           <div style={{ marginTop: "10px" }}>
             <p>
-              You have not account? <Link href="/sign-up">Create Account</Link>
+              You have not account?{" "}
+              <Link href="/create-account">Create Account</Link>
             </p>
           </div>
         </div>

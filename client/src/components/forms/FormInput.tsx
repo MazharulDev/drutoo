@@ -16,6 +16,17 @@ interface IInput {
   defaultValue?: string;
   disabledInput?: string;
   autoComplete?: string;
+  pattern?: string;
+  inputMode?:
+    | "search"
+    | "text"
+    | "email"
+    | "tel"
+    | "url"
+    | "none"
+    | "numeric"
+    | "decimal"
+    | undefined;
 }
 
 const FormInput = ({
@@ -30,6 +41,8 @@ const FormInput = ({
   defaultValue,
   disabledInput,
   autoComplete,
+  pattern,
+  inputMode,
 }: IInput) => {
   const {
     control,
@@ -51,6 +64,9 @@ const FormInput = ({
               placeholder={placeholder}
               {...field}
               value={value ? value : field.value}
+              pattern={pattern}
+              inputMode={inputMode}
+              autoComplete={autoComplete}
             />
           ) : disabledInput ? (
             <Input
@@ -61,6 +77,7 @@ const FormInput = ({
               value={value ? value : field.value}
               defaultValue={defaultValue}
               disabled
+              autoComplete={autoComplete}
             />
           ) : autoComplete ? (
             <Input
@@ -70,7 +87,7 @@ const FormInput = ({
               {...field}
               value={value ? value : field.value}
               defaultValue={defaultValue}
-              autoComplete="off"
+              autoComplete={autoComplete}
             />
           ) : (
             <Input
@@ -80,6 +97,7 @@ const FormInput = ({
               {...field}
               value={value ? value : field.value}
               defaultValue={defaultValue}
+              autoComplete={autoComplete}
             />
           )
         }
