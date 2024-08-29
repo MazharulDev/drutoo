@@ -103,10 +103,8 @@ const updateAgentStatus = async (
   return result;
 };
 
-const singleUser = async (
-  id: string,
-): Promise<IUser | null> => {
-  const result = await User.findById({ _id: id });
+const singleUser = async (mobile: string): Promise<IUser | null> => {
+  const result = await User.findOne({ mobile: mobile });
   return result;
 };
 
@@ -114,5 +112,5 @@ export const UserService = {
   createUser,
   agents,
   updateAgentStatus,
-  singleUser
+  singleUser,
 };

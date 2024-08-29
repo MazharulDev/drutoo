@@ -45,8 +45,8 @@ const updateAgentStatus = catchAsync(async (req: Request, res: Response) => {
 });
 
 const singleUser = catchAsync(async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const result = await UserService.singleUser(id);
+  const { mobile } = req.params;
+  const result = await UserService.singleUser(mobile);
   sendResponse<IUser>(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -59,5 +59,5 @@ export const UserController = {
   createUser,
   agents,
   updateAgentStatus,
-  singleUser
+  singleUser,
 };

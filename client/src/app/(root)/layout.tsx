@@ -5,6 +5,7 @@ import { isLoggedIn } from "@/services/auth.service";
 import { Row, Space, Spin } from "antd";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import Loading from "../loading";
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
@@ -18,19 +19,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   }, [router, userLoggedIn]);
 
   if (!isLoading) {
-    return (
-      <Row
-        justify="center"
-        align="middle"
-        style={{
-          height: "100vh",
-        }}
-      >
-        <Space>
-          <Spin tip="Loading" size="large"></Spin>
-        </Space>
-      </Row>
-    );
+    return <Loading />;
   }
   return <Layout>{children}</Layout>;
 };
