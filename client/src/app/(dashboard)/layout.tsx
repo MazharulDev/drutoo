@@ -6,6 +6,8 @@ import { Row, Space, Spin } from "antd";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import Loading from "../loading";
+import SideBar from "@/components/UI/SideBar";
+import Contents from "@/components/UI/Contents";
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
@@ -21,7 +23,12 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   if (!isLoading) {
     return <Loading />;
   }
-  return <Layout>{children}</Layout>;
+  return (
+    <Layout hasSider>
+      <SideBar />
+      <Contents>{children}</Contents>
+    </Layout>
+  );
 };
 
 export default RootLayout;
