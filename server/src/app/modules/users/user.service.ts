@@ -103,8 +103,16 @@ const updateAgentStatus = async (
   return result;
 };
 
+const singleUser = async (
+  id: string,
+): Promise<IUser | null> => {
+  const result = await User.findById({ _id: id });
+  return result;
+};
+
 export const UserService = {
   createUser,
   agents,
   updateAgentStatus,
+  singleUser
 };

@@ -18,4 +18,6 @@ router.patch(
   auth(ENUM_USER_ROLE.ADMIN),
   UserController.updateAgentStatus
 );
+router.get('/profile/:id',auth(ENUM_USER_ROLE.USER,ENUM_USER_ROLE.ADMIN),UserController.singleUser);
+
 export const UserRoutes = router;

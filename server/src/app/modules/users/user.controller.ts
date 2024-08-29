@@ -44,8 +44,20 @@ const updateAgentStatus = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const singleUser = catchAsync(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const result = await UserService.singleUser(id);
+  sendResponse<IUser>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "User profile fetch successfully",
+    data: result,
+  });
+});
+
 export const UserController = {
   createUser,
   agents,
   updateAgentStatus,
+  singleUser
 };
