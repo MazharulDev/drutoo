@@ -1,0 +1,33 @@
+.card-chip {
+  position: absolute;
+  top: 315px;
+  left: 25px;
+  width: 40px;
+  height: 28px;
+  border-radius: 5px;
+  background-color: #ffda7b;
+  overflow: hidden;
+}
+.card-chip::before {
+  content: "";
+  position: absolute;
+  left: 49%;
+  top: -7%;
+  transform: translateX(-50%);
+  background: #ffda7b;
+  border: 1px solid #a27c1f;
+  width: 25%;
+  height: 110%;
+  border-radius: 100%;
+  z-index: 2;
+}
+.card-chip::after {
+  content: "";
+  position: absolute;
+  top: 30%;
+  left: -10%;
+  background: transparent;
+  border: 1px solid #a27c1f;
+  width: 120%;
+  height: 33%;
+}
