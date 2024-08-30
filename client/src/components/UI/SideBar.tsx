@@ -36,13 +36,19 @@ const Sidebar = () => {
           marginBottom: "1rem",
         }}
       >
-        IS
+        DRUTOO
       </div>
       <Menu
         theme="dark"
         defaultSelectedKeys={["1"]}
         mode="inline"
         items={sidebarItems(role)}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          height: "80vh",
+        }}
       />
     </Sider>
   );

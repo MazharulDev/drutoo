@@ -5,9 +5,9 @@ import { isLoggedIn } from "@/services/auth.service";
 import { Row, Space, Spin } from "antd";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import Loading from "../loading";
 import SideBar from "@/components/UI/SideBar";
 import Contents from "@/components/UI/Contents";
+import Loading from "../loading";
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
