@@ -19,14 +19,20 @@ export type IGenericErrorMessage = {
   message: string;
 };
 
-export type IUsers = {
+export type IUser = {
   _id: string;
   name: string;
+  mobile: string;
   email: string;
+  nid: string;
+  role: string;
   image?: string;
-  role: "user";
-  phoneNumber: string;
-  password: string;
+  status: string;
+  balance: number;
+  transactions: Array<object>;
+  createdAt: string;
+  updatedAt: string;
+  id: string;
 };
 
 export type IService = {
