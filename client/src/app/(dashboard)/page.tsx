@@ -12,7 +12,6 @@ import HomeRight from "@/components/UI/HomePage/HomeRight";
 const HomePage = () => {
   const { userId } = getUserInfo() as any;
   const { data: userData } = useProfileQuery(userId);
-  console.log(userData);
 
   return (
     <div
