@@ -15,7 +15,7 @@ import { USER_ROLE } from "./role";
 export const sidebarItems = (role: string) => {
   const defaultSidebarItems: MenuProps["items"] = [
     {
-      label: "Home",
+      label: <Link href={`/`}>Home</Link>,
       key: "Home",
       icon: <HomeOutlined />,
     },
@@ -25,10 +25,10 @@ export const sidebarItems = (role: string) => {
     {
       label: "Money Transfer",
       icon: <SendOutlined />,
-      key: `/${role}/booking`,
+      key: `/${role}/transfer`,
       children: [
         {
-          label: "Send Money",
+          label: <Link href={`/${role}/send-money`}>Send Money</Link>,
           key: `/${role}/send-money`,
           icon: <SendOutlined />,
         },
