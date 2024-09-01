@@ -1,7 +1,10 @@
 "use client";
 import Form from "@/components/forms/Form";
 import FormInput from "@/components/forms/FormInput";
-import { Button, Col, Row } from "antd";
+import { useSendMoneyMutation } from "@/redux/api/sendMoneyApi";
+import { useProfileQuery } from "@/redux/api/userApi";
+import { getUserInfo } from "@/services/auth.service";
+import { Button, Col, message, Row } from "antd";
 import React from "react";
 import { SubmitHandler } from "react-hook-form";
 
@@ -12,9 +15,20 @@ type FormValues = {
 };
 
 const SendMoneyPage = () => {
+  const { userId } = getUserInfo() as any;
+  const { data: userData } = useProfileQuery(userId);
+  const [sendMoney, { isLoading, isSuccess, isError, error }] =
+    useSendMoneyMutation();
   const onSubmit: SubmitHandler<FormValues> = async (data: any) => {
     try {
-      // console.log(data);
+      const res = await sendMoney({
+        ...data,
+        senderId: userData?.mobile,
+      }).unwrap();
+      console.log(res);
+      // if (res) {
+      //   message.success(res);
+      // }
     } catch (error) {
       console.error(error);
     }

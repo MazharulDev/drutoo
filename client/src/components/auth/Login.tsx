@@ -10,6 +10,7 @@ import { storeUserInfo } from "@/services/auth.service";
 import Form from "../forms/Form";
 import FormInput from "../forms/FormInput";
 import { useLoginMutation } from "@/redux/api/authApi";
+import { decodedToken } from "@/utils/jwt";
 
 type FormValues = {
   mobile: string;
@@ -22,11 +23,15 @@ const LoginPage = () => {
   const onSubmit: SubmitHandler<FormValues> = async (data: any) => {
     try {
       const res = await loginUser({ ...data }).unwrap();
-
       if (res?.accessToken) {
-        router.push("/");
-        message.success("User logged in successfully");
-        storeUserInfo({ accessToken: res?.accessToken });
+        const { userId } = decodedToken(res?.accessToken) as {
+          userId: string;
+        };
+        if (userId) {
+          router.push("/");
+          message.success("User logged in successfully");
+          storeUserInfo({ accessToken: res?.accessToken });
+        }
       } else {
         message.error("Rechack your email and password");
       }
