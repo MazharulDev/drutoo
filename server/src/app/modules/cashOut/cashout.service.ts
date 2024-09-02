@@ -90,6 +90,7 @@ const cashout = async (payload: ICashout) => {
         receivedId: receivedId,
         amount: amount,
         transactionId: transId,
+        through: "cashout",
       };
       const transHistory = await Cashout.create(transData);
       // push user transaction store array

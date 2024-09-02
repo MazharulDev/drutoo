@@ -19,6 +19,10 @@ export const cashinSchema = new Schema<ICashin>(
       type: String,
       required: true,
     },
+    through: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,

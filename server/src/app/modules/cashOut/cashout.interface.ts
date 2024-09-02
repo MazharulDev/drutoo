@@ -4,4 +4,5 @@ export type ICashout = {
   amount: number;
   pin: string;
   transactionId: string;
+  through: string;
 };

@@ -4,4 +4,5 @@ export type ISendMoney = {
   amount: number;
   pin: string;
   transactionId: string;
+  through: string;
 };

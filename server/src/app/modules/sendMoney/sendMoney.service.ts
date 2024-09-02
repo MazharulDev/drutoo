@@ -76,6 +76,7 @@ const transactions = async (payload: ISendMoney) => {
         receivedId: receivedId,
         amount: amount,
         transactionId: transId,
+        through: "sendMoney",
       };
       const transHistory = await SendMoney.create(transData);
       // push user transaction store array

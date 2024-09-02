@@ -36,16 +36,26 @@ const HomeLeft = ({ userData }: any) => {
       render: function (data: any, record: any) {
         const amount = record.amount.toLocaleString("en-US", {
           style: "currency",
-          currency: "BDT",
+          currency: "USD",
         });
 
+        let transactionDetails = "Transaction details not available.";
+
         if (userData.mobile === record.senderId) {
-          return `You sent ${amount} to ${record.receivedId}.`;
+          if (record.through === "sendMoney") {
+            transactionDetails = `You sent ${amount} to ${record.receivedId}.`;
+          } else if (record.through === "cashout") {
+            transactionDetails = `You cashed out ${amount}.`;
+          }
         } else if (userData.mobile === record.receivedId) {
-          return `${record.senderId} sent you ${amount}.`;
-        } else {
-          return "Transaction details not available.";
+          if (record.through === "sendMoney") {
+            transactionDetails = `${record.senderId} sent you ${amount}.`;
+          } else if (record.through === "cashin") {
+            transactionDetails = `You received a cash-in of ${amount} from ${record.senderId}.`;
+          }
         }
+
+        return transactionDetails;
       },
     },
     {

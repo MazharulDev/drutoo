@@ -73,6 +73,7 @@ const cashin = async (payload: ICashin) => {
         receivedId: receivedId,
         amount: amount,
         transactionId: transId,
+        through: "cashin",
       };
       const transHistory = await Cashin.create(transData);
       // push user transaction store array

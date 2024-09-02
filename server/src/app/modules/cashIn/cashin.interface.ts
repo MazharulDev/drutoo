@@ -4,4 +4,5 @@ export type ICashin = {
   amount: number;
   pin: string;
   transactionId: string;
+  through: string;
 };
