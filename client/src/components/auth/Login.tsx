@@ -19,7 +19,7 @@ type FormValues = {
 
 const LoginPage = () => {
   const router = useRouter();
-  const [loginUser] = useLoginMutation();
+  const [loginUser, { isLoading }] = useLoginMutation();
   const onSubmit: SubmitHandler<FormValues> = async (data: any) => {
     try {
       const res = await loginUser({ ...data }).unwrap();
@@ -32,11 +32,12 @@ const LoginPage = () => {
           message.success("User logged in successfully");
           storeUserInfo({ accessToken: res?.accessToken });
         }
-      } else {
-        message.error("Rechack your email and password");
       }
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      message.error(
+        error?.data?.message ||
+          "An unexpected error occurred. Please try again."
+      );
     }
   };
   return (
@@ -79,7 +80,12 @@ const LoginPage = () => {
                 autoComplete="off"
               />
             </div>
-            <Button className="bg-blue-500" type="primary" htmlType="submit">
+            <Button
+              className="bg-blue-500"
+              type="primary"
+              htmlType="submit"
+              loading={isLoading}
+            >
               Login
             </Button>
           </Form>

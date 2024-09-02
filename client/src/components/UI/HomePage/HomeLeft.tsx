@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import { useDebounced } from "@/redux/hooks";
 
 const HomeLeft = ({ userData }: any) => {
+  console.log(userData);
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(10);
   const [sortBy, setSortBy] = useState<string>("");
@@ -24,23 +25,23 @@ const HomeLeft = ({ userData }: any) => {
   if (!!debouncedSearchTerm) {
     query["searchTerm"] = debouncedSearchTerm;
   }
-  const trans = [] as any;
+  const trans = userData?.transactions as any;
   const columns = [
     {
-      title: "Transaction",
-      dataIndex: "TransactionId",
+      title: "Sender",
+      dataIndex: "receivedId",
     },
     {
       title: "Amount",
       dataIndex: "amount",
     },
     {
-      title: "Status",
-      dataIndex: "status",
+      title: "Transaction Id",
+      dataIndex: "transactionId",
     },
     {
       title: "Date",
-      dataIndex: "date",
+      dataIndex: "createdAt",
       render: function (data: any) {
         return data && dayjs(data).format("MMM D, YYYY hh:mm A");
       },

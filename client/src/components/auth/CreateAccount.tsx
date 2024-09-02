@@ -21,7 +21,7 @@ type FormValues = {
 
 const CreateAccountPage = () => {
   const router = useRouter();
-  const [createAccount] = useCreateAccountMutation();
+  const [createAccount, { isLoading }] = useCreateAccountMutation();
   const onSubmit: SubmitHandler<FormValues> = async (data: any) => {
     try {
       const res = await createAccount({ ...data }).unwrap();
@@ -29,8 +29,11 @@ const CreateAccountPage = () => {
         router.push("/login");
         message.success("Account Created successfully, Please login");
       }
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      message.error(
+        error?.data?.message ||
+          "An unexpected error occurred. Please try again."
+      );
     }
   };
   return (
@@ -118,7 +121,12 @@ const CreateAccountPage = () => {
                 autoComplete="off"
               />
             </div>
-            <Button className="bg-blue-500" type="primary" htmlType="submit">
+            <Button
+              className="bg-blue-500"
+              type="primary"
+              htmlType="submit"
+              loading={isLoading}
+            >
               Signup
             </Button>
           </Form>

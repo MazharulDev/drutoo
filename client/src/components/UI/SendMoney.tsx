@@ -17,22 +17,25 @@ type FormValues = {
 const SendMoneyPage = () => {
   const { userId } = getUserInfo() as any;
   const { data: userData } = useProfileQuery(userId);
-  const [sendMoney, { isLoading, isSuccess, isError, error }] =
-    useSendMoneyMutation();
+  const [sendMoney, { isLoading }] = useSendMoneyMutation();
   const onSubmit: SubmitHandler<FormValues> = async (data: any) => {
     try {
       const res = await sendMoney({
         ...data,
         senderId: userData?.mobile,
       }).unwrap();
-      console.log(res);
-      // if (res) {
-      //   message.success(res);
-      // }
-    } catch (error) {
-      console.error(error);
+      if (res) {
+        message.success(res);
+      }
+    } catch (err: any) {
+      const errorMessage =
+        err?.data?.message ||
+        err?.error ||
+        "An unexpected error occurred. Please try again.";
+      message.error(errorMessage);
     }
   };
+
   return (
     <Row className="flex justify-center items-center">
       <Col>
@@ -69,7 +72,12 @@ const SendMoneyPage = () => {
               autoComplete="off"
             />
           </div>
-          <Button className="bg-blue-500" type="primary" htmlType="submit">
+          <Button
+            className="bg-blue-500"
+            type="primary"
+            htmlType="submit"
+            loading={isLoading}
+          >
             Send Money
           </Button>
         </Form>

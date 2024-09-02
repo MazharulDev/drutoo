@@ -104,7 +104,9 @@ const updateAgentStatus = async (
 };
 
 const singleUser = async (mobile: string): Promise<IUser | null> => {
-  const result = await User.findOne({ mobile: mobile });
+  const result = await User.findOne({ mobile: mobile }).populate(
+    "transactions"
+  );
   return result;
 };
 
