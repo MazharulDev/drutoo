@@ -9,7 +9,7 @@ export const userApi = baseApi.injectEndpoints({
         url: `${USER_URL}/profile/${mobile}`,
         method: "GET",
       }),
-      providesTags: [tagTypes.user, tagTypes.admin],
+      providesTags: [tagTypes.user, tagTypes.admin, tagTypes.sendMoney],
     }),
   }),
 });

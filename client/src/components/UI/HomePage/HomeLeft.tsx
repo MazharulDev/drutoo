@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import DRTable from "../Table";
 import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 import { useDebounced } from "@/redux/hooks";
 
+dayjs.extend(relativeTime);
+
 const HomeLeft = ({ userData }: any) => {
-  console.log(userData);
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(10);
   const [sortBy, setSortBy] = useState<string>("");
@@ -25,15 +27,26 @@ const HomeLeft = ({ userData }: any) => {
   if (!!debouncedSearchTerm) {
     query["searchTerm"] = debouncedSearchTerm;
   }
+
   const trans = userData?.transactions as any;
   const columns = [
     {
-      title: "Sender",
-      dataIndex: "receivedId",
-    },
-    {
-      title: "Amount",
-      dataIndex: "amount",
+      title: "Transaction Details",
+      dataIndex: "senderId", // Used just to get data, will be overwritten by the render function
+      render: function (data: any, record: any) {
+        const amount = record.amount.toLocaleString("en-US", {
+          style: "currency",
+          currency: "BDT",
+        });
+
+        if (userData.mobile === record.senderId) {
+          return `You sent ${amount} to ${record.receivedId}.`;
+        } else if (userData.mobile === record.receivedId) {
+          return `${record.senderId} sent you ${amount}.`;
+        } else {
+          return "Transaction details not available.";
+        }
+      },
     },
     {
       title: "Transaction Id",
@@ -43,7 +56,30 @@ const HomeLeft = ({ userData }: any) => {
       title: "Date",
       dataIndex: "createdAt",
       render: function (data: any) {
-        return data && dayjs(data).format("MMM D, YYYY hh:mm A");
+        const transactionDate = dayjs(data);
+        const now = dayjs();
+
+        const minutesDiff = now.diff(transactionDate, "minute");
+        const hoursDiff = now.diff(transactionDate, "hour");
+        const daysDiff = now.diff(transactionDate, "day");
+        const weeksDiff = now.diff(transactionDate, "week");
+
+        if (minutesDiff < 60) {
+          return `${minutesDiff} minute${
+            minutesDiff > 1 ? "s" : ""
+          } ago (${transactionDate.format("HH:mm")})`;
+        }
+        if (hoursDiff < 24) {
+          return `${hoursDiff} hour${
+            hoursDiff > 1 ? "s" : ""
+          } ago (${transactionDate.format("HH:mm")})`;
+        }
+        if (daysDiff < 7) {
+          return `${daysDiff} day${
+            daysDiff > 1 ? "s" : ""
+          } ago (${transactionDate.format("MMM D")})`;
+        }
+        return transactionDate.format("MMM D, YYYY");
       },
       sorter: true,
     },
@@ -53,6 +89,7 @@ const HomeLeft = ({ userData }: any) => {
     setPage(page);
     setSize(pageSize);
   };
+
   const onTableChange = (pagination: any, filter: any, sorter: any) => {
     const { order, field } = sorter;
     setSortBy(field as string);
@@ -64,6 +101,7 @@ const HomeLeft = ({ userData }: any) => {
     setSortOrder("");
     setSearchTerm("");
   };
+
   return (
     <div>
       <div>
