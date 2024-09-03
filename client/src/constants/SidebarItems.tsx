@@ -33,8 +33,8 @@ export const sidebarItems = (role: string) => {
           icon: <SendOutlined />,
         },
         {
-          label: "Cash Out",
-          key: `/${role}/cash-out`,
+          label: <Link href={`/${role}/cashout`}>Cashout</Link>,
+          key: `/${role}/cashout`,
           icon: <SafetyOutlined />,
         },
       ],

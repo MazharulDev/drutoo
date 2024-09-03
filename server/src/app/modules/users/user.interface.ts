@@ -16,6 +16,7 @@ export type IUser = {
   balance: number;
   image: string;
   transactions?: Types.ObjectId | ISendMoney;
+  transactionsType?:any;
 };
 export type UserModel = {
   isUserExist(mobile: string): Promise<Pick<IUser, "mobile" | "pin" | "role">>;

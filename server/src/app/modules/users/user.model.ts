@@ -52,9 +52,14 @@ export const UserSchema = new Schema<IUser, UserModel>(
     transactions: [
       {
         type: Schema.Types.ObjectId,
-        ref: "SendMoney",
+        refPath: "transactionsType",
       },
     ],
+    transactionsType: {
+      type: String,
+      required: true,
+      enum: ["SendMoney", "Cashout", "Cashin"],
+    },
   },
   {
     timestamps: true,

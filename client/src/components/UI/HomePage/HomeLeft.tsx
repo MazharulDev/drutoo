@@ -6,7 +6,7 @@ import { useDebounced } from "@/redux/hooks";
 
 dayjs.extend(relativeTime);
 
-const HomeLeft = ({ userData }: any) => {
+const HomeLeft = ({ userData,isLoading }: any) => {
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(10);
   const [sortBy, setSortBy] = useState<string>("");
@@ -125,7 +125,7 @@ const HomeLeft = ({ userData }: any) => {
         <h2 className="text-xl font-bold">Transaction</h2>
         <div className="mt-4 pr-1">
           <DRTable
-            // loading={isLoading}
+            loading={isLoading}
             columns={columns}
             dataSource={trans}
             pageSize={size}

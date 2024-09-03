@@ -1,0 +1,90 @@
+"use client";
+import Form from "@/components/forms/Form";
+import FormInput from "@/components/forms/FormInput";
+import { useCashoutMutation } from "@/redux/api/cashout";
+import { useSendMoneyMutation } from "@/redux/api/sendMoneyApi";
+import { useProfileQuery } from "@/redux/api/userApi";
+import { getUserInfo } from "@/services/auth.service";
+import { Button, Col, message, Row } from "antd";
+import React from "react";
+import { SubmitHandler } from "react-hook-form";
+
+type FormValues = {
+  receivedId: string;
+  amount: number;
+  pin: number;
+};
+
+const CashoutPage = () => {
+  const { userId } = getUserInfo() as any;
+  const { data: userData } = useProfileQuery(userId);
+  const [cashout, { isLoading }] = useCashoutMutation();
+  const onSubmit: SubmitHandler<FormValues> = async (data: any) => {
+    try {
+      const res = await cashout({
+        ...data,
+        senderId: userData?.mobile,
+      }).unwrap();
+      if (res) {
+        message.success(res);
+      }
+    } catch (err: any) {
+      const errorMessage =
+        err?.data?.message ||
+        err?.error ||
+        "An unexpected error occurred. Please try again.";
+      message.error(errorMessage);
+    }
+  };
+
+  return (
+    <Row className="flex justify-center items-center">
+      <Col>
+        <Form submitHandler={onSubmit}>
+          <div>
+            <FormInput
+              name="receivedId"
+              placeholder="01*********"
+              type="number"
+              size="large"
+              label="To"
+              autoComplete="off"
+            />
+          </div>
+          <div
+            style={{
+              margin: "15px 0px",
+            }}
+          >
+            <FormInput
+              name="amount"
+              type="number"
+              placeholder="Type amount"
+              size="large"
+              label="Amount"
+              autoComplete="off"
+            />
+            <FormInput
+              name="pin"
+              type="password"
+              placeholder="****"
+              size="large"
+              label="Pin"
+              autoComplete="off"
+            />
+          </div>
+          <Button
+            className="bg-blue-500"
+            type="primary"
+            htmlType="submit"
+            loading={isLoading}
+          >
+            Cashout
+          </Button>
+        </Form>
+      </Col>
+    </Row>
+  );
+};
+
+export default CashoutPage;
