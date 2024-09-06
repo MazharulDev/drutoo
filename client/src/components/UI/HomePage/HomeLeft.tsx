@@ -2,37 +2,15 @@ import React, { useState } from "react";
 import DRTable from "../Table";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { useDebounced } from "@/redux/hooks";
 
 dayjs.extend(relativeTime);
 
-const HomeLeft = ({ userData,isLoading }: any) => {
-  const [page, setPage] = useState<number>(1);
-  const [size, setSize] = useState<number>(10);
-  const [sortBy, setSortBy] = useState<string>("");
-  const [sortOrder, setSortOrder] = useState<string>("");
-  const [searchTerm, setSearchTerm] = useState<string>("");
-  const query: Record<string, any> = {};
-
-  query["limit"] = size;
-  query["page"] = page;
-  query["sortBy"] = sortBy;
-  query["sortOrder"] = sortOrder;
-
-  const debouncedSearchTerm = useDebounced({
-    searchQuery: searchTerm,
-    delay: 600,
-  });
-
-  if (!!debouncedSearchTerm) {
-    query["searchTerm"] = debouncedSearchTerm;
-  }
-
+const HomeLeft = ({ userData, isLoading }: any) => {
   const trans = userData?.transactions as any;
   const columns = [
     {
       title: "Transaction Details",
-      dataIndex: "senderId", // Used just to get data, will be overwritten by the render function
+      dataIndex: "senderId",
       render: function (data: any, record: any) {
         const amount = record.amount.toLocaleString("en-US", {
           style: "currency",
@@ -91,26 +69,8 @@ const HomeLeft = ({ userData,isLoading }: any) => {
         }
         return transactionDate.format("MMM D, YYYY");
       },
-      sorter: true,
     },
   ];
-
-  const onPaginationChange = (page: number, pageSize: number) => {
-    setPage(page);
-    setSize(pageSize);
-  };
-
-  const onTableChange = (pagination: any, filter: any, sorter: any) => {
-    const { order, field } = sorter;
-    setSortBy(field as string);
-    setSortOrder(order === "ascend" ? "asc" : "desc");
-  };
-
-  const resetFilters = () => {
-    setSortBy("");
-    setSortOrder("");
-    setSearchTerm("");
-  };
 
   return (
     <div>
@@ -128,11 +88,8 @@ const HomeLeft = ({ userData,isLoading }: any) => {
             loading={isLoading}
             columns={columns}
             dataSource={trans}
-            pageSize={size}
             showSizeChanger={true}
-            onPaginationChange={onPaginationChange}
-            onTableChange={onTableChange}
-            showPagination={true}
+            showPagination={false}
           />
         </div>
       </div>

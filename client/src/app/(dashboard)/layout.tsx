@@ -8,11 +8,14 @@ import React, { useEffect, useState } from "react";
 import SideBar from "@/components/UI/SideBar";
 import Contents from "@/components/UI/Contents";
 import Loading from "../loading";
+import useNetworkStatus from "@/hooks/useNetworkStatus";
+import Offline from "../Offline";
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const userLoggedIn = isLoggedIn();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { isOnline } = useNetworkStatus();
   useEffect(() => {
     if (!userLoggedIn) {
       router.push("/login");
@@ -25,8 +28,14 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   }
   return (
     <Layout hasSider>
-      <SideBar />
-      <Contents>{children}</Contents>
+      {isOnline ? (
+        <>
+          <SideBar />
+          <Contents>{children}</Contents>
+        </>
+      ) : (
+        <Offline />
+      )}
     </Layout>
   );
 };
