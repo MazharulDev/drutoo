@@ -11,7 +11,7 @@ import HomeRight from "@/components/UI/HomePage/HomeRight";
 
 const HomePage = () => {
   const { userId } = getUserInfo() as any;
-  const { data: userData,isLoading } = useProfileQuery(userId);
+  const { data: userData, isLoading } = useProfileQuery(userId);
 
   return (
     <div
@@ -26,7 +26,7 @@ const HomePage = () => {
     >
       <Row>
         <Col span={18}>
-          <HomeLeft userData={userData} isLoading={isLoading}/>
+          <HomeLeft userData={userData} isLoading={isLoading} />
         </Col>
         <Col span={6}>
           <HomeRight userData={userData} />

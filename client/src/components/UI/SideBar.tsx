@@ -36,7 +36,7 @@ const Sidebar = () => {
           marginBottom: "1rem",
         }}
       >
-        DRUTOO
+        DT
       </div>
       <Menu
         theme="dark"
