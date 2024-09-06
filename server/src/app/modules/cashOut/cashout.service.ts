@@ -72,7 +72,7 @@ const cashout = async (payload: ICashout) => {
       await User.updateOne({ mobile: adminId }, { balance: adminPercent });
 
       sender.balance -= Number(transferAmount);
-      receiver.balance += Number(amount + agentShare);
+      receiver.balance += Number(amount) + agentShare;
       // Transaction id
       const transId = await generateTransactionId(10);
 
