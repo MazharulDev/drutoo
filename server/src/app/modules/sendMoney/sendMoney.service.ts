@@ -4,9 +4,9 @@ import ApiError from "../../../errors/ApiError";
 import httpStatus from "http-status";
 import { User } from "../users/user.model";
 import { generateTransactionId } from "../../../utils/transIdGenarate";
-import { SendMoney } from "./sendMoney.model";
 import config from "../../../config";
 import { AddAdminBalance } from "../users/user.utlis";
+import { Transaction } from "../transactions/transactions.model";
 
 const transactions = async (payload: ISendMoney) => {
   const { senderId, receivedId, amount, pin } = payload;
@@ -78,7 +78,7 @@ const transactions = async (payload: ISendMoney) => {
         transactionId: transId,
         through: "sendMoney",
       };
-      const transHistory = await SendMoney.create(transData);
+      const transHistory = await Transaction.create(transData);
       // push user transaction store array
       await User.findByIdAndUpdate(sender?._id, {
         $push: { transactions: { $each: [transHistory?._id], $position: 0 } },

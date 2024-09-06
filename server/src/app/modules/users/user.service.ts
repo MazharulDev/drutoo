@@ -104,56 +104,10 @@ const updateAgentStatus = async (
 };
 
 const singleUser = async (mobile: string): Promise<IUser | null> => {
-  const result = await User.aggregate([
-    {
-      $match: { mobile: mobile },
-    },
-    {
-      $lookup: {
-        from: "sendmoneys",
-        localField: "transactions",
-        foreignField: "_id",
-        as: "sendMoneyTransactions",
-      },
-    },
-    {
-      $lookup: {
-        from: "cashouts",
-        localField: "transactions",
-        foreignField: "_id",
-        as: "cashoutTransactions",
-      },
-    },
-    {
-      $lookup: {
-        from: "cashins", 
-        localField: "transactions",
-        foreignField: "_id",
-        as: "cashinTransactions",
-      },
-    },
-    {
-      $addFields: {
-        transactions: {
-          $concatArrays: [
-            "$sendMoneyTransactions",
-            "$cashoutTransactions",
-            "$cashinTransactions",
-          ],
-        },
-      },
-    },
-    {
-      $project: {
-        sendMoneyTransactions: 0,
-        cashoutTransactions: 0,
-        cashinTransactions: 0,
-        pin: 0,
-      },
-    },
-  ]);
-
-  return result.length ? result[0] : null;
+  const result = await User.findOne({ mobile: mobile }).populate(
+    "transactions"
+  );
+  return result;
 };
 
 export const UserService = {

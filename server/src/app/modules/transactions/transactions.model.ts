@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
-import { ICashin } from "./cashin.interface";
+import { ITransactions } from "./transactions.interface";
 
-export const cashinSchema = new Schema<ICashin>(
+export const transactionSchema = new Schema<ITransactions>(
   {
     senderId: {
       type: String,
@@ -32,4 +32,7 @@ export const cashinSchema = new Schema<ICashin>(
   }
 );
 
-export const Cashin = model<ICashin>("Cashin", cashinSchema);
+export const Transaction = model<ITransactions>(
+  "Transaction",
+  transactionSchema
+);

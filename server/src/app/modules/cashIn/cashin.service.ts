@@ -4,7 +4,7 @@ import httpStatus from "http-status";
 import { User } from "../users/user.model";
 import { generateTransactionId } from "../../../utils/transIdGenarate";
 import { ICashin } from "./cashin.interface";
-import { Cashin } from "./cashin.model";
+import { Transaction } from "../transactions/transactions.model";
 
 const cashin = async (payload: ICashin) => {
   const { senderId, receivedId, amount, pin } = payload;
@@ -75,7 +75,7 @@ const cashin = async (payload: ICashin) => {
         transactionId: transId,
         through: "cashin",
       };
-      const transHistory = await Cashin.create(transData);
+      const transHistory = await Transaction.create(transData);
       // push user transaction store array
       await User.findByIdAndUpdate(sender?._id, {
         $push: { transactions: { $each: [transHistory?._id], $position: 0 } },

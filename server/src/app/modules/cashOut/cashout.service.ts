@@ -8,7 +8,7 @@ import { generateTransactionId } from "../../../utils/transIdGenarate";
 import config from "../../../config";
 import { AddAdminBalance } from "../users/user.utlis";
 import { ICashout } from "./cashout.interface";
-import { Cashout } from "./cashout.model";
+import { Transaction } from "../transactions/transactions.model";
 
 const cashout = async (payload: ICashout) => {
   const { senderId, receivedId, amount, pin } = payload;
@@ -92,7 +92,7 @@ const cashout = async (payload: ICashout) => {
         transactionId: transId,
         through: "cashout",
       };
-      const transHistory = await Cashout.create(transData);
+      const transHistory = await Transaction.create(transData);
       // push user transaction store array
       await User.findByIdAndUpdate(sender?._id, {
         $push: { transactions: { $each: [transHistory?._id], $position: 0 } },
