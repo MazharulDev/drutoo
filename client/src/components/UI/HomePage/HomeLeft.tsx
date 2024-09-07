@@ -87,7 +87,7 @@ const HomeLeft = ({ userData, isLoading }: any) => {
           <DRTable
             loading={isLoading}
             columns={columns}
-            dataSource={trans}
+            dataSource={trans?.slice(0, 5)}
             showSizeChanger={true}
             showPagination={false}
           />
