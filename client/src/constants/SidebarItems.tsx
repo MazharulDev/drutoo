@@ -40,9 +40,9 @@ export const sidebarItems = (role: string) => {
       ],
     },
     {
-      label: <Link href={`/${role}`}>Transaction History</Link>,
+      label: <Link href={`/${role}/transactions`}>Transactions History</Link>,
       icon: <TranslationOutlined />,
-      key: `/${role}/transaction-history`,
+      key: `/${role}/transactions-history`,
     },
   ];
 
