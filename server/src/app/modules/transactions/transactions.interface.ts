@@ -6,3 +6,9 @@ export type ITransactions = {
   transactionId: string;
   through: string;
 };
+
+export type ITransactionFilters = {
+  searchTerm?: string;
+  transactionId?: string;
+  amount?: number;
+};

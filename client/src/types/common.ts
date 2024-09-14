@@ -35,44 +35,13 @@ export type IUser = {
   id: string;
 };
 
-export type IService = {
-  _id: string;
-  title: string;
-  price: string;
-  speed: string;
-};
-
-export type IBooking = {
-  _id: string;
-  name: string;
-  email: string;
-  status: string;
-  phoneNumber: string;
-  address: string;
-  packageName: string;
-};
-
-export type IUserReview = {
-  _id: string;
-  name: string;
-  text: string;
-  status: string;
-};
-
-export type ISectionFaq = {
-  _id: string;
-  question: string;
-  answer: string;
-};
-
-export type IPayment = {
+export type ITransactions = {
+  senderId: string;
+  receivedId: string;
   amount: number;
-  email: string;
-  status: IStatus;
+  pin: string;
   transactionId: string;
-  packageName: string;
-  month: string;
-  year: string;
+  through: string;
 };
 
 export type IStatus = "pending" | "success";
