@@ -11,4 +11,5 @@ export type ITransactionFilters = {
   searchTerm?: string;
   transactionId?: string;
   amount?: number;
+  senderId?: string;
 };

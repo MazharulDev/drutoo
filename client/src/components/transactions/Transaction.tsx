@@ -6,6 +6,7 @@ import dayjs from "dayjs";
 import { getUserInfo } from "@/services/auth.service";
 import { useState } from "react";
 import { useDebounced } from "@/redux/hooks";
+import { Input } from "antd";
 
 const TransactionsPage = () => {
   const { userId } = getUserInfo() as any;
@@ -20,6 +21,7 @@ const TransactionsPage = () => {
   query["page"] = page;
   query["sortBy"] = sortBy;
   query["sortOrder"] = sortOrder;
+  query["senderId"] = userId;
 
   const debouncedSearchTerm = useDebounced({
     searchQuery: searchTerm,
@@ -109,6 +111,15 @@ const TransactionsPage = () => {
   return (
     <div>
       <div className="mt-4 pr-1">
+        <Input
+          size="large"
+          placeholder="Search"
+          onChange={(e) => setSearchTerm(e.target.value)}
+          style={{
+            width: "20%",
+            marginBottom: "1rem",
+          }}
+        />
         <DRTable
           loading={isLoading}
           columns={columns}

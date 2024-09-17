@@ -10,7 +10,7 @@ const myTransaction = async (
   filters: ITransactionFilters,
   paginationOptions: IPaginationOptions
 ): Promise<IGenericResponse<ITransactions[]>> => {
-  const { searchTerm, ...filtersData } = filters;
+  const { searchTerm, senderId, ...filtersData } = filters;
   const { page, limit, skip, sortBy, sortOrder } =
     paginationHelpers.calculatePagination(paginationOptions);
 
@@ -24,6 +24,12 @@ const myTransaction = async (
           $options: "i",
         },
       })),
+    });
+  }
+
+  if (senderId) {
+    andConditions.push({
+      senderId: senderId,
     });
   }
 
