@@ -2,7 +2,6 @@ import { MenuProps } from "antd";
 import {
   TableOutlined,
   WifiOutlined,
-  CarryOutOutlined,
   FormOutlined,
   AccountBookOutlined,
   HomeOutlined,
@@ -80,21 +79,21 @@ export const sidebarItems = (role: string) => {
     },
   ];
 
-  const superAdminSidebarItems: MenuProps["items"] = [
+  const agentSidebarItem: MenuProps["items"] = [
     ...defaultSidebarItems,
     {
-      label: <Link href={`/${role}/admin`}>Manage Admin</Link>,
-      icon: <TableOutlined />,
+      label: "Cashin",
+      icon: <SendOutlined />,
       key: `/${role}/admin`,
     },
     {
-      label: <Link href={`/${role}/user`}>Manage User</Link>,
-      icon: <TableOutlined />,
-      key: `/${role}/user`,
+      label: <Link href={`/${role}/transactions`}>Transactions History</Link>,
+      icon: <TranslationOutlined />,
+      key: `/${role}/transactions-history`,
     },
   ];
 
-  if (role === USER_ROLE.AGENT) return superAdminSidebarItems;
+  if (role === USER_ROLE.AGENT) return agentSidebarItem;
   else if (role === USER_ROLE.ADMIN) return adminSidebarItems;
   else if (role === USER_ROLE.USER) return userSidebarItems;
   else {
