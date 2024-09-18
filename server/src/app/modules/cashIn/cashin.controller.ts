@@ -4,10 +4,9 @@ import sendResponse from "../../../shared/sendResponse";
 import httpStatus from "http-status";
 import { CashinService } from "./cashin.service";
 
-
 const cashin = catchAsync(async (req: Request, res: Response) => {
   const { ...cashinData } = req.body;
-  const result = await CashinService.cashin(cashinData)
+  const result = await CashinService.cashin(cashinData);
   sendResponse<string | null>(res, {
     statusCode: httpStatus.OK,
     success: true,

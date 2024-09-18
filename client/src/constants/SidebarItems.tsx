@@ -82,9 +82,9 @@ export const sidebarItems = (role: string) => {
   const agentSidebarItem: MenuProps["items"] = [
     ...defaultSidebarItems,
     {
-      label: "Cashin",
+      label: <Link href={`/${role}/cashin`}>Cash In</Link>,
       icon: <SendOutlined />,
-      key: `/${role}/admin`,
+      key: `/${role}/cashin`,
     },
     {
       label: <Link href={`/${role}/transactions`}>Transactions History</Link>,
