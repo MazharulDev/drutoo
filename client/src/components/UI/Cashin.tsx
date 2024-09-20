@@ -8,7 +8,6 @@ import HoldButton from "./HoldButton";
 import { useCashinMutation } from "@/redux/api/cashinApi";
 
 const CashinPage = ({ userData }: any) => {
-  console.log(userData);
   const [receiverInfo, setReceiverInfo] = useState<string>("");
   const [receivedId, setReceivedId] = useState<string>("");
   const [amount, setAmount] = useState<string>("");

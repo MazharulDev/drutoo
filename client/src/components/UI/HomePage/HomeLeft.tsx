@@ -6,6 +6,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
 const HomeLeft = ({ userData, isLoading }: any) => {
+  console.log(userData);
   const trans = userData?.transactions as any;
   const columns = [
     {
@@ -24,6 +25,8 @@ const HomeLeft = ({ userData, isLoading }: any) => {
             transactionDetails = `You sent ${amount} to ${record.receivedId}.`;
           } else if (record.through === "cashout") {
             transactionDetails = `You cashed out ${amount}.`;
+          } else if (record.through === "cashin") {
+            transactionDetails = `You cash-in ${amount} to ${record.receivedId}.`;
           }
         } else if (userData.mobile === record.receivedId) {
           if (record.through === "sendMoney") {

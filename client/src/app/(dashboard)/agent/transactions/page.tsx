@@ -1,7 +1,11 @@
+import TransactionsPage from "@/components/transactions/Transaction";
+import ActionBar from "@/components/UI/ActionBar";
+
 const TransactionPageAgent = () => {
   return (
     <div>
-      <h2>This is transaction page</h2>
+      <ActionBar title="Transactions" />
+      <TransactionsPage />
     </div>
   );
 };

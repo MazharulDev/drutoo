@@ -50,7 +50,7 @@ const HoldButton: React.FC<CircleButtonProps> = ({ onHoldComplete }) => {
   }, []);
 
   return (
-    <Tooltip placement="top" title="Click hold to send money">
+    <Tooltip placement="top" title="Click hold to transfer money">
       <button
         className={`relative w-20 h-20 rounded-full border-4 border-transparent hover:scale-105 
       ${isHolding ? "border-blue-500" : ""} flex items-center justify-center`}

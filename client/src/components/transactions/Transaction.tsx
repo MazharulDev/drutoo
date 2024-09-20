@@ -51,6 +51,8 @@ const TransactionsPage = () => {
             transactionDetails = `You sent ${amount} to ${record.receivedId}.`;
           } else if (record.through === "cashout") {
             transactionDetails = `You cashed out ${amount}.`;
+          } else if (record.through === "cashin") {
+            transactionDetails = `You cash-in ${amount} to ${record.receivedId}.`;
           }
         } else if (userId === record.receivedId) {
           if (record.through === "sendMoney") {
