@@ -16,6 +16,7 @@ const myTransaction = async (
 
   const andConditions = [];
 
+  // Search term filtering
   if (searchTerm) {
     andConditions.push({
       $or: transactionsSearchableFields.map((field) => ({
@@ -27,12 +28,14 @@ const myTransaction = async (
     });
   }
 
+  // Sender or Receiver filtering
   if (senderId) {
     andConditions.push({
-      senderId: senderId,
+      $or: [{ senderId: senderId }, { receivedId: senderId }],
     });
   }
 
+  // Other filters
   if (Object.keys(filtersData).length) {
     andConditions.push({
       $and: Object.entries(filtersData).map(([field, value]) => ({
@@ -41,19 +44,23 @@ const myTransaction = async (
     });
   }
 
+  // Sorting logic
   const sortConditions: { [key: string]: SortOrder } = {};
-
   if (sortBy && sortOrder) {
     sortConditions[sortBy] = sortOrder;
   }
+
+  // Final query conditions
   const whereConditions =
     andConditions.length > 0 ? { $and: andConditions } : {};
 
+  // Fetching results
   const result = await Transaction.find(whereConditions)
     .sort(sortConditions)
     .skip(skip)
     .limit(limit);
 
+  // Counting total documents
   const total = await Transaction.countDocuments(whereConditions);
 
   return {
