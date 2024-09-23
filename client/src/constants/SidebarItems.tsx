@@ -1,9 +1,6 @@
 import { MenuProps } from "antd";
 import {
   TableOutlined,
-  WifiOutlined,
-  FormOutlined,
-  AccountBookOutlined,
   HomeOutlined,
   TranslationOutlined,
   SendOutlined,
@@ -51,31 +48,6 @@ export const sidebarItems = (role: string) => {
       label: <Link href={`/${role}/user`}>Manage User</Link>,
       icon: <TableOutlined />,
       key: `/${role}/user`,
-    },
-    {
-      label: <Link href={`/${role}/services`}>Services</Link>,
-      icon: <WifiOutlined />,
-      key: `/${role}/services`,
-    },
-    {
-      label: <Link href={`/${role}/manage-booking`}>Manage Booking</Link>,
-      icon: <FormOutlined />,
-      key: `/${role}/manage-booking`,
-    },
-    {
-      label: <Link href={`/${role}/payments`}>Payments Data</Link>,
-      icon: <AccountBookOutlined />,
-      key: `/${role}/payments`,
-    },
-    {
-      label: <Link href={`/${role}/manage-review`}>Manage Review</Link>,
-      icon: <FormOutlined />,
-      key: `/${role}/manage-review`,
-    },
-    {
-      label: <Link href={`/${role}/manage-faq`}>Manage FAQ</Link>,
-      icon: <FormOutlined />,
-      key: `/${role}/manage-faq`,
     },
   ];
 
