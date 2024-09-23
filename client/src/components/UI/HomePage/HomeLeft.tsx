@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import DRTable from "../Table";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import AdminLeftPage from "./AdminLeft";
 
 dayjs.extend(relativeTime);
 
@@ -77,27 +78,35 @@ const HomeLeft = ({ userData, isLoading }: any) => {
   ];
 
   return (
-    <div>
-      <div>
-        <h1 className="text-2xl font-bold">Hello, {userData?.name}</h1>
-        <p className="text-lg">
-          Access & manage your account and transactions efficiently
-        </p>
-      </div>
+    <>
+      {userData?.role !== "admin" ? (
+        <>
+          <div>
+            <h1 className="text-2xl font-bold">Hello, {userData?.name}</h1>
+            <p className="text-lg">
+              Access & manage your account and transactions efficiently
+            </p>
+          </div>
 
-      <div className="mt-5">
-        <h2 className="text-xl font-bold">Transaction</h2>
-        <div className="mt-4 pr-1">
-          <DRTable
-            loading={isLoading}
-            columns={columns}
-            dataSource={trans?.slice(0, 5)}
-            showSizeChanger={true}
-            showPagination={false}
-          />
-        </div>
-      </div>
-    </div>
+          <div className="mt-5">
+            <h2 className="text-xl font-bold">Transaction</h2>
+            <div className="mt-4 pr-1">
+              <DRTable
+                loading={isLoading}
+                columns={columns}
+                dataSource={trans?.slice(0, 5)}
+                showSizeChanger={true}
+                showPagination={false}
+              />
+            </div>
+          </div>
+        </>
+      ) : (
+        <>
+          <AdminLeftPage />
+        </>
+      )}
+    </>
   );
 };
 
