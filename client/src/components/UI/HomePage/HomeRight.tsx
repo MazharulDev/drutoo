@@ -3,6 +3,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import walletIcon from "../../../assets/wallet.png";
 import { IUser } from "@/types";
+import { useSystemQuery } from "@/redux/api/systemInfo";
 
 type IProps = {
   userData: IUser;
@@ -11,6 +12,7 @@ type IProps = {
 const HomeRight = ({ userData }: IProps) => {
   const [isBalanceVisible, setIsBalanceVisible] = useState(false);
   const [isSystemBalanceVisible, setIsSystemBalanceVisible] = useState(false);
+  const { data: systemBalance } = useSystemQuery(undefined);
 
   const handleBalanceClick = () => {
     setIsBalanceVisible(true);
@@ -133,7 +135,7 @@ const HomeRight = ({ userData }: IProps) => {
                         : "blur-sm duration-200"
                     }`}
                   >
-                    25.00
+                    {systemBalance && systemBalance[0]?.amount}
                   </span>
                 </strong>
               </p>

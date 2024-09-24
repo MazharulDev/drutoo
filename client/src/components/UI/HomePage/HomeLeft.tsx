@@ -84,7 +84,7 @@ const HomeLeft = ({ userData, isLoading }: any) => {
           <div>
             <h1 className="text-2xl font-bold">Hello, {userData?.name}</h1>
             <p className="text-lg">
-              Access & manage your account and transactions efficiently
+              Easily access and manage your account and transactions efficiently
             </p>
           </div>
 
