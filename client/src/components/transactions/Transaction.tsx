@@ -8,7 +8,7 @@ import { useState } from "react";
 import { useDebounced } from "@/redux/hooks";
 import { Input } from "antd";
 
-const TransactionsPage = () => {
+const TransactionsTable = () => {
   const { userId } = getUserInfo() as any;
   const query: Record<string, any> = {};
   const [page, setPage] = useState<number>(1);
@@ -140,4 +140,4 @@ const TransactionsPage = () => {
   );
 };
 
-export default TransactionsPage;
+export default TransactionsTable;

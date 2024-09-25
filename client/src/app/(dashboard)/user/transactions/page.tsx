@@ -1,11 +1,11 @@
-import TransactionsPage from "@/components/transactions/Transaction";
+import TransactionsTable from "@/components/transactions/Transaction";
 import ActionBar from "@/components/UI/ActionBar";
 
 const TransactionsHistoryPage = () => {
   return (
     <div>
       <ActionBar title="Transactions" />
-      <TransactionsPage />
+      <TransactionsTable />
     </div>
   );
 };

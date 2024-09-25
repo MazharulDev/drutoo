@@ -36,7 +36,7 @@ const Sidebar = () => {
           marginBottom: "1rem",
         }}
       >
-        DT
+        {collapsed ? "DT" : "DRUTOO"}
       </div>
       <Menu
         theme="dark"
