@@ -1,6 +1,6 @@
 "use client";
 
-import { useMyTransactionsQuery } from "@/redux/api/transactionsApi";
+import { useTransactionsQuery } from "@/redux/api/transactionsApi";
 import DRTable from "../UI/Table";
 import dayjs from "dayjs";
 import { getUserInfo } from "@/services/auth.service";
@@ -31,7 +31,7 @@ const TransactionsPage = () => {
   if (!!debouncedSearchTerm) {
     query["searchTerm"] = debouncedSearchTerm;
   }
-  const { data, isLoading } = useMyTransactionsQuery({ ...query });
+  const { data, isLoading } = useTransactionsQuery({ ...query });
 
   const meta = data?.meta;
   const columns = [

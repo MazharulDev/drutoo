@@ -3,7 +3,6 @@ import Image from "next/image";
 import React, { useState } from "react";
 import walletIcon from "../../../assets/wallet.png";
 import { IUser } from "@/types";
-import { useSystemQuery } from "@/redux/api/systemInfo";
 
 type IProps = {
   userData: IUser;
@@ -12,7 +11,6 @@ type IProps = {
 const HomeRight = ({ userData }: IProps) => {
   const [isBalanceVisible, setIsBalanceVisible] = useState(false);
   const [isSystemBalanceVisible, setIsSystemBalanceVisible] = useState(false);
-  const { data: systemBalance } = useSystemQuery(undefined);
 
   const handleBalanceClick = () => {
     setIsBalanceVisible(true);
@@ -115,34 +113,6 @@ const HomeRight = ({ userData }: IProps) => {
           </div>
         </div>
       </div>
-      {userData?.role === "admin" && (
-        <>
-          <div className="flex items-center gap-2 mt-5">
-            <Image width={70} src={walletIcon} alt="wallet image" />
-            <div>
-              <h2>System Balance</h2>
-              <p
-                className={`text-2xl font-bold`}
-                onClick={handleSystemBalanceClick}
-                style={{ cursor: "pointer" }}
-              >
-                <strong>
-                  &#2547;{" "}
-                  <span
-                    className={`${
-                      isSystemBalanceVisible
-                        ? "blur-0 duration-200"
-                        : "blur-sm duration-200"
-                    }`}
-                  >
-                    {systemBalance && systemBalance[0]?.amount}
-                  </span>
-                </strong>
-              </p>
-            </div>
-          </div>
-        </>
-      )}
     </div>
   );
 };

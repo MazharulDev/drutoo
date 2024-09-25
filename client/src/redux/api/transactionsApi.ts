@@ -5,7 +5,7 @@ import { baseApi } from "./baseApi";
 const TRANSACTIONS_URL = "/transactions";
 export const transactionsApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    myTransactions: build.query({
+    transactions: build.query({
       query: (arg: Record<string, any>) => ({
         url: `${TRANSACTIONS_URL}`,
         method: "GET",
@@ -27,4 +27,4 @@ export const transactionsApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useMyTransactionsQuery } = transactionsApi;
+export const { useTransactionsQuery } = transactionsApi;

@@ -1,46 +1,67 @@
 "use client";
 
+import { useSystemQuery } from "@/redux/api/systemInfo";
+import { useUsersQuery } from "@/redux/api/userApi";
+import { useTransactionsQuery } from "@/redux/api/transactionsApi";
+import ActionBar from "../ActionBar";
+import CardTop from "../AdminDashboard/CardTop";
+
 const AdminLeftPage = () => {
+  const { data: systemBalance, isLoading: systemLoading } =
+    useSystemQuery(undefined);
+  const { data: users, isLoading: usersLoading } = useUsersQuery({
+    role: "user",
+  });
+  const { data: agents, isLoading: agentsLoading } = useUsersQuery({
+    role: "agent",
+  });
+  const { data: transactions, isLoading: transactionsLoading } =
+    useTransactionsQuery({});
+
+  const cardData = [
+    {
+      title: "System Balance",
+      value: `৳ ${systemBalance && systemBalance[0]?.amount}`,
+      bgColor: "bg-purple-100",
+      isLoading: systemLoading,
+    },
+    {
+      title: "User Count",
+      value: users?.meta?.total || 0,
+      bgColor: "bg-blue-100",
+      isLoading: usersLoading,
+    },
+    {
+      title: "Agent Count",
+      value: agents?.meta?.total || 0,
+      bgColor: "bg-green-100",
+      isLoading: agentsLoading,
+    },
+    {
+      title: "Total Transactions",
+      value: transactions?.meta?.total || 0,
+      bgColor: "bg-yellow-100",
+      isLoading: transactionsLoading,
+    },
+  ];
+
   return (
-    <div className="p-2 min-h-screen">
-      {/* Dashboard Heading */}
-      <h1 className="text-3xl font-semibold mb-6">Admin Dashboard</h1>
-
-      {/* Top 4 Cards */}
+    <div className="pr-5 min-h-screen">
+      <ActionBar title="Admin Dashboard" />
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
-        {/* System Balance Card */}
-        <div className="bg-white shadow-md rounded-lg p-6">
-          <h2 className="text-lg font-medium text-gray-600">System Balance</h2>
-          <p className="text-2xl font-bold text-gray-800 mt-4">$1,200,000</p>
-        </div>
-
-        {/* User Count Card */}
-        <div className="bg-white shadow-md rounded-lg p-6">
-          <h2 className="text-lg font-medium text-gray-600">User Count</h2>
-          <p className="text-2xl font-bold text-gray-800 mt-4">450</p>
-        </div>
-
-        {/* Transactions Card */}
-        <div className="bg-white shadow-md rounded-lg p-6">
-          <h2 className="text-lg font-medium text-gray-600">
-            Total Transactions
-          </h2>
-          <p className="text-2xl font-bold text-gray-800 mt-4">1,542</p>
-        </div>
-
-        {/* Pending Requests Card */}
-        <div className="bg-white shadow-md rounded-lg p-6">
-          <h2 className="text-lg font-medium text-gray-600">
-            Pending Requests
-          </h2>
-          <p className="text-2xl font-bold text-gray-800 mt-4">35</p>
-        </div>
+        {cardData.map((card, index) => (
+          <CardTop
+            key={index}
+            title={card.title}
+            value={card.value}
+            bgColor={card.bgColor}
+            isLoading={card.isLoading}
+          />
+        ))}
       </div>
 
-      {/* Additional UI Elements */}
       <div className="bg-white shadow-md rounded-lg p-6">
         <h3 className="text-xl font-semibold mb-4">Recent Activities</h3>
-        {/* You can add more UI for recent activities, charts, tables, etc. */}
         <div className="text-gray-600">
           <p>No recent activities to display</p>
         </div>

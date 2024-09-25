@@ -12,7 +12,7 @@ router.post(
   UserController.createUser
 );
 
-router.get("/agents", auth(ENUM_USER_ROLE.ADMIN), UserController.agents);
+router.get("/filter", auth(ENUM_USER_ROLE.ADMIN), UserController.agents);
 router.patch(
   "/update/:id",
   auth(ENUM_USER_ROLE.ADMIN),
