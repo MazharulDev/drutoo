@@ -6,6 +6,7 @@ import { CashoutRoutes } from "../modules/cashOut/cashout.route";
 import { CashinRoutes } from "../modules/cashIn/cashin.route";
 import { TransactionRoutes } from "../modules/transactions/transactions.route";
 import { SystemRoutes } from "../modules/system/system.route";
+import { OtpRoutes } from "../modules/otp/otp.route";
 
 const router = express.Router();
 
@@ -37,6 +38,18 @@ const modulesRoutes = [
   {
     path: "/system",
     route: SystemRoutes,
+  },
+  {
+    path: "/otp",
+    route: OtpRoutes,
+  },
+  {
+    path: "*",
+    route: express
+      .Router()
+      .get("/", (_req, res) =>
+        res.status(404).json({ message: "Page not found" })
+      ),
   },
 ];
 modulesRoutes.forEach((route) => router.use(route.path, route.route));
