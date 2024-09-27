@@ -16,8 +16,8 @@ const sendOtp = catchAsync(async (req: Request, res: Response) => {
 });
 
 const verifyOtp = catchAsync(async (req: Request, res: Response) => {
-  const { office_email, otp } = req.body;
-  const result = await OtpService.verifyOtp(office_email, otp);
+  const { mobile, otp } = req.body;
+  const result = await OtpService.verifyOtp(mobile, otp);
 
   sendResponse(res, {
     statusCode: 200,
@@ -27,14 +27,14 @@ const verifyOtp = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-const resetPassword = catchAsync(async (req: Request, res: Response) => {
-  const { office_email, password } = req.body;
-  const result = await OtpService.resetPassword(office_email, password);
+const resetPin = catchAsync(async (req: Request, res: Response) => {
+  const { mobile, pin } = req.body;
+  const result = await OtpService.resetPin(mobile, pin);
 
   sendResponse(res, {
     statusCode: 200,
     success: true,
-    message: "Password reset successfully!",
+    message: "Pin reset successfully!",
     data: result,
   });
 });
@@ -42,5 +42,5 @@ const resetPassword = catchAsync(async (req: Request, res: Response) => {
 export const OtpController = {
   sendOtp,
   verifyOtp,
-  resetPassword,
+  resetPin,
 };

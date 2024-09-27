@@ -19,13 +19,9 @@ const verifyOtpZodSchema = z.object({
 
 const resetPasswordZodSchema = z.object({
   body: z.object({
-    mobile: z
-      .string({
-        required_error: "Mobile number is required",
-      })
-      .email({
-        message: "Invalid email",
-      }),
+    mobile: z.string({
+      required_error: "Mobile number is required",
+    }),
     pin: z.string().min(4).max(100),
   }),
 });

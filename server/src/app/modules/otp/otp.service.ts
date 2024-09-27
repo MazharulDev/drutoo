@@ -36,7 +36,7 @@ const sendOtp = async (mobile: string) => {
   const generatedOTP = generateOTP();
 
   const expiresAt = new Date();
-  expiresAt.setTime(expiresAt.getTime() + 30 * 1000); // 30 seconds
+  expiresAt.setTime(expiresAt.getTime() + 2 * 60 * 1000);
 
   const result = await Otp.create({
     mobile,
@@ -50,7 +50,7 @@ const sendOtp = async (mobile: string) => {
     await sendMail({
       to: user?.email,
       subject: "OTP for reset pin",
-      message: `Your OTP is ${result.otp}. Please do not share it with anyone. OTP will expire in 30 seconds`,
+      message: `Your OTP is ${result.otp}. Please do not share it with anyone. OTP will expire in 2 minutes`,
     });
   }
 
@@ -63,8 +63,8 @@ const sendOtp = async (mobile: string) => {
   };
 };
 
-const verifyOtp = async (office_email: string, otp: string) => {
-  const otpData = await Otp.findOne({ office_email });
+const verifyOtp = async (mobile: string, otp: string) => {
+  const otpData = await Otp.findOne({ mobile });
   if (!otpData) {
     throw new ApiError(httpStatus.NOT_FOUND, "OTP not found");
   }
@@ -73,7 +73,7 @@ const verifyOtp = async (office_email: string, otp: string) => {
   // Check if otp is expired
   if (currentTime > otpData.expiresAt) {
     // Delete otp
-    await Otp.deleteOne({ office_email });
+    await Otp.deleteOne({ mobile });
     throw new ApiError(httpStatus.BAD_REQUEST, "OTP expired");
   }
 
@@ -83,7 +83,7 @@ const verifyOtp = async (office_email: string, otp: string) => {
 
   // Update otp status
   const updatedOtpData = await Otp.findOneAndUpdate(
-    { office_email },
+    { mobile },
     { isVerified: true },
     { new: true }
   );
@@ -94,19 +94,20 @@ const verifyOtp = async (office_email: string, otp: string) => {
 
   return {
     _id: updatedOtpData._id,
-    office_email: updatedOtpData.email,
+    email: updatedOtpData.email,
+    mobile: updatedOtpData.mobile,
     isVerified: updatedOtpData.isVerified,
     expiresAt: updatedOtpData.expiresAt,
   };
 };
 
-const resetPassword = async (office_email: string, password: string) => {
-  const user = await isUserExist(office_email, User);
+const resetPin = async (mobile: string, pin: string) => {
+  const user = await isUserExist(mobile, User);
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, "User not found");
   }
 
-  const otpData = await Otp.findOne({ office_email });
+  const otpData = await Otp.findOne({ mobile });
 
   //Check if otp is verified
   if (!otpData?.isVerified) {
@@ -114,18 +115,18 @@ const resetPassword = async (office_email: string, password: string) => {
   }
 
   // Encrypt password
-  const hashedPassword = await hashingHelper.encrypt_password(password);
+  const hashedPin = await hashingHelper.encrypt_password(pin);
 
   const updatedUser = await User.findOneAndUpdate(
-    { office_email },
-    { password: hashedPassword },
+    { mobile },
+    { pin: hashedPin },
     {
       new: true,
     }
-  ).select("-password");
+  ).select("-pin");
 
   // Delete otp
-  await Otp.deleteOne({ office_email });
+  await Otp.deleteOne({ mobile });
 
   return updatedUser;
 };
@@ -133,5 +134,5 @@ const resetPassword = async (office_email: string, password: string) => {
 export const OtpService = {
   sendOtp,
   verifyOtp,
-  resetPassword,
+  resetPin,
 };

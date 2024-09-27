@@ -1,25 +1,25 @@
-import express from 'express';
-import validateRequest from '../../middlewares/validateRequest';
-import { OtpController } from './otp.controller';
-import { OtpValidation } from './otp.validation';
+import express from "express";
+import validateRequest from "../../middlewares/validateRequest";
+import { OtpController } from "./otp.controller";
+import { OtpValidation } from "./otp.validation";
 const router = express.Router();
 
 // Routes
 router.post(
-  '/',
-  validateRequest(OtpValidation.resetPasswordZodSchema),
-  OtpController.resetPassword
-);
-router.post(
-  '/send-otp',
+  "/send-otp",
   validateRequest(OtpValidation.sendOtpZodSchema),
   OtpController.sendOtp
 );
 
 router.post(
-  '/verify-otp',
+  "/verify-otp",
   validateRequest(OtpValidation.verifyOtpZodSchema),
   OtpController.verifyOtp
+);
+router.post(
+  "/reset-pin",
+  validateRequest(OtpValidation.resetPasswordZodSchema),
+  OtpController.resetPin
 );
 
 export const OtpRoutes = router;

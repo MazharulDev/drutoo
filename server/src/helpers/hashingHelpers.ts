@@ -1,9 +1,8 @@
-import bcrypt from 'bcrypt';
-import config from '../config';
+import bcrypt from "bcrypt";
+import config from "../config";
 
-
-const encrypt_password = async (password: string): Promise<string> => {
-  return await bcrypt.hash(password, Number(config.bcrypt_salt_rounds));
+const encrypt_password = async (pin: string): Promise<string> => {
+  return await bcrypt.hash(pin, Number(config.bcrypt_salt_rounds));
 };
 
 const match_password = async (
