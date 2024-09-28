@@ -4,19 +4,32 @@ import { ISendMoney } from "../sendMoney/sendMoney.interface";
 export type roleType = "user" | "agent" | "admin";
 export type statusType = "active" | "inactive" | "block";
 
+export type FullName = {
+  firstName: string;
+  lastName: string;
+};
+export type Address = {
+  division: string;
+  district: string;
+  upazila: string;
+  union: string;
+};
+
 export type IUser = {
   _id: Types.ObjectId;
-  name: string;
+  name: FullName;
   pin: string;
   mobile: string;
   email: string;
   role: roleType;
   status: statusType;
   nid: string;
+  address: Address;
+  bloodGroup?: "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-";
   balance: number;
   image: string;
   transactions?: Types.ObjectId | ISendMoney;
-  transactionsType?:any;
+  transactionsType?: any;
 };
 export type UserModel = {
   isUserExist(mobile: string): Promise<Pick<IUser, "mobile" | "pin" | "role">>;

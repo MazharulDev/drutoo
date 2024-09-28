@@ -1,13 +1,22 @@
 import { Schema, model } from "mongoose";
 import { IUser, UserModel } from "./user.interface";
-import { roles, status } from "./user.constant";
+import { bloodGroup, roles, status } from "./user.constant";
 import bcrypt from "bcrypt";
 import config from "../../../config";
 
 export const UserSchema = new Schema<IUser, UserModel>(
   {
     name: {
-      type: String,
+      type: {
+        firstName: {
+          type: String,
+          required: true,
+        },
+        lastName: {
+          type: String,
+          required: true,
+        },
+      },
       required: true,
     },
     mobile: {
@@ -32,6 +41,26 @@ export const UserSchema = new Schema<IUser, UserModel>(
       required: true,
       unique: true,
     },
+    address: {
+      type: {
+        division: {
+          type: String,
+          required: true,
+        },
+        district: {
+          type: String,
+          required: true,
+        },
+        upazila: {
+          type: String,
+          required: true,
+        },
+        union: {
+          type: String,
+          required: true,
+        },
+      },
+    },
     role: {
       type: String,
       enum: roles,
@@ -42,6 +71,10 @@ export const UserSchema = new Schema<IUser, UserModel>(
       type: String,
       enum: status,
       default: "active",
+    },
+    bloodGroup: {
+      type: String,
+      enum: bloodGroup,
     },
     balance: {
       type: Number,
