@@ -24,6 +24,7 @@ export type IUser = {
   role: roleType;
   status: statusType;
   nid: string;
+  dateOfBirth: string;
   address: Address;
   bloodGroup?: "A+" | "A-" | "B+" | "B-" | "AB+" | "AB-" | "O+" | "O-";
   balance: number;

@@ -7,6 +7,7 @@ import { CashinRoutes } from "../modules/cashIn/cashin.route";
 import { TransactionRoutes } from "../modules/transactions/transactions.route";
 import { SystemRoutes } from "../modules/system/system.route";
 import { OtpRoutes } from "../modules/otp/otp.route";
+import { AddressDataRoutes } from "../modules/AddressData/addressData.route";
 
 const router = express.Router();
 
@@ -42,6 +43,10 @@ const modulesRoutes = [
   {
     path: "/otp",
     route: OtpRoutes,
+  },
+  {
+    path: "/address-data",
+    route: AddressDataRoutes,
   },
   {
     path: "*",

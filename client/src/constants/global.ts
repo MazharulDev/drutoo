@@ -12,3 +12,18 @@ export const roleOptions = [
     value: "admin",
   },
 ];
+
+export const genderOptions = [
+  {
+    label: "Male",
+    value: "Male",
+  },
+  {
+    label: "Female",
+    value: "Female",
+  },
+  {
+    label: "Others",
+    value: "Others",
+  },
+];

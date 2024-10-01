@@ -2,8 +2,7 @@
 
 import { getErrorMessageByPropertyName } from "@/utils/schema.validatior";
 import { Input } from "antd";
-import { Controller, useFormContext } from "react-hook-form";
-
+import { useFormContext, Controller } from "react-hook-form";
 interface IInput {
   name: string;
   type?: string;
@@ -13,36 +12,23 @@ interface IInput {
   placeholder?: string;
   validation?: object;
   label?: string;
+  disabled?: boolean;
+  required?: boolean;
   defaultValue?: string;
-  disabledInput?: string;
-  autoComplete?: string;
-  pattern?: string;
-  inputMode?:
-    | "search"
-    | "text"
-    | "email"
-    | "tel"
-    | "url"
-    | "none"
-    | "numeric"
-    | "decimal"
-    | undefined;
 }
 
 const FormInput = ({
   name,
   type,
-  size,
+  size = "large",
   value,
   id,
   placeholder,
   validation,
   label,
+  disabled,
+  required,
   defaultValue,
-  disabledInput,
-  autoComplete,
-  pattern,
-  inputMode,
 }: IInput) => {
   const {
     control,
@@ -50,8 +36,18 @@ const FormInput = ({
   } = useFormContext();
 
   const errorMessage = getErrorMessageByPropertyName(errors, name);
+
   return (
     <>
+      {required ? (
+        <span
+          style={{
+            color: "red",
+          }}
+        >
+          *
+        </span>
+      ) : null}
       {label ? label : null}
       <Controller
         control={control}
@@ -64,30 +60,6 @@ const FormInput = ({
               placeholder={placeholder}
               {...field}
               value={value ? value : field.value}
-              pattern={pattern}
-              inputMode={inputMode}
-              autoComplete={autoComplete}
-            />
-          ) : disabledInput ? (
-            <Input
-              type={type}
-              size={size}
-              placeholder={placeholder}
-              {...field}
-              value={value ? value : field.value}
-              defaultValue={defaultValue}
-              disabled
-              autoComplete={autoComplete}
-            />
-          ) : autoComplete ? (
-            <Input
-              type={type}
-              size={size}
-              placeholder={placeholder}
-              {...field}
-              value={value ? value : field.value}
-              defaultValue={defaultValue}
-              autoComplete={autoComplete}
             />
           ) : (
             <Input
@@ -96,8 +68,8 @@ const FormInput = ({
               placeholder={placeholder}
               {...field}
               value={value ? value : field.value}
+              disabled={disabled ? disabled : false}
               defaultValue={defaultValue}
-              autoComplete={autoComplete}
             />
           )
         }

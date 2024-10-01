@@ -41,6 +41,10 @@ export const UserSchema = new Schema<IUser, UserModel>(
       required: true,
       unique: true,
     },
+    dateOfBirth: {
+      type: String,
+      required: true,
+    },
     address: {
       type: {
         division: {
