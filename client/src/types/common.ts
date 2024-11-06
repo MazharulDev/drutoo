@@ -45,3 +45,10 @@ export type ITransactions = {
 };
 
 export type IStatus = "pending" | "success";
+
+export type IDivision = {
+  id: string;
+  name: string;
+  bn_name: string;
+  url: string;
+};
