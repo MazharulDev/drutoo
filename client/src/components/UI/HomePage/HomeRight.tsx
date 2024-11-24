@@ -1,6 +1,6 @@
 import { Alert } from "antd";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import walletIcon from "../../../assets/wallet.png";
 import { IUser } from "@/types";
 
@@ -29,7 +29,9 @@ const HomeRight = ({ userData }: IProps) => {
   return (
     <div>
       <div className="p-2">
-        <h1 className="text-xl font-bold">{userData?.name}</h1>
+        <h1 className="text-xl font-bold">
+          {userData?.name?.firstName} {userData?.name?.lastName}
+        </h1>
         <p>{userData?.email}</p>
       </div>
       <div className="flex items-center gap-2 mt-5">
@@ -108,7 +110,7 @@ const HomeRight = ({ userData }: IProps) => {
           </div>
           <div className="flex flex-col justfiy-end mt-4 p-4 text-gray-400 font-quick">
             <h4 className="uppercase tracking-wider font-semibold text-xs select-none">
-              {userData?.name}
+              {userData?.name?.firstName} {userData?.name?.lastName}
             </h4>
           </div>
         </div>

@@ -82,7 +82,9 @@ const HomeLeft = ({ userData, isLoading }: any) => {
       {userData?.role !== "admin" ? (
         <>
           <div>
-            <h1 className="text-2xl font-bold">Hello, {userData?.name}</h1>
+            <h1 className="text-2xl font-bold">
+              Hello, {userData?.name?.firstName} {userData?.name?.lastName}
+            </h1>
             <p className="text-lg">
               Easily access and manage your account and transactions efficiently
             </p>

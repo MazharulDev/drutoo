@@ -1,5 +1,7 @@
 import FormDatePicker from "@/components/forms/FormDatePicker";
 import FormInput from "@/components/forms/FormInput";
+import FormSelectField from "@/components/forms/FormSelectField";
+import { bloodGroupOptions, genderOptions } from "@/constants/global";
 import { Col, Row } from "antd";
 
 const BasicInfoForm = () => {
@@ -10,7 +12,7 @@ const BasicInfoForm = () => {
         <Row gutter={{ xs: 4, md: 20 }}>
           <Col xs={24} md={12} lg={8} className="mt-3">
             <FormInput
-              name="first_name"
+              name="name.firstName"
               placeholder="Enter First Name"
               label="First Name"
               size="large"
@@ -19,28 +21,9 @@ const BasicInfoForm = () => {
           </Col>
           <Col xs={24} md={12} lg={8} className="mt-3">
             <FormInput
-              name="last_name"
+              name="name.lastName"
               placeholder="Enter Last Name"
               label="Last Name"
-              size="large"
-              required
-            />
-          </Col>
-          <Col xs={24} md={12} lg={8} className="mt-3">
-            <FormInput
-              name="mobile"
-              placeholder="Enter Phone Number"
-              label="Phone Number"
-              size="large"
-              required
-            />
-          </Col>
-          <Col xs={24} md={12} lg={8} className="mt-3">
-            <FormInput
-              name="email"
-              placeholder="Enter your email"
-              label="Email"
-              type="email"
               size="large"
               required
             />
@@ -53,11 +36,22 @@ const BasicInfoForm = () => {
               required
             />
           </Col>
-          <Col xs={24} md={12} lg={8} className="mt-3">
-            <FormInput
-              name="nid"
-              placeholder="Enter your nid Number"
-              label="National identity card"
+          <Col xs={24} md={12} lg={12} className="mt-3">
+            <FormSelectField
+              name="gender"
+              options={genderOptions}
+              placeholder="Select gender"
+              label="Gender"
+              size="large"
+              required
+            />
+          </Col>
+          <Col xs={24} md={12} lg={12} className="mt-3">
+            <FormSelectField
+              name="bloodGroup"
+              options={bloodGroupOptions}
+              placeholder="Select bloodGroup"
+              label="BloodGroup"
               size="large"
               required
             />

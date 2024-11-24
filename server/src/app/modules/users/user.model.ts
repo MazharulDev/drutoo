@@ -79,9 +79,14 @@ export const UserSchema = new Schema<IUser, UserModel>(
     bloodGroup: {
       type: String,
       enum: bloodGroup,
+      required: true,
     },
     balance: {
       type: Number,
+    },
+    gender: {
+      type: String,
+      required: true,
     },
     image: {
       type: String,

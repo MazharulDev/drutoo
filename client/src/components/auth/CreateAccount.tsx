@@ -9,6 +9,7 @@ import StepperForm from "../stepperForm/StepperForm";
 import { yupResolver } from "@hookform/resolvers/yup";
 import BasicInfoForm from "./createAccount/BasicInfo";
 import AddressInfo from "./createAccount/Address";
+import SecurityStep from "./createAccount/Security";
 
 const steps = [
   {
@@ -19,20 +20,17 @@ const steps = [
     title: "Address",
     content: <AddressInfo />,
   },
-  // {
-  //   title: "Employment Info",
-  //   content: <EmployeeEmploymentInfoForm />,
-  // },
-  // {
-  //   title: "Financial Info",
-  //   content: <EmployeeFinancialInfoForm />,
-  // },
+  {
+    title: "Security",
+    content: <SecurityStep />,
+  },
 ];
 
 const CreateAccountPage = () => {
   const router = useRouter();
   const [createAccount, { isLoading }] = useCreateAccountMutation();
   const handleCreateAccountSubmit = async (data: any) => {
+    console.log(data);
     try {
       const res = await createAccount({ ...data }).unwrap();
       if (res?._id) {
@@ -60,7 +58,7 @@ const CreateAccountPage = () => {
 
         <StepperForm
           persistKey="createAccount"
-          navigateLink="/dashboard/admin"
+          // navigateLink="/dashboard/admin"
           submitHandler={(value) => {
             handleCreateAccountSubmit(value);
           }}

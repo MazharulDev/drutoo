@@ -21,7 +21,10 @@ export type IGenericErrorMessage = {
 
 export type IUser = {
   _id: string;
-  name: string;
+  name: {
+    firstName: string;
+    lastName: string;
+  };
   mobile: string;
   email: string;
   nid: string;

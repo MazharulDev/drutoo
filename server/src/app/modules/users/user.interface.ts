@@ -22,6 +22,7 @@ export type IUser = {
   mobile: string;
   email: string;
   role: roleType;
+  gender:string;
   status: statusType;
   nid: string;
   dateOfBirth: string;
