@@ -68,7 +68,7 @@ return isLoading ? (
     <Row className="flex justify-center items-center">
       <Col>
         <div>
-          <label>To {receiverData ? `-${receiverData?.name}` : ""}</label>
+         <label>To {receiverData ? `-${receiverData?.name?.firstName} ${receiverData?.name?.lastName}` : ""}</label>
           <Input
             addonBefore="+88"
             placeholder="01*********"

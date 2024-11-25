@@ -34,6 +34,11 @@ const cashin = async (payload: ICashin) => {
       if (!isUserExist) {
         throw new ApiError(httpStatus.NOT_FOUND, "User does not exist");
       }
+
+      if(sender?.status ==="inactive"){
+        throw new ApiError(httpStatus.BAD_REQUEST, "Your account is inactive");
+      }
+      
       if (
         isUserExist.pin &&
         !(await User.isPasswordMatched(pin, isUserExist.pin))
