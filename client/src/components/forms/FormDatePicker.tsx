@@ -31,7 +31,7 @@ const FormDatePicker = ({
   const errorMessage = getErrorMessageByPropertyName(errors, name);
 
   const handleOnChange: DatePickerProps["onChange"] = (date, dateString) => {
-    onChange ? onChange(date, dateString) : null;
+    onChange ? onChange(date, dateString as string) : null;
     setValue(name, date);
   };
 
