@@ -20,7 +20,7 @@ const user_model_1 = require("../users/user.model");
 const transIdGenarate_1 = require("../../../utils/transIdGenarate");
 const config_1 = __importDefault(require("../../../config"));
 const user_utlis_1 = require("../users/user.utlis");
-const cashout_model_1 = require("./cashout.model");
+const transactions_model_1 = require("../transactions/transactions.model");
 const cashout = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const { senderId, receivedId, amount, pin } = payload;
     const adminId = config_1.default.adminId;
@@ -65,7 +65,7 @@ const cashout = (payload) => __awaiter(void 0, void 0, void 0, function* () {
             const adminPercent = yield (0, user_utlis_1.AddAdminBalance)(adminShare);
             yield user_model_1.User.updateOne({ mobile: adminId }, { balance: adminPercent });
             sender.balance -= Number(transferAmount);
-            receiver.balance += Number(amount + agentShare);
+            receiver.balance += Number(amount) + agentShare;
             // Transaction id
             const transId = yield (0, transIdGenarate_1.generateTransactionId)(10);
             // Save updated balances
@@ -80,8 +80,9 @@ const cashout = (payload) => __awaiter(void 0, void 0, void 0, function* () {
                 receivedId: receivedId,
                 amount: amount,
                 transactionId: transId,
+                through: "cashout",
             };
-            const transHistory = yield cashout_model_1.Cashout.create(transData);
+            const transHistory = yield transactions_model_1.Transaction.create(transData);
             // push user transaction store array
             yield user_model_1.User.findByIdAndUpdate(sender === null || sender === void 0 ? void 0 : sender._id, {
                 $push: { transactions: { $each: [transHistory === null || transHistory === void 0 ? void 0 : transHistory._id], $position: 0 } },

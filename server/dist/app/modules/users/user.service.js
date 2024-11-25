@@ -29,6 +29,8 @@ const ApiError_1 = __importDefault(require("../../../errors/ApiError"));
 const http_status_1 = __importDefault(require("http-status"));
 const paginationHelpers_1 = require("../../../helpers/paginationHelpers");
 const user_constant_1 = require("./user.constant");
+const user_utlis_1 = require("./user.utlis");
+const system_model_1 = require("../system/system.model");
 const createUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const userExist = yield user_model_1.User.findOne({ mobile: payload.mobile });
     if (userExist) {
@@ -40,6 +42,9 @@ const createUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     }
     const userData = Object.assign(Object.assign({}, payload), { balance: payload.role === "agent" ? 100000 : 40, status: status });
     const newUser = yield user_model_1.User.create(userData);
+    const amount = newUser.balance;
+    const incrementAmount = yield (0, user_utlis_1.AddSystemBalance)(amount);
+    yield system_model_1.System.updateOne({ name: "systemAmount" }, { amount: incrementAmount });
     const newUserResponse = yield user_model_1.User.findById(newUser._id).select("-pin");
     return newUserResponse;
 });
@@ -89,8 +94,13 @@ const updateAgentStatus = (id, payload) => __awaiter(void 0, void 0, void 0, fun
     });
     return result;
 });
+const singleUser = (mobile) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_model_1.User.findOne({ mobile: mobile }).populate("transactions");
+    return result;
+});
 exports.UserService = {
     createUser,
     agents,
     updateAgentStatus,
+    singleUser,
 };

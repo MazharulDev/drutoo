@@ -18,7 +18,7 @@ const ApiError_1 = __importDefault(require("../../../errors/ApiError"));
 const http_status_1 = __importDefault(require("http-status"));
 const user_model_1 = require("../users/user.model");
 const transIdGenarate_1 = require("../../../utils/transIdGenarate");
-const cashin_model_1 = require("./cashin.model");
+const transactions_model_1 = require("../transactions/transactions.model");
 const cashin = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const { senderId, receivedId, amount, pin } = payload;
     const session = yield mongoose_1.default.startSession();
@@ -37,6 +37,9 @@ const cashin = (payload) => __awaiter(void 0, void 0, void 0, function* () {
             const isUserExist = yield user_model_1.User.isUserExist(senderId);
             if (!isUserExist) {
                 throw new ApiError_1.default(http_status_1.default.NOT_FOUND, "User does not exist");
+            }
+            if ((sender === null || sender === void 0 ? void 0 : sender.status) === "inactive") {
+                throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "Your account is inactive");
             }
             if (isUserExist.pin &&
                 !(yield user_model_1.User.isPasswordMatched(pin, isUserExist.pin))) {
@@ -67,8 +70,9 @@ const cashin = (payload) => __awaiter(void 0, void 0, void 0, function* () {
                 receivedId: receivedId,
                 amount: amount,
                 transactionId: transId,
+                through: "cashin",
             };
-            const transHistory = yield cashin_model_1.Cashin.create(transData);
+            const transHistory = yield transactions_model_1.Transaction.create(transData);
             // push user transaction store array
             yield user_model_1.User.findByIdAndUpdate(sender === null || sender === void 0 ? void 0 : sender._id, {
                 $push: { transactions: { $each: [transHistory === null || transHistory === void 0 ? void 0 : transHistory._id], $position: 0 } },

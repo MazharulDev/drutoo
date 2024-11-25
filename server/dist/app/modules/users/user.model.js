@@ -19,7 +19,16 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const config_1 = __importDefault(require("../../../config"));
 exports.UserSchema = new mongoose_1.Schema({
     name: {
-        type: String,
+        type: {
+            firstName: {
+                type: String,
+                required: true,
+            },
+            lastName: {
+                type: String,
+                required: true,
+            },
+        },
         required: true,
     },
     mobile: {
@@ -44,18 +53,52 @@ exports.UserSchema = new mongoose_1.Schema({
         required: true,
         unique: true,
     },
+    dateOfBirth: {
+        type: String,
+        required: true,
+    },
+    address: {
+        type: {
+            division: {
+                type: String,
+                required: true,
+            },
+            district: {
+                type: String,
+                required: true,
+            },
+            upazila: {
+                type: String,
+                required: true,
+            },
+            union: {
+                type: String,
+                required: true,
+            },
+        },
+    },
     role: {
         type: String,
         enum: user_constant_1.roles,
         required: true,
+        default: "user",
     },
     status: {
         type: String,
         enum: user_constant_1.status,
         default: "active",
     },
+    bloodGroup: {
+        type: String,
+        enum: user_constant_1.bloodGroup,
+        required: true,
+    },
     balance: {
         type: Number,
+    },
+    gender: {
+        type: String,
+        required: true,
     },
     image: {
         type: String,
@@ -63,7 +106,7 @@ exports.UserSchema = new mongoose_1.Schema({
     transactions: [
         {
             type: mongoose_1.Schema.Types.ObjectId,
-            ref: "SendMoney",
+            ref: "Transaction",
         },
     ],
 }, {

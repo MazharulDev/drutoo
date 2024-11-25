@@ -18,9 +18,9 @@ const ApiError_1 = __importDefault(require("../../../errors/ApiError"));
 const http_status_1 = __importDefault(require("http-status"));
 const user_model_1 = require("../users/user.model");
 const transIdGenarate_1 = require("../../../utils/transIdGenarate");
-const sendMoney_model_1 = require("./sendMoney.model");
 const config_1 = __importDefault(require("../../../config"));
 const user_utlis_1 = require("../users/user.utlis");
+const transactions_model_1 = require("../transactions/transactions.model");
 const transactions = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const { senderId, receivedId, amount, pin } = payload;
     const adminId = config_1.default.adminId;
@@ -73,8 +73,9 @@ const transactions = (payload) => __awaiter(void 0, void 0, void 0, function* ()
                 receivedId: receivedId,
                 amount: amount,
                 transactionId: transId,
+                through: "sendMoney",
             };
-            const transHistory = yield sendMoney_model_1.SendMoney.create(transData);
+            const transHistory = yield transactions_model_1.Transaction.create(transData);
             // push user transaction store array
             yield user_model_1.User.findByIdAndUpdate(sender === null || sender === void 0 ? void 0 : sender._id, {
                 $push: { transactions: { $each: [transHistory === null || transHistory === void 0 ? void 0 : transHistory._id], $position: 0 } },

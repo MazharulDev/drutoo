@@ -9,6 +9,10 @@ const auth_route_1 = require("../modules/auth/auth.route");
 const sendMoney_route_1 = require("../modules/sendMoney/sendMoney.route");
 const cashout_route_1 = require("../modules/cashOut/cashout.route");
 const cashin_route_1 = require("../modules/cashIn/cashin.route");
+const transactions_route_1 = require("../modules/transactions/transactions.route");
+const system_route_1 = require("../modules/system/system.route");
+const otp_route_1 = require("../modules/otp/otp.route");
+const addressData_route_1 = require("../modules/AddressData/addressData.route");
 const router = express_1.default.Router();
 const modulesRoutes = [
     {
@@ -30,6 +34,28 @@ const modulesRoutes = [
     {
         path: "/cashin",
         route: cashin_route_1.CashinRoutes,
+    },
+    {
+        path: "/transactions",
+        route: transactions_route_1.TransactionRoutes,
+    },
+    {
+        path: "/system",
+        route: system_route_1.SystemRoutes,
+    },
+    {
+        path: "/otp",
+        route: otp_route_1.OtpRoutes,
+    },
+    {
+        path: "/address-data",
+        route: addressData_route_1.AddressDataRoutes,
+    },
+    {
+        path: "*",
+        route: express_1.default
+            .Router()
+            .get("/", (_req, res) => res.status(404).json({ message: "Page not found" })),
     },
 ];
 modulesRoutes.forEach((route) => router.use(route.path, route.route));

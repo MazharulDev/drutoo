@@ -12,8 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AddAdminBalance = exports.findLastAdminBalance = void 0;
+exports.AddSystemBalance = exports.findLastSystemBalance = exports.AddAdminBalance = exports.findLastAdminBalance = void 0;
 const config_1 = __importDefault(require("../../../config"));
+const system_model_1 = require("../system/system.model");
 const user_model_1 = require("./user.model");
 const findLastAdminBalance = () => __awaiter(void 0, void 0, void 0, function* () {
     const adminId = config_1.default.adminId;
@@ -27,3 +28,14 @@ const AddAdminBalance = (increment) => __awaiter(void 0, void 0, void 0, functio
     return incrementedBalance;
 });
 exports.AddAdminBalance = AddAdminBalance;
+const findLastSystemBalance = () => __awaiter(void 0, void 0, void 0, function* () {
+    const lastBalance = yield system_model_1.System.findOne({ name: "systemAmount" }, { amount: 1, _id: 0 }).lean();
+    return lastBalance === null || lastBalance === void 0 ? void 0 : lastBalance.amount;
+});
+exports.findLastSystemBalance = findLastSystemBalance;
+const AddSystemBalance = (increment) => __awaiter(void 0, void 0, void 0, function* () {
+    const currentBalance = yield (0, exports.findLastSystemBalance)();
+    const incrementedBalance = currentBalance + increment;
+    return incrementedBalance;
+});
+exports.AddSystemBalance = AddSystemBalance;

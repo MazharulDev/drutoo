@@ -15,7 +15,7 @@ const createUserZodSchema = zod_1.z.object({
         })
             .email(),
         nid: zod_1.z.string({ required_error: "National Id is required" }),
-        role: zod_1.z.string({ required_error: "Role select is required" }),
+        role: zod_1.z.string().optional(),
         status: zod_1.z.string().optional(),
         balance: zod_1.z.string().optional(),
         image: zod_1.z.string().optional(),

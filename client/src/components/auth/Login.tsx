@@ -63,7 +63,6 @@ const LoginPage = () => {
                 type="number"
                 size="large"
                 label="Mobile"
-                autoComplete="off"
               />
             </div>
             <div
@@ -77,7 +76,6 @@ const LoginPage = () => {
                 placeholder="****"
                 size="large"
                 label="Pin"
-                autoComplete="off"
               />
             </div>
             <Button
