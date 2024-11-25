@@ -6,11 +6,7 @@ export const roleOptions = [
   {
     label: "Agent",
     value: "agent",
-  },
-  {
-    label: "Admin",
-    value: "admin",
-  },
+  }
 ];
 
 export const genderOptions = [

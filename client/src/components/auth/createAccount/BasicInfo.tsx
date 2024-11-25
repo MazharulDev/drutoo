@@ -1,7 +1,7 @@
 import FormDatePicker from "@/components/forms/FormDatePicker";
 import FormInput from "@/components/forms/FormInput";
 import FormSelectField from "@/components/forms/FormSelectField";
-import { bloodGroupOptions, genderOptions } from "@/constants/global";
+import { bloodGroupOptions, genderOptions, roleOptions } from "@/constants/global";
 import { Col, Row } from "antd";
 
 const BasicInfoForm = () => {
@@ -36,7 +36,7 @@ const BasicInfoForm = () => {
               required
             />
           </Col>
-          <Col xs={24} md={12} lg={12} className="mt-3">
+          <Col xs={24} md={12} lg={8} className="mt-3">
             <FormSelectField
               name="gender"
               options={genderOptions}
@@ -46,12 +46,22 @@ const BasicInfoForm = () => {
               required
             />
           </Col>
-          <Col xs={24} md={12} lg={12} className="mt-3">
+          <Col xs={24} md={12} lg={8} className="mt-3">
             <FormSelectField
               name="bloodGroup"
               options={bloodGroupOptions}
               placeholder="Select bloodGroup"
               label="BloodGroup"
+              size="large"
+              required
+            />
+          </Col>
+          <Col xs={24} md={12} lg={8} className="mt-3">
+            <FormSelectField
+              name="role"
+              options={roleOptions}
+              placeholder="Select role"
+              label="User role"
               size="large"
               required
             />
