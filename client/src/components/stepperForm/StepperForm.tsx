@@ -78,7 +78,7 @@ const StepperForm = ({
 
   const handleOnSubmit = (data: any) => {
     submitHandler(data);
-    reset();
+    // reset();
     removeFromLocalStorage("step");
     persistKey && removeFromLocalStorage(persistKey);
     navigateLink && router.push(navigateLink);

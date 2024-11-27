@@ -30,9 +30,14 @@ const CreateAccountPage = () => {
   const router = useRouter();
   const [createAccount, { isLoading }] = useCreateAccountMutation();
   const handleCreateAccountSubmit = async (data: any) => {
-    console.log(data);
     try {
-      const res = await createAccount({ ...data }).unwrap();
+      let { mobile, ...rest } = data;
+      if (mobile.startsWith("+88")) {
+        mobile = mobile.slice(3);
+      }
+
+      const res = await createAccount({ ...rest, mobile }).unwrap();
+
       if (res?._id) {
         router.push("/login");
         message.success("Account Created successfully, Please login");
