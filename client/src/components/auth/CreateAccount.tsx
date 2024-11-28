@@ -10,6 +10,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import BasicInfoForm from "./createAccount/BasicInfo";
 import AddressInfo from "./createAccount/Address";
 import SecurityStep from "./createAccount/Security";
+import { userSchema } from "@/schema/CreateAccount";
 
 const steps = [
   {
@@ -69,7 +70,7 @@ const CreateAccountPage = () => {
           }}
           finalButtonName={"Create"}
           steps={steps}
-          // resolver={yupResolver(userSchema)}
+          resolver={yupResolver(userSchema)}
         />
       </div>
     </Row>
