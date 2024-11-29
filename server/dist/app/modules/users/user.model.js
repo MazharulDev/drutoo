@@ -23,10 +23,14 @@ exports.UserSchema = new mongoose_1.Schema({
             firstName: {
                 type: String,
                 required: true,
+                maxlength: 20,
+                minlength: 3
             },
             lastName: {
                 type: String,
                 required: true,
+                maxlength: 20,
+                minlength: 3
             },
         },
         required: true,
@@ -35,6 +39,8 @@ exports.UserSchema = new mongoose_1.Schema({
         type: String,
         required: true,
         unique: true,
+        maxlength: 11,
+        minlength: 11
     },
     pin: {
         type: String,
@@ -52,6 +58,8 @@ exports.UserSchema = new mongoose_1.Schema({
         type: String,
         required: true,
         unique: true,
+        minlength: 10,
+        maxlength: 13,
     },
     dateOfBirth: {
         type: String,

@@ -31,7 +31,7 @@ const Header = () => {
       key: "2",
       label: (
         <Link
-          href="/auth/changePassword"
+          href="/change-password"
           className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-sm text-gray-800 hover:bg-gray-50"
           role="menuitem"
         >
