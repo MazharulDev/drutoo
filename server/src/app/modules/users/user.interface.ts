@@ -22,7 +22,7 @@ export type IUser = {
   mobile: string;
   email: string;
   role: roleType;
-  gender:string;
+  gender: string;
   status: statusType;
   nid: string;
   dateOfBirth: string;
@@ -32,6 +32,7 @@ export type IUser = {
   image: string;
   transactions?: Types.ObjectId | ISendMoney;
   transactionsType?: any;
+  isPinReset: boolean;
 };
 export type UserModel = {
   isUserExist(mobile: string): Promise<Pick<IUser, "mobile" | "pin" | "role">>;

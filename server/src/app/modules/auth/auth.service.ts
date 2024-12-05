@@ -9,8 +9,6 @@ import { jwtHelpers } from "../../../helpers/jwtHelpers";
 const loginUser = async (payload: ILoginUser): Promise<ILoginUserResponse> => {
   const { mobile, pin } = payload;
 
-  // const user = new User()
-
   const isUserExist = await User.isUserExist(mobile);
   if (!isUserExist) {
     throw new ApiError(httpStatus.NOT_FOUND, "User does not exist");
@@ -37,6 +35,27 @@ const loginUser = async (payload: ILoginUser): Promise<ILoginUserResponse> => {
   };
 };
 
+const changePin = async (userId: string, old_pin: string, new_pin: string) => {
+  if (new_pin.length !== 4 || isNaN(Number(new_pin))) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      "New Pin must be a 4-digit number"
+    );
+  }
+
+  const user = await User.findOne({ mobile: userId }).select("+pin");
+
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, "User not found");
+  }
+  if (user.pin && !(await User.isPasswordMatched(old_pin, user.pin))) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, "Old Pin is incorrect");
+  }
+  user.pin = new_pin;
+  await user.save();
+};
+
 export const AuthService = {
   loginUser,
+  changePin,
 };

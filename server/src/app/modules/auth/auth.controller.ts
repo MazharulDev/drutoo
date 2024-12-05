@@ -27,6 +27,20 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const changePassword = catchAsync(async (req: Request, res: Response) => {
+  const { mobile, oldPin, newPin } = req.body;
+
+  const result = await AuthService.changePin(mobile, oldPin, newPin);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Pin changed successfully!",
+    data: result,
+  });
+});
+
 export const AuthController = {
   loginUser,
+  changePassword,
 };
