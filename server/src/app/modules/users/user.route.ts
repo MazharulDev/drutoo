@@ -1,15 +1,20 @@
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 import { UserController } from "./user.controller";
 import { UserValidation } from "./user.validation";
 import validateRequest from "../../middlewares/validateRequest";
 import auth from "../../middlewares/auth";
 import { ENUM_USER_ROLE } from "../../../enums/user";
+import { fileUploadHelper } from "../../../helpers/fileUploadHelper";
 const router = express.Router();
 
 router.post(
   "/create-user",
   // validateRequest(UserValidation.createUserZodSchema),
-  UserController.createUser
+  fileUploadHelper.upload.single("profilePicture"),
+  (req: Request, res: Response, next: NextFunction) => {
+    return UserController.createUser(req, res, next);
+  }
+  // UserController.createUser
 );
 
 router.get("/filter", auth(ENUM_USER_ROLE.ADMIN), UserController.agents);

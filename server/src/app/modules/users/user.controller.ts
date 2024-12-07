@@ -7,10 +7,12 @@ import { IUser } from "./user.interface";
 import pick from "../../../shared/pick";
 import { userFilterableFields } from "./user.constant";
 import { paginationFields } from "../../../constants/pagination";
+import { IUploadFile } from "../../../interface/file";
 
 const createUser = catchAsync(async (req: Request, res: Response) => {
-  const { ...userData } = req.body;
-  const result = await UserService.createUser(userData);
+  const data = req.body;
+  const file = req.file as IUploadFile;
+  const result = await UserService.createUser(data.data, file);
   sendResponse<IUser>(res, {
     statusCode: httpStatus.OK,
     success: true,

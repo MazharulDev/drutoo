@@ -1,14 +1,19 @@
 import FormDatePicker from "@/components/forms/FormDatePicker";
 import FormInput from "@/components/forms/FormInput";
 import FormSelectField from "@/components/forms/FormSelectField";
-import { bloodGroupOptions, genderOptions, roleOptions } from "@/constants/global";
+import UploadImage from "@/components/forms/UploadImage";
+import {
+  bloodGroupOptions,
+  genderOptions,
+  roleOptions,
+} from "@/constants/global";
 import { Col, Row } from "antd";
 
-const BasicInfoForm = () => {
+const BasicInfoForm = ({ defaultImageUrl }: { defaultImageUrl?: string }) => {
   return (
     <>
       <div className="border bg-white border-gray-300 rounded-md p-4 my-4">
-        {/* <UploadImage name="profile_picture" defaultImageUrl={defaultImageUrl} /> */}
+        <UploadImage name="profilePicture" defaultImageUrl={defaultImageUrl} />
         <Row gutter={{ xs: 4, md: 20 }}>
           <Col xs={24} md={12} lg={8} className="mt-3">
             <FormInput

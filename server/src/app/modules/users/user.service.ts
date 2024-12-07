@@ -9,14 +9,29 @@ import { userSearchableFields } from "./user.constant";
 import { SortOrder } from "mongoose";
 import { AddSystemBalance } from "./user.utlis";
 import { System } from "../system/system.model";
+import { ICloudinaryResponse, IUploadFile } from "../../../interface/file";
+import { fileUploadHelper } from "../../../helpers/fileUploadHelper";
 
-const createUser = async (payload: IUser): Promise<IUser | null> => {
+const createUser = async (
+  payload: IUser | string,
+  file?: IUploadFile
+): Promise<IUser | null> => {
+  if (typeof payload === "string") {
+    payload = JSON.parse(payload) as IUser;
+  }
+
   const userExist = await User.findOne({ mobile: payload.mobile });
   if (userExist) {
     throw new ApiError(
       httpStatus.BAD_REQUEST,
       "User already exists. Please login."
     );
+  }
+  if (file) {
+    const uploadedImg = (await fileUploadHelper.uploadToCloudinary(
+      file
+    )) as ICloudinaryResponse;
+    payload.profilePicture = uploadedImg.secure_url;
   }
 
   let status;

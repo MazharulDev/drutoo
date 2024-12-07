@@ -284,9 +284,9 @@ const Header = () => {
               <Avatar
                 size="large"
                 icon={
-                  userData?.profile_picture ? (
+                  userData?.profilePicture ? (
                     <Image
-                      src={userData?.profile_picture}
+                      src={userData?.profilePicture}
                       alt="User Avatar"
                       height={25}
                       width={25}

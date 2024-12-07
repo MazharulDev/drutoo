@@ -12,11 +12,19 @@ export const authApi = baseApi.injectEndpoints({
       invalidatesTags: [tagTypes.user],
     }),
     createAccount: build.mutation({
-      query: (userData) => ({
-        url: `/user/create-user`,
-        method: "POST",
-        data: userData,
-      }),
+      query: (userData) => {
+        const formData = new FormData();
+        const { profilePicture, ...data } = userData;
+
+        formData.append("profilePicture", profilePicture);
+        formData.append("data", JSON.stringify(data));
+        return {
+          url: `/user/create-user`,
+          method: "POST",
+          data: formData,
+          contentType: "multipart/form-data",
+        };
+      },
       invalidatesTags: [tagTypes.user],
     }),
   }),

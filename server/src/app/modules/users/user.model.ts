@@ -96,7 +96,7 @@ export const UserSchema = new Schema<IUser, UserModel>(
       type: String,
       required: true,
     },
-    image: {
+    profilePicture: {
       type: String,
     },
     transactions: [
