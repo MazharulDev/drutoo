@@ -31,7 +31,7 @@ const Header = () => {
       key: "2",
       label: (
         <Link
-          href="/change-password"
+          href="/change-pin"
           className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-sm text-gray-800 hover:bg-gray-50"
           role="menuitem"
         >
@@ -50,7 +50,7 @@ const Header = () => {
             <path d="M12 16m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
             <path d="M8 11v-5a4 4 0 0 1 8 0" />
           </svg>
-          Change Password
+          Change Pin
         </Link>
       ),
     },
