@@ -8,7 +8,7 @@ import auth from "../../middlewares/auth";
 const router = express.Router();
 
 router.post(
-  "/",
+  "/login",
   validateRequest(AuthValidation.loginZodSchema),
   AuthController.loginUser
 );

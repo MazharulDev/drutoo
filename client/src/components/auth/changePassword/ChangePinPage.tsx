@@ -1,7 +1,9 @@
 "use client";
 import Form from "@/components/forms/Form";
 import FormInput from "@/components/forms/FormInput";
+import { useChangePinMutation } from "@/redux/api/authApi";
 import { changePinSchema } from "@/schema/changePinSchema";
+import { getUserInfo } from "@/services/auth.service";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, Col, Row } from "antd";
 import React from "react";
@@ -14,8 +16,20 @@ type FormValues = {
 };
 
 const ChangePinPage = () => {
+  const { userId } = getUserInfo() as any;
+  const [changePin, { isLoading }] = useChangePinMutation();
   const onSubmit: SubmitHandler<FormValues> = async (data: any) => {
-    console.log(data);
+    const pinData = {
+      mobile: userId,
+      oldPin: data.oldPin,
+      newPin: data.newPin,
+    };
+    try {
+      const res = await changePin({ ...pinData }).unwrap();
+      console.log(res);
+    } catch (error: any) {
+      console.log(error);
+    }
   };
   return (
     <Row
@@ -41,11 +55,7 @@ const ChangePinPage = () => {
                 label="Old Pin"
               />
             </div>
-            <div
-              style={{
-                margin: "15px 0px",
-              }}
-            >
+            <div>
               <FormInput
                 name="newPin"
                 type="password"
@@ -53,6 +63,8 @@ const ChangePinPage = () => {
                 size="large"
                 label="New Pin"
               />
+            </div>
+            <div>
               <FormInput
                 name="confirmPin"
                 type="password"
@@ -62,10 +74,10 @@ const ChangePinPage = () => {
               />
             </div>
             <Button
-              className="bg-blue-500"
+              className="bg-blue-500 mt-2"
               type="primary"
               htmlType="submit"
-              //   loading={isLoading}
+              loading={isLoading}
             >
               Change
             </Button>

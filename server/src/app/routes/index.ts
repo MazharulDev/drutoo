@@ -17,7 +17,7 @@ const modulesRoutes = [
     route: UserRoutes,
   },
   {
-    path: "/login",
+    path: "/auth",
     route: AuthRoutes,
   },
   {

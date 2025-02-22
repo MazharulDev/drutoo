@@ -12,6 +12,9 @@ const loginZodSchema = z.object({
 });
 const changePinZodSchema = z.object({
   body: z.object({
+    mobile: z.string({
+      required_error: "Mobile number is required",
+    }),
     oldPin: z
       .string({
         required_error: "Old pin is required",
