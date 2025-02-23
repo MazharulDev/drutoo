@@ -5,6 +5,7 @@ import { Secret } from "jsonwebtoken";
 import config from "../../../config";
 import { User } from "../users/user.model";
 import { jwtHelpers } from "../../../helpers/jwtHelpers";
+import { hashingHelper } from "../../../helpers/hashingHelpers";
 
 const loginUser = async (payload: ILoginUser): Promise<ILoginUserResponse> => {
   const { mobile, pin } = payload;
@@ -51,8 +52,12 @@ const changePin = async (userId: string, old_pin: string, new_pin: string) => {
   if (user.pin && !(await User.isPasswordMatched(old_pin, user.pin))) {
     throw new ApiError(httpStatus.UNAUTHORIZED, "Old Pin is incorrect");
   }
-  user.pin = new_pin;
-  await user.save();
+  const hashedPin = await hashingHelper.encrypt_password(new_pin);
+  await User.updateOne({ mobile: userId }, { pin: hashedPin });
+
+  return {
+    message: "Pin changed successfully",
+  };
 };
 
 export const AuthService = {
