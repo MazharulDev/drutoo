@@ -56,6 +56,7 @@ const changePin = async (userId: string, old_pin: string, new_pin: string) => {
   await User.updateOne({ mobile: userId }, { pin: hashedPin });
 
   return {
+    success: true,
     message: "Pin changed successfully",
   };
 };

@@ -5,7 +5,7 @@ import { useChangePinMutation } from "@/redux/api/authApi";
 import { changePinSchema } from "@/schema/changePinSchema";
 import { getUserInfo } from "@/services/auth.service";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Button, Col, Row } from "antd";
+import { Button, Col, message, Row } from "antd";
 import React from "react";
 import { SubmitHandler } from "react-hook-form";
 
@@ -26,9 +26,11 @@ const ChangePinPage = () => {
     };
     try {
       const res = await changePin({ ...pinData }).unwrap();
-      console.log(res);
+      if (res.success) {
+        message.success(res?.message);
+      }
     } catch (error: any) {
-      console.log(error);
+      error("Something went wrong");
     }
   };
   return (
