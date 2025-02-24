@@ -7,15 +7,30 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler } from "react-hook-form";
 import { sendOtpSchema } from "@/schema/sendOtp";
 import { useSendOtpMutation } from "@/redux/api/otp";
+
 type FormValues = {
   mobile: string;
 };
 
 const SendOtp = () => {
   const [sendOtp, { isLoading }] = useSendOtpMutation();
-  const onSubmit: SubmitHandler<FormValues> = async (data: any) => {
-    const response = await sendOtp(data);
+
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    try {
+      const response = await sendOtp(data).unwrap();
+
+      if (response && response._id) {
+        message.success("We've sent an OTP on your mail! Please check.");
+      } else {
+        message.error("Unexpected response format.");
+      }
+    } catch (error: any) {
+      const errorMessage =
+        error?.data?.message || "Something went wrong. Please try again.";
+      message.error(errorMessage);
+    }
   };
+
   return (
     <Row
       justify="center"
