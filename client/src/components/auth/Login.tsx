@@ -36,6 +36,7 @@ const LoginPage = () => {
     } catch (error: any) {
       message.error(
         error?.data?.error ||
+          error?.data?.message ||
           "An unexpected error occurred. Please try again."
       );
     }
@@ -91,6 +92,11 @@ const LoginPage = () => {
             <p>
               You have not account?{" "}
               <Link href="/create-account">Create Account</Link>
+            </p>
+          </div>
+          <div style={{ marginTop: "10px" }}>
+            <p>
+              <Link href="/forgot-password">Forgot Password</Link>
             </p>
           </div>
         </div>
