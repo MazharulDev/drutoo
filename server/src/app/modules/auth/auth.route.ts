@@ -4,11 +4,20 @@ import { AuthValidation } from "./auth.validation";
 import { AuthController } from "./auth.controller";
 import { ENUM_USER_ROLE } from "../../../enums/user";
 import auth from "../../middlewares/auth";
+import rateLimit from "../../../lib/rateLimit";
 
 const router = express.Router();
 
+const authRateLimit = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 5,
+    message: { error: "Too many requests, please try again later." },
+});
+
+
 router.post(
   "/login",
+  authRateLimit,
   validateRequest(AuthValidation.loginZodSchema),
   AuthController.loginUser
 );

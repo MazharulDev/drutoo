@@ -35,7 +35,7 @@ const LoginPage = () => {
       }
     } catch (error: any) {
       message.error(
-        error?.data?.message ||
+        error?.data?.error ||
           "An unexpected error occurred. Please try again."
       );
     }
