@@ -119,7 +119,7 @@ const resetPin = async (mobile: string, pin: string) => {
 
   const updatedUser = await User.findOneAndUpdate(
     { mobile },
-    { pin: hashedPin },
+    { pin: hashedPin, isPinReset: true },
     {
       new: true,
     }

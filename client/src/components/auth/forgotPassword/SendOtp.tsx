@@ -5,7 +5,7 @@ import FormInput from "../../forms/FormInput";
 import Form from "../../forms/Form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler } from "react-hook-form";
-import { sendOtpSchema } from "@/schema/sendOtp";
+import { resetPinSchema, sendOtpSchema } from "@/schema/sendOtp";
 import {
   useResetPinMutation,
   useSendOtpMutation,
@@ -35,7 +35,7 @@ const SendOtp = () => {
 
     if (mobile && !isVerifiedOtp && seconds > 0) {
       timer = setInterval(() => {
-        setSeconds((prevSeconds) => prevSeconds - 1);
+        setSeconds((prevSeconds) => (prevSeconds > 0 ? prevSeconds - 1 : 0));
       }, 1000);
     } else if (seconds === 0 && mobile) {
       message.error("OTP expired");
@@ -51,7 +51,7 @@ const SendOtp = () => {
       if (response && response?._id) {
         setMobile(data.mobile);
         message.success("We've sent an OTP on your mail! Please check.");
-        setSeconds(60);
+        setSeconds(120);
       } else {
         message.error("Unexpected response format.");
       }
@@ -85,8 +85,8 @@ const SendOtp = () => {
         ...data,
         mobile: mobile,
       }).unwrap();
-      if (res?.isReset) {
-        message.success("Password reset successfully");
+      if (res?.isPinReset) {
+        message.success("Pin reset successfully");
         router.push("/login");
       }
     } catch (err: any) {
@@ -142,7 +142,8 @@ const SendOtp = () => {
             />
             {!!seconds && (
               <p className="text-xs text-gray-400 text-end">
-                {seconds} seconds left
+                {Math.floor(seconds / 60)}:
+                {(seconds % 60).toString().padStart(2, "0")} minutes left
               </p>
             )}
           </div>
@@ -167,23 +168,26 @@ const SendOtp = () => {
         </Form>
       )}
       {mobile && isVerifiedOtp && (
-        <Form submitHandler={onPasswordSubmit}>
+        <Form
+          submitHandler={onPasswordSubmit}
+          resolver={yupResolver(resetPinSchema)}
+        >
           <div>
             <FormInput
               name="pin"
               type="password"
               size="large"
-              label="New Password"
-              placeholder="Enter new password"
+              label="New Pin"
+              placeholder="Enter new pin"
             />
           </div>
           <div>
             <FormInput
-              name="confirm_pin"
+              name="confirmPin"
               type="password"
               size="large"
-              label="Confirm Password"
-              placeholder="Enter new password again"
+              label="Confirm Pin"
+              placeholder="Enter new pin again"
             />
           </div>
           <div className="flex justify-left mt-3">

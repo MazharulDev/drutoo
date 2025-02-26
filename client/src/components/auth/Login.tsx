@@ -68,7 +68,7 @@ const LoginPage = () => {
             </div>
             <div
               style={{
-                margin: "15px 0px",
+                marginTop: "15px",
               }}
             >
               <FormInput
@@ -78,6 +78,11 @@ const LoginPage = () => {
                 size="large"
                 label="Pin"
               />
+            </div>
+            <div className="flex justify-end">
+              <p>
+                <Link href="/forgot-password">Forgot Password?</Link>
+              </p>
             </div>
             <Button
               className="bg-blue-500"
@@ -92,11 +97,6 @@ const LoginPage = () => {
             <p>
               You have not account?{" "}
               <Link href="/create-account">Create Account</Link>
-            </p>
-          </div>
-          <div style={{ marginTop: "10px" }}>
-            <p>
-              <Link href="/forgot-password">Forgot Password</Link>
             </p>
           </div>
         </div>
