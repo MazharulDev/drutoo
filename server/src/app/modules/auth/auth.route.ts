@@ -9,11 +9,13 @@ import rateLimit from "../../../lib/rateLimit";
 const router = express.Router();
 
 const authRateLimit = rateLimit({
-    windowMs: 15 * 60 * 1000,
-    max: 5,
-    message: { error: "Too many requests, please try again later." },
+  windowMs: 5 * 60 * 1000,
+  max: 5,
+  message: {
+    success: false,
+    error: "Too many requests, please try again later.",
+  },
 });
-
 
 router.post(
   "/login",
