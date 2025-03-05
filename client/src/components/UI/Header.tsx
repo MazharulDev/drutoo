@@ -1,5 +1,5 @@
 import { Avatar, Badge, Dropdown, Layout, MenuProps, Row, Space } from "antd";
-import { UserOutlined, ClockCircleOutlined } from "@ant-design/icons";
+import { UserOutlined, EditOutlined } from "@ant-design/icons";
 import { getUserInfo, removeUserInfo } from "@/services/auth.service";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/redux/hooks";
@@ -20,6 +20,7 @@ const Header = () => {
   const { data: userData } = useProfileQuery(userId);
   const router = useRouter();
   const dispatch = useAppDispatch();
+  console.log(userData);
 
   const logOut = () => {
     removeUserInfo(authkey);
@@ -27,6 +28,19 @@ const Header = () => {
   };
 
   const items: MenuProps["items"] = [
+    {
+      key: "1",
+      label: (
+        <Link
+          href={`/${userData?.role}/profile`}
+          className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-sm text-gray-800 hover:bg-gray-50"
+          role="menuitem"
+        >
+          <EditOutlined />
+          Update Profile
+        </Link>
+      ),
+    },
     {
       key: "2",
       label: (
