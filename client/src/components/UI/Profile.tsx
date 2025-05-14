@@ -1,78 +1,121 @@
-import React from "react";
+"use client";
+
+import { Button, Col, Row } from "antd";
+import { SubmitHandler } from "react-hook-form";
+import { genderOptions } from "@/constants/global";
+import { IProfileInput } from "@/types";
+import Form from "../forms/Form";
+import FormInput from "../forms/FormInput";
+import FormSelectField from "../forms/FormSelectField";
+import FormDatePicker from "../forms/FormDatePicker";
+import { useProfileQuery } from "@/redux/api/userApi";
+import { getUserInfo } from "@/services/auth.service";
 
 const UpdateProfile = () => {
+    const { userId } = getUserInfo() as any;
+  const { data: userData, isLoading } = useProfileQuery(userId);
+  // const { data } = useGetMyProfileQuery(undefined);
+  // const [updateMyProfile] = useUpdateMyProfileMutation();
+
+  const defaultValues = {
+    firstName: userData?.name?.firstName || "",
+    lastName: userData?.name?.lastName || "",
+    email: userData?.email || "",
+    nid: userData?.nid || "",
+    gender: userData?.gender?.toLowerCase() || "",
+    dateOfBirth: userData?.dateOfBirth ? new Date(userData.dateOfBirth) : undefined,
+    bio: "",
+    division: userData?.address?.division || "",
+    district: userData?.address?.district || "",
+    upazila: userData?.address?.upazila || "",
+    union: userData?.address?.union || "",
+  };
+
+  const onSubmit: SubmitHandler<IProfileInput> = async (values) => {
+    const payload = {
+      name: {
+        firstName: values.firstName,
+        lastName: values.lastName,
+      },
+      email: values.email,
+      mobile: values.phone,
+      nid: values.nid,
+      gender: values.gender,
+      dateOfBirth: values.dateOfBirth,
+      address: {
+        division: values.division,
+        district: values.district,
+        upazila: values.upazila,
+        union: values.union,
+      },
+    };
+
+    try {
+      console.log(payload);
+      // await updateMyProfile(payload).unwrap();
+    } catch (err) {
+      console.error("Profile update failed", err);
+    }
+  };
+
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100 p-4">
-      <div className="bg-white shadow-lg rounded-2xl p-8 w-full max-w-5xl h-full flex flex-col justify-center">
-        <h2 className="text-3xl font-semibold text-center mb-6">
-          Update Profile
-        </h2>
+    <div className="max-w-screen-md mx-auto">
+      <h2 className="text-2xl font-semibold mb-4">Update Profile</h2>
 
-        <div className="flex flex-col items-center">
-          <img
-            src="https://via.placeholder.com/150"
-            alt="User Avatar"
-            className="w-40 h-40 rounded-full border-4 border-blue-500 mb-4"
-          />
-          <button className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition">
-            Change Profile Picture
-          </button>
-        </div>
+      <Form submitHandler={onSubmit} defaultValues={defaultValues}>
+        <Row gutter={16}>
+          <Col span={12}>
+            <FormInput name="firstName" label="First Name" placeholder="Enter first name" size="large" required />
+          </Col>
+          <Col span={12}>
+            <FormInput name="lastName" label="Last Name" placeholder="Enter last name" size="large" required />
+          </Col>
+          <Col span={12}>
+            <FormInput name="email" label="Email" type="email" placeholder="Enter email" size="large" required />
+          </Col>
+          <Col span={12}>
+            <FormInput name="nid" label="NID" placeholder="Enter NID" size="large" required />
+          </Col>
+          <Col span={12}>
+            <FormSelectField
+              name="gender"
+              label="Gender"
+              options={genderOptions}
+              placeholder="Select gender"
+              size="large"
+              required
+            />
+          </Col>
+          <Col span={12}>
+            <FormDatePicker name="dateOfBirth" label="Date of Birth" size="large" required />
+          </Col>
 
-        <form className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label className="block text-gray-700 font-medium">Full Name</label>
-            <input
-              type="text"
-              placeholder="Enter your full name"
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-          <div>
-            <label className="block text-gray-700 font-medium">
-              Email Address
-            </label>
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-          <div>
-            <label className="block text-gray-700 font-medium">
-              Phone Number
-            </label>
-            <input
-              type="tel"
-              placeholder="Enter your phone number"
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-          <div>
-            <label className="block text-gray-700 font-medium">Address</label>
-            <input
-              type="text"
-              placeholder="Enter your address"
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-          <div className="col-span-1 md:col-span-2">
-            <label className="block text-gray-700 font-medium">Bio</label>
-            <textarea
-              placeholder="Tell us about yourself"
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 h-24"
-            />
-          </div>
-          <div className="col-span-1 md:col-span-2">
-            <button
-              type="submit"
-              className="w-full bg-green-500 text-white py-3 rounded-lg hover:bg-green-600 transition"
+          {/* Address fields */}
+          <Col span={12}>
+            <FormInput name="division" label="Division" placeholder="Enter division" size="large" required />
+          </Col>
+          <Col span={12}>
+            <FormInput name="district" label="District" placeholder="Enter district" size="large" required />
+          </Col>
+          <Col span={12}>
+            <FormInput name="upazila" label="Upazila" placeholder="Enter upazila" size="large" required />
+          </Col>
+          <Col span={12}>
+            <FormInput name="union" label="Union" placeholder="Enter union" size="large" required />
+          </Col>
+
+          <Col span={24}>
+            <Button
+              htmlType="submit"
+              type="primary"
+              size="large"
+              className="w-full bg-green-500 hover:bg-green-600 mt-4"
             >
               Save Changes
-            </button>
-          </div>
-        </form>
-      </div>
+            </Button>
+          </Col>
+        </Row>
+      </Form>
     </div>
   );
 };

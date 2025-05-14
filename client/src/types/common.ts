@@ -55,3 +55,18 @@ export type IDivision = {
   bn_name: string;
   url: string;
 };
+
+export type IProfileInput = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  nid: string;
+  gender: string;
+  bio: string;
+  dateOfBirth: Date;
+  division: string;
+  district: string;
+  upazila: string;
+  union: string;
+};
