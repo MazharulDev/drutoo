@@ -31,7 +31,16 @@ export const userApi = baseApi.injectEndpoints({
         tagTypes.transactions,
       ],
     }),
+    updateMyProfile: build.mutation({
+      query: (payload) => ({
+        url: `${USER_URL}/update-my-profile/${payload.mobile}`,
+        method: "PATCH",
+        data: payload,
+      }),
+      invalidatesTags: [tagTypes.user],
+    }),
   }),
 });
 
-export const { useProfileQuery, useUsersQuery } = userApi;
+export const { useProfileQuery, useUsersQuery, useUpdateMyProfileMutation } =
+  userApi;

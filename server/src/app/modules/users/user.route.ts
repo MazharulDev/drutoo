@@ -29,4 +29,10 @@ router.get(
   UserController.singleUser
 );
 
+router.patch(
+  "/update-my-profile/:mobile",
+  auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.AGENT),
+  UserController.updateMyProfile
+);
+
 export const UserRoutes = router;

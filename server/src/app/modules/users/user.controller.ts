@@ -57,9 +57,22 @@ const singleUser = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const updateMyProfile = catchAsync(async (req: Request, res: Response) => {
+  const { mobile } = req.params;
+  const { ...payload } = req.body;
+  const result = await UserService.updateMyProfile(mobile, payload);
+  sendResponse<IUser>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "User profile update successfully",
+    data: result,
+  });
+});
+
 export const UserController = {
   createUser,
   agents,
   updateAgentStatus,
   singleUser,
+  updateMyProfile,
 };

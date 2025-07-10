@@ -20,7 +20,6 @@ const Header = () => {
   const { data: userData } = useProfileQuery(userId);
   const router = useRouter();
   const dispatch = useAppDispatch();
-  console.log(userData);
 
   const logOut = () => {
     removeUserInfo(authkey);

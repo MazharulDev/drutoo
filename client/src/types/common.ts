@@ -60,7 +60,7 @@ export type IProfileInput = {
   firstName: string;
   lastName: string;
   email: string;
-  phone: string;
+  mobile: string;
   nid: string;
   gender: string;
   bio: string;

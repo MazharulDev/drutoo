@@ -8,19 +8,19 @@ import Form from "../forms/Form";
 import FormInput from "../forms/FormInput";
 import FormSelectField from "../forms/FormSelectField";
 import FormDatePicker from "../forms/FormDatePicker";
-import { useProfileQuery } from "@/redux/api/userApi";
+import { useProfileQuery, useUpdateMyProfileMutation } from "@/redux/api/userApi";
 import { getUserInfo } from "@/services/auth.service";
 
 const UpdateProfile = () => {
-    const { userId } = getUserInfo() as any;
+  const { userId } = getUserInfo() as any;
   const { data: userData, isLoading } = useProfileQuery(userId);
-  // const { data } = useGetMyProfileQuery(undefined);
-  // const [updateMyProfile] = useUpdateMyProfileMutation();
+  const [updateMyProfile] = useUpdateMyProfileMutation();
 
   const defaultValues = {
     firstName: userData?.name?.firstName || "",
     lastName: userData?.name?.lastName || "",
     email: userData?.email || "",
+    mobile: userData?.mobile || "",
     nid: userData?.nid || "",
     gender: userData?.gender?.toLowerCase() || "",
     dateOfBirth: userData?.dateOfBirth ? new Date(userData.dateOfBirth) : undefined,
@@ -38,7 +38,7 @@ const UpdateProfile = () => {
         lastName: values.lastName,
       },
       email: values.email,
-      mobile: values.phone,
+      mobile: values.mobile,
       nid: values.nid,
       gender: values.gender,
       dateOfBirth: values.dateOfBirth,
@@ -52,7 +52,7 @@ const UpdateProfile = () => {
 
     try {
       console.log(payload);
-      // await updateMyProfile(payload).unwrap();
+      await updateMyProfile(payload).unwrap();
     } catch (err) {
       console.error("Profile update failed", err);
     }
@@ -72,6 +72,9 @@ const UpdateProfile = () => {
           </Col>
           <Col span={12}>
             <FormInput name="email" label="Email" type="email" placeholder="Enter email" size="large" required />
+          </Col>
+          <Col span={12}>
+            <FormInput disabled name="mobile" label="Mobile" placeholder="Enter mobile" size="large" required />
           </Col>
           <Col span={12}>
             <FormInput name="nid" label="NID" placeholder="Enter NID" size="large" required />

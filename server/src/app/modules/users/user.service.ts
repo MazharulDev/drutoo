@@ -125,9 +125,20 @@ const singleUser = async (mobile: string): Promise<IUser | null> => {
   return result;
 };
 
+const updateMyProfile = async (
+  mobile: string,
+  payload: Partial<IUser>
+): Promise<IUser | null> => {
+  const result = await User.findOneAndUpdate({ mobile: mobile }, payload, {
+    new: true,
+  });
+  return result;
+};
+
 export const UserService = {
   createUser,
   agents,
   updateAgentStatus,
   singleUser,
+  updateMyProfile,
 };
