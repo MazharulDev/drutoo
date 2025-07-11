@@ -11,6 +11,7 @@ type DatePikerProps = {
   size?: "large" | "small";
   required?: boolean;
   defaultValue?: string;
+  disabledDate?: boolean;
 };
 
 const FormDatePicker = ({
@@ -21,6 +22,7 @@ const FormDatePicker = ({
   value,
   required,
   defaultValue,
+  disabledDate,
 }: DatePikerProps) => {
   const {
     control,
@@ -59,7 +61,7 @@ const FormDatePicker = ({
             onChange={handleOnChange}
             onBlur={field.onBlur}
             style={{ width: "100%" }}
-            // disabledDate={disabledDate}
+            disabled={disabledDate ? disabledDate : false}
           />
         )}
       />

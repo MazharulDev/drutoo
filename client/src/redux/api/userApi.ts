@@ -32,11 +32,20 @@ export const userApi = baseApi.injectEndpoints({
       ],
     }),
     updateMyProfile: build.mutation({
-      query: (payload) => ({
-        url: `${USER_URL}/update-my-profile/${payload.mobile}`,
-        method: "PATCH",
-        data: payload,
-      }),
+      query: (payload) => {
+        const formData = new FormData();
+        const { profilePicture, ...data } = payload;
+
+        formData.append("profilePicture", profilePicture);
+        formData.append("data", JSON.stringify(data));
+        return {
+          url: `${USER_URL}/update-my-profile/${payload.mobile}`,
+          method: "PATCH",
+          data: formData,
+          contentType: "multipart/form-data",
+        };
+      },
+      transformResponse: (response: IUser) => response, // response.user,
       invalidatesTags: [tagTypes.user],
     }),
   }),

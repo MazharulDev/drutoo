@@ -69,4 +69,5 @@ export type IProfileInput = {
   district: string;
   upazila: string;
   union: string;
+  profilePicture: string;
 };

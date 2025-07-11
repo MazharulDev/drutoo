@@ -60,7 +60,8 @@ const singleUser = catchAsync(async (req: Request, res: Response) => {
 const updateMyProfile = catchAsync(async (req: Request, res: Response) => {
   const { mobile } = req.params;
   const { ...payload } = req.body;
-  const result = await UserService.updateMyProfile(mobile, payload);
+  const file = req.file as IUploadFile;
+  const result = await UserService.updateMyProfile(mobile, payload, file);
   sendResponse<IUser>(res, {
     statusCode: httpStatus.OK,
     success: true,

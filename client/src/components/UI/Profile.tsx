@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Col, Row } from "antd";
+import { Button, Col, message, Row } from "antd";
 import { SubmitHandler } from "react-hook-form";
 import { genderOptions } from "@/constants/global";
 import { IProfileInput } from "@/types";
@@ -10,11 +10,12 @@ import FormSelectField from "../forms/FormSelectField";
 import FormDatePicker from "../forms/FormDatePicker";
 import { useProfileQuery, useUpdateMyProfileMutation } from "@/redux/api/userApi";
 import { getUserInfo } from "@/services/auth.service";
+import UploadImage from "../forms/UploadImage";
 
 const UpdateProfile = () => {
   const { userId } = getUserInfo() as any;
-  const { data: userData, isLoading } = useProfileQuery(userId);
-  const [updateMyProfile] = useUpdateMyProfileMutation();
+  const { data: userData } = useProfileQuery(userId);
+  const [updateMyProfile, { isLoading: updateLoading }] = useUpdateMyProfileMutation();
 
   const defaultValues = {
     firstName: userData?.name?.firstName || "",
@@ -29,6 +30,7 @@ const UpdateProfile = () => {
     district: userData?.address?.district || "",
     upazila: userData?.address?.upazila || "",
     union: userData?.address?.union || "",
+    profilePicture: userData?.profilePicture || "",
   };
 
   const onSubmit: SubmitHandler<IProfileInput> = async (values) => {
@@ -48,11 +50,14 @@ const UpdateProfile = () => {
         upazila: values.upazila,
         union: values.union,
       },
+      profilePicture: values.profilePicture,
     };
 
     try {
-      console.log(payload);
-      await updateMyProfile(payload).unwrap();
+      const res = await updateMyProfile(payload).unwrap();
+      if (res) {
+        message.success("Profile updated successfully");
+      }
     } catch (err) {
       console.error("Profile update failed", err);
     }
@@ -64,6 +69,7 @@ const UpdateProfile = () => {
 
       <Form submitHandler={onSubmit} defaultValues={defaultValues}>
         <Row gutter={16}>
+          <UploadImage name="profilePicture" defaultImageUrl={userData?.profilePicture ? userData?.profilePicture : ""}/>
           <Col span={12}>
             <FormInput name="firstName" label="First Name" placeholder="Enter first name" size="large" required />
           </Col>
@@ -71,13 +77,13 @@ const UpdateProfile = () => {
             <FormInput name="lastName" label="Last Name" placeholder="Enter last name" size="large" required />
           </Col>
           <Col span={12}>
-            <FormInput name="email" label="Email" type="email" placeholder="Enter email" size="large" required />
+            <FormInput disabled name="email" label="Email" type="email" placeholder="Enter email" size="large" required />
           </Col>
           <Col span={12}>
             <FormInput disabled name="mobile" label="Mobile" placeholder="Enter mobile" size="large" required />
           </Col>
           <Col span={12}>
-            <FormInput name="nid" label="NID" placeholder="Enter NID" size="large" required />
+            <FormInput disabled name="nid" label="NID" placeholder="Enter NID" size="large" required />
           </Col>
           <Col span={12}>
             <FormSelectField
@@ -90,7 +96,7 @@ const UpdateProfile = () => {
             />
           </Col>
           <Col span={12}>
-            <FormDatePicker name="dateOfBirth" label="Date of Birth" size="large" required />
+            <FormDatePicker disabledDate={true} name="dateOfBirth" label="Date of Birth" size="large" required />
           </Col>
 
           {/* Address fields */}
@@ -113,6 +119,7 @@ const UpdateProfile = () => {
               type="primary"
               size="large"
               className="w-full bg-green-500 hover:bg-green-600 mt-4"
+              loading={updateLoading}
             >
               Save Changes
             </Button>

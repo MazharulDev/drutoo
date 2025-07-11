@@ -32,7 +32,11 @@ router.get(
 router.patch(
   "/update-my-profile/:mobile",
   auth(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.AGENT),
-  UserController.updateMyProfile
+  fileUploadHelper.upload.single("profilePicture") ||
+    fileUploadHelper.upload.none(),
+  (req: Request, res: Response, next: NextFunction) => {
+    return UserController.updateMyProfile(req, res, next);
+  }
 );
 
 export const UserRoutes = router;
