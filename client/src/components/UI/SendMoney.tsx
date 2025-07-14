@@ -2,10 +2,14 @@
 
 import { useSendMoneyMutation } from "@/redux/api/sendMoneyApi";
 import { useProfileQuery } from "@/redux/api/userApi";
-import { Col, Input, message, Row } from "antd";
+import { Col, Input, message, Row, notification } from "antd";
 import React, { useState, useEffect } from "react";
 import HoldButton from "./HoldButton";
 import Loading from "@/app/loading";
+import { io } from "socket.io-client";
+
+// Initialize socket connection
+const socket = io(process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000");
 
 const SendMoneyPage = ({ userData }: any) => {
   const [receiverInfo, setReceiverInfo] = useState<string>("");
@@ -24,6 +28,28 @@ const SendMoneyPage = ({ userData }: any) => {
   });
 
   const [sendMoney, { isLoading }] = useSendMoneyMutation();
+
+  // Connect to socket when component mounts
+  useEffect(() => {
+    if (userData?.mobile) {
+      // Join user's room for personalized notifications
+      socket.emit('join', userData);
+      
+      // Listen for notifications
+      socket.on('notification', (data) => {
+        notification.open({
+          message: 'Transaction Notification',
+          description: data.message,
+          type: data.type === 'credit' ? 'success' : 'info',
+        });
+      });
+    }
+    
+    return () => {
+      // Clean up socket listeners when component unmounts
+      socket.off('notification');
+    };
+  }, [userData]);
 
   const handleHoldComplete = async () => {
     if (!amount || !pin || !receivedId) {

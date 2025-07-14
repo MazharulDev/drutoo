@@ -7,6 +7,7 @@ import { generateTransactionId } from "../../../utils/transIdGenarate";
 import config from "../../../config";
 import { AddAdminBalance } from "../users/user.utlis";
 import { Transaction } from "../transactions/transactions.model";
+import { io } from "../../../server";
 
 const transactions = async (payload: ISendMoney) => {
   const { senderId, receivedId, amount, pin } = payload;
@@ -85,6 +86,28 @@ const transactions = async (payload: ISendMoney) => {
       });
       await User.findByIdAndUpdate(receiver?._id, {
         $push: { transactions: { $each: [transHistory?._id], $position: 0 } },
+      });
+
+      // After successful transaction, emit socket events
+      io.emit("transaction", {
+        type: "sendMoney",
+        senderId,
+        receivedId,
+        amount,
+        transactionId: transId,
+      });
+
+      // Emit personal notifications to both sender and receiver
+      io.to(senderId).emit("notification", {
+        message: `You sent ${amount} taka to ${receivedId}`,
+        amount,
+        type: "debit",
+      });
+
+      io.to(receivedId).emit("notification", {
+        message: `You received ${amount} taka from ${senderId}`,
+        amount,
+        type: "credit",
       });
     });
     return `${amount} taka has been sent to number ${senderId} to ${receivedId}`;

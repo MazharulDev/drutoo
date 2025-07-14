@@ -3,6 +3,33 @@ import app from "./app";
 import config from "./config";
 // import { errorlogger, logger } from "./shared/logger";
 import { Server } from "http";
+import http from "http";
+import { Server as SocketIOServer } from "socket.io";
+
+const httpServer = http.createServer(app);
+export const io = new SocketIOServer(httpServer, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
+});
+
+// Socket.io connection handling
+io.on("connection", (socket) => {
+  console.log("User connected:", socket.id);
+
+  // Join user to a room based on their mobile number
+  socket.on("join", (userData) => {
+    if (userData && userData.mobile) {
+      socket.join(userData.mobile);
+      console.log(`User ${userData.mobile} joined their room`);
+    }
+  });
+
+  socket.on("disconnect", () => {
+    console.log("User disconnected:", socket.id);
+  });
+});
 
 process.on("uncaughtException", (error) => {
   console.log(error); //errorlogger.error
