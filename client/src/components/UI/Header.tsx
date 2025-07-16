@@ -10,16 +10,17 @@ import Image from "next/image";
 import { useState } from "react";
 import { authkey } from "@/constants/storageKey";
 import { useProfileQuery } from "@/redux/api/userApi";
+import { useTheme } from "@/contexts/ThemeContext";
 
 const Header = () => {
-  const localStorageTheme = getFromLocalStorage("theme");
+  const { themeMode, toggleTheme } = useTheme();
   const { userId } = getUserInfo() as any;
-  const theme = localStorageTheme ? JSON.parse(localStorageTheme) : null;
-  const [localTheme, setLocalTheme] = useState(theme?.theme);
   const { user_type } = getUserInfo() as any;
   const { data: userData } = useProfileQuery(userId);
   const router = useRouter();
   const dispatch = useAppDispatch();
+
+  console.log(themeMode,toggleTheme);
 
   const logOut = () => {
     removeUserInfo(authkey);
@@ -185,7 +186,7 @@ const Header = () => {
       className="min-w-[300px]"
       style={{
         height: "65.5px",
-        background: "#FFFFFF",
+        background: themeMode === "dark" ? "#001529" : "#FFFFFF",
         overflowX: "auto",
       }}
     >
@@ -196,58 +197,40 @@ const Header = () => {
           height: "100%",
         }}
       >
-        <div className="mr-8">
-          {theme?.theme === "light" ||
-          localTheme === "light" ||
-          theme?.theme === undefined ? (
-            <div
-              onClick={() => {
-                setLocalTheme("dark");
-                setToLocalStorage("theme", JSON.stringify({ theme: "dark" }));
-                dispatch({ type: "config/setTheme", payload: "dark" });
-              }}
+        <div className="mr-8 cursor-pointer" onClick={toggleTheme}>
+          {themeMode === "light" ? (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="icon icon-tabler icon-tabler-moon text-[#00674A] dark:text-white"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              strokeWidth="2"
+              stroke="currentColor"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="icon icon-tabler icon-tabler-moon text-[#00674A]"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                strokeWidth="2"
-                stroke="currentColor"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
-              </svg>
-            </div>
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+            </svg>
           ) : (
-            <div
-              onClick={() => {
-                setLocalTheme("light");
-                setToLocalStorage("theme", JSON.stringify({ theme: "light" }));
-                dispatch({ type: "config/setTheme", payload: "light" });
-              }}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="icon icon-tabler icon-tabler-sun text-yellow-400"
+              width="25"
+              height="25"
+              viewBox="0 0 24 24"
+              strokeWidth="2"
+              stroke="currentColor"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="icon icon-tabler icon-tabler-sun text-[#00674A]"
-                width="25"
-                height="25"
-                viewBox="0 0 24 24"
-                strokeWidth="2"
-                stroke="currentColor"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
-                <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
-              </svg>
-            </div>
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+              <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+            </svg>
           )}
         </div>
         <Link
