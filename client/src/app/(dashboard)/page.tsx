@@ -39,7 +39,6 @@ const HomePage = () => {
     <div
       className="min-h-[680px]"
       style={{
-        backgroundColor: "#FFFFFF",
         borderRadius: "20px",
         padding: "24px 24px",
         boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",

@@ -6,10 +6,12 @@ const { Sider } = Layout;
 
 import { getUserInfo } from "@/services/auth.service";
 import { sidebarItems } from "@/constants/SidebarItems";
+import { useTheme } from "@/contexts/ThemeContext";
 
 const Sidebar = () => {
   const [collapsed, setCollapsed] = useState(false);
   const { role } = getUserInfo() as any;
+  const { themeMode } = useTheme();
 
   return (
     <Sider
@@ -25,11 +27,12 @@ const Sidebar = () => {
         top: 0,
         bottom: 0,
       }}
+      theme={themeMode === "dark" ? "dark" : "light"}
     >
       <div className="demo-logo-vertical" />
       <div
         style={{
-          color: "white",
+          color: themeMode === "dark" ? "white" : "black",
           fontSize: "2rem",
           textAlign: "center",
           fontWeight: "bold",
@@ -39,7 +42,7 @@ const Sidebar = () => {
         {collapsed ? "DT" : "DRUTOO"}
       </div>
       <Menu
-        theme="dark"
+        theme={themeMode === "dark" ? "dark" : "light"}
         defaultSelectedKeys={["1"]}
         mode="inline"
         items={sidebarItems(role)}
