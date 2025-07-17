@@ -33,7 +33,7 @@ const Header = () => {
       label: (
         <Link
           href={`/${userData?.role}/profile`}
-          className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-sm text-gray-800 hover:bg-gray-50"
+          className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-sm"
           role="menuitem"
         >
           <EditOutlined />
@@ -46,7 +46,7 @@ const Header = () => {
       label: (
         <Link
           href="/change-pin"
-          className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-sm text-gray-800 hover:bg-gray-50"
+          className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-sm"
           role="menuitem"
         >
           <svg
@@ -73,7 +73,7 @@ const Header = () => {
       label: (
         <button
           onClick={logOut}
-          className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-sm text-red-700 hover:bg-red-50"
+          className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-sm text-red-700"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
