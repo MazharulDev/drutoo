@@ -3,14 +3,11 @@
 import { getUserInfo } from "@/services/auth.service";
 import { useState } from "react";
 import { useDebounced } from "@/redux/hooks";
-import { Button, Input } from "antd";
-import {
-  useUpdateUserStatusMutation,
-  useUsersQuery,
-} from "@/redux/api/userApi";
+import { Input } from "antd";
+import { useUsersQuery } from "@/redux/api/userApi";
 import DRTable from "../Table";
 
-const UsersManageTable = () => {
+const AgentManageTable = () => {
   const { userId } = getUserInfo() as any;
   const query: Record<string, any> = {};
   const [page, setPage] = useState<number>(1);
@@ -24,8 +21,7 @@ const UsersManageTable = () => {
   query["sortBy"] = sortBy;
   query["sortOrder"] = sortOrder;
   query["senderId"] = userId;
-  query["role"] = "user";
-  query["status"] = ["active", "inactive", "blocked"];
+  query["role"] = "agent";
 
   const debouncedSearchTerm = useDebounced({
     searchQuery: searchTerm,
@@ -36,21 +32,6 @@ const UsersManageTable = () => {
     query["searchTerm"] = debouncedSearchTerm;
   }
   const { data, isLoading } = useUsersQuery({ ...query });
-  const [updateUserStatus, { isLoading: updateLoading }] =
-    useUpdateUserStatusMutation();
-
-  const toggleStatus = async (record: any) => {
-    let newStatus = "inactive";
-    if (record.status === "inactive") {
-      newStatus = "active";
-    } else if (record.status === "active") {
-      newStatus = "blocked";
-    } else if (record.status === "blocked") {
-      newStatus = "active";
-    }
-
-    await updateUserStatus({ id: record.id, status: newStatus });
-  };
 
   const meta = data?.meta;
   const columns = [
@@ -77,15 +58,7 @@ const UsersManageTable = () => {
     {
       title: "Status",
       dataIndex: "status",
-      render: (status: string) => {
-        let color = "gray";
-        if (status === "active") color = "green";
-        else if (status === "inactive") color = "orange";
-        else if (status === "blocked") color = "red";
-        return <span style={{ color, fontWeight: 600 }}>{status}</span>;
-      },
     },
-
     {
       title: "Balance",
       dataIndex: "balance",
@@ -117,26 +90,6 @@ const UsersManageTable = () => {
         } else {
           return "Today";
         }
-      },
-    },
-    {
-      title: "Action",
-      dataIndex: "action",
-      render: function (data: any, record: any) {
-        return (
-          <Button
-            size="small"
-            type="primary"
-            loading={updateLoading}
-            onClick={() => toggleStatus(record)}
-          >
-            {record.status === "active"
-              ? "Block"
-              : record.status === "inactive"
-              ? "Activate"
-              : "Unblock"}
-          </Button>
-        );
       },
     },
   ];
@@ -178,4 +131,4 @@ const UsersManageTable = () => {
   );
 };
 
-export default UsersManageTable;
+export default AgentManageTable;
