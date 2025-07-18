@@ -67,10 +67,7 @@ const agents = async (
   if (searchTerm) {
     andConditions.push({
       $or: userSearchableFields.map((field) => ({
-        [field]: {
-          $regex: searchTerm,
-          $options: "i",
-        },
+        [field]: new RegExp(searchTerm, "i"),
       })),
     });
   }
