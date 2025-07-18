@@ -2,12 +2,9 @@ import { Avatar, Badge, Dropdown, Layout, MenuProps, Row, Space } from "antd";
 import { UserOutlined, EditOutlined } from "@ant-design/icons";
 import { getUserInfo, removeUserInfo } from "@/services/auth.service";
 import { useRouter } from "next/navigation";
-import { useAppDispatch } from "@/redux/hooks";
-import { getFromLocalStorage, setToLocalStorage } from "@/utils/localStorage";
 import Link from "next/link";
 const { Header: AntHeader } = Layout;
 import Image from "next/image";
-import { useState } from "react";
 import { authkey } from "@/constants/storageKey";
 import { useProfileQuery } from "@/redux/api/userApi";
 import { useTheme } from "@/contexts/ThemeContext";
@@ -18,9 +15,6 @@ const Header = () => {
   const { user_type } = getUserInfo() as any;
   const { data: userData } = useProfileQuery(userId);
   const router = useRouter();
-  const dispatch = useAppDispatch();
-
-  console.log(themeMode,toggleTheme);
 
   const logOut = () => {
     removeUserInfo(authkey);
