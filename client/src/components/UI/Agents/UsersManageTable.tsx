@@ -19,7 +19,6 @@ const UsersManageTable = () => {
   const [sortOrder, setSortOrder] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [loadingUserId, setLoadingUserId] = useState<string | null>(null);
-  
 
   query["limit"] = size;
   query["page"] = page;
@@ -38,8 +37,7 @@ const UsersManageTable = () => {
     query["searchTerm"] = debouncedSearchTerm;
   }
   const { data, isLoading } = useUsersQuery({ ...query });
-  const [updateUserStatus] =
-    useUpdateUserStatusMutation();
+  const [updateUserStatus] = useUpdateUserStatusMutation();
   const handleStatusChange = async (id: string, newStatus: string) => {
     setLoadingUserId(id);
     try {
@@ -135,7 +133,6 @@ const UsersManageTable = () => {
         );
       },
     },
-
   ];
   const onPaginationChange = (page: number, pageSize: number) => {
     setPage(page);

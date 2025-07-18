@@ -3,8 +3,11 @@
 import { getUserInfo } from "@/services/auth.service";
 import { useState } from "react";
 import { useDebounced } from "@/redux/hooks";
-import { Input } from "antd";
-import { useUsersQuery } from "@/redux/api/userApi";
+import { Input, Select } from "antd";
+import {
+  useUpdateUserStatusMutation,
+  useUsersQuery,
+} from "@/redux/api/userApi";
 import DRTable from "../Table";
 
 const AgentManageTable = () => {
@@ -15,6 +18,7 @@ const AgentManageTable = () => {
   const [sortBy, setSortBy] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [loadingUserId, setLoadingUserId] = useState<string | null>(null);
 
   query["limit"] = size;
   query["page"] = page;
@@ -32,6 +36,16 @@ const AgentManageTable = () => {
     query["searchTerm"] = debouncedSearchTerm;
   }
   const { data, isLoading } = useUsersQuery({ ...query });
+
+  const [updateUserStatus] = useUpdateUserStatusMutation();
+  const handleStatusChange = async (id: string, newStatus: string) => {
+    setLoadingUserId(id);
+    try {
+      await updateUserStatus({ id, status: newStatus });
+    } finally {
+      setLoadingUserId(null);
+    }
+  };
 
   const meta = data?.meta;
   const columns = [
@@ -58,6 +72,13 @@ const AgentManageTable = () => {
     {
       title: "Status",
       dataIndex: "status",
+      render: (status: string) => {
+        let color = "gray";
+        if (status === "active") color = "green";
+        else if (status === "inactive") color = "orange";
+        else if (status === "blocked") color = "red";
+        return <span style={{ color, fontWeight: 600 }}>{status}</span>;
+      },
     },
     {
       title: "Balance",
@@ -90,6 +111,26 @@ const AgentManageTable = () => {
         } else {
           return "Today";
         }
+      },
+    },
+    {
+      title: "Action",
+      dataIndex: "action",
+      render: function (_: any, record: any) {
+        return (
+          <Select
+            size="small"
+            value={record.status}
+            style={{ width: 120 }}
+            loading={loadingUserId === record.id}
+            onChange={(value) => handleStatusChange(record.id, value)}
+            options={[
+              { label: "Active", value: "active" },
+              { label: "Inactive", value: "inactive" },
+              { label: "Block", value: "block" },
+            ]}
+          />
+        );
       },
     },
   ];
