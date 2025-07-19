@@ -5,7 +5,7 @@ import {
   removeFromLocalStorage,
   setToLocalStorage,
 } from "@/utils/localStorage";
-import { Button, ConfigProvider, message, Steps } from "antd";
+import { Button, Steps } from "antd";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";

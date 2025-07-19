@@ -52,6 +52,7 @@ const FormInput = ({
       <Controller
         control={control}
         name={name}
+        rules={validation}
         render={({ field }) =>
           type === "password" ? (
             <Input.Password
