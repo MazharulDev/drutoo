@@ -44,11 +44,18 @@ const CreateAccountPage = () => {
         message.success("Account Created successfully, Please login");
       }
     } catch (error: any) {
-      message.error(
-        error?.data?.message ||
-          "An unexpected error occurred. Please try again."
-      );
+      console.log(error);
+      const errorMessages = error?.data?.errorMessages;
+
+      if (Array.isArray(errorMessages)) {
+        errorMessages.forEach((err: any) => {
+          message.error(err.message || "Something went wrong.");
+        });
+      } else {
+        message.error("An unexpected error occurred. Please try again.");
+      }
     }
+
   };
   return (
     <Row
