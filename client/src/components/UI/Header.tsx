@@ -227,7 +227,7 @@ const Header = () => {
             </svg>
           )}
         </div>
-        <Link
+        {/* <Link
           href={`/dashboard/${user_type}/notification`}
           className="mr-10 flex items-center"
         >
@@ -267,7 +267,7 @@ const Header = () => {
               />
             </svg>
           </Badge>
-        </Link>
+        </Link> */}
         <Dropdown menu={{ items }}>
           <a>
             <Space wrap size={16}>
