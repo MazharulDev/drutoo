@@ -3,6 +3,7 @@ import app from "./app";
 import config from "./config";
 // import { errorlogger, logger } from "./shared/logger";
 import { Server } from "http";
+import seedAdmin from "./DB";
 
 process.on("uncaughtException", (error) => {
   console.log(error); //errorlogger.error
@@ -13,6 +14,7 @@ let server: Server;
 async function main() {
   try {
     await mongoose.connect(config.database_url as string);
+    await seedAdmin();
     console.log(`Database is connected`); // logger.info
 
     server = app.listen(config.port, () => {
