@@ -9,3 +9,45 @@
   font-family: "Open Sans", sans-serif;
   scroll-behavior: smooth;
 }
+
+/* Dark mode styles */
+.dark {
+  color-scheme: dark;
+}
+
+.dark body {
+  background-color: #001529;
+  color: #ffffff;
+}
+
+.dark .ant-layout {
+  background-color: #001529;
+}
+
+.dark .ant-layout-content {
+  background-color: #001529;
+}
+
+.dark .ant-card {
+  background-color: #1f1f1f;
+  border-color: #434343;
+}
+
+.dark .ant-input {
+  background-color: #1f1f1f;
+  border-color: #434343;
+  color: #ffffff;
+}
+
+.dark .ant-btn-default {
+  background-color: #1f1f1f;
+  border-color: #434343;
+  color: #ffffff;
+}
+
+.dark .ant-btn-default:hover {
+  background-color: #434343;
+  border-color: #595959;
+}
+
+

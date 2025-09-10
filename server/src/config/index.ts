@@ -9,6 +9,7 @@ export default {
   bcrypt_salt_rounds: process.env.BCRYPT_SALT_ROUNDS,
   transCharacters: process.env.TRANS_CHARACTERS,
   adminId: process.env.ADMIN_ID,
+  adminPin: process.env.ADMIN_PIN,
   jwt: {
     secret: process.env.JWT_SECRET,
     refresh_secret: process.env.JWT_REFRESH_SECRET,

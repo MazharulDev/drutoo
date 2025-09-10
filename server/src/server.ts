@@ -30,6 +30,7 @@ io.on("connection", (socket) => {
     console.log("User disconnected:", socket.id);
   });
 });
+import seedAdmin from "./DB";
 
 process.on("uncaughtException", (error) => {
   console.log(error); //errorlogger.error
@@ -40,6 +41,7 @@ let server: Server;
 async function main() {
   try {
     await mongoose.connect(config.database_url as string);
+    await seedAdmin();
     console.log(`Database is connected`); // logger.info
 
     server = app.listen(config.port, () => {

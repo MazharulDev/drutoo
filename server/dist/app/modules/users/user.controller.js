@@ -32,8 +32,9 @@ const pick_1 = __importDefault(require("../../../shared/pick"));
 const user_constant_1 = require("./user.constant");
 const pagination_1 = require("../../../constants/pagination");
 const createUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const userData = __rest(req.body, []);
-    const result = yield user_service_1.UserService.createUser(userData);
+    const data = req.body;
+    const file = req.file;
+    const result = yield user_service_1.UserService.createUser(data.data, file);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         success: true,
@@ -74,9 +75,22 @@ const singleUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
         data: result,
     });
 }));
+const updateMyProfile = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { mobile } = req.params;
+    const payload = __rest(req.body, []);
+    const file = req.file;
+    const result = yield user_service_1.UserService.updateMyProfile(mobile, payload, file);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "User profile update successfully",
+        data: result,
+    });
+}));
 exports.UserController = {
     createUser,
     agents,
     updateAgentStatus,
     singleUser,
+    updateMyProfile,
 };

@@ -1,7 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Providers from "@/lib/Providers";
-import { SocketProvider } from '@/context/SocketContext';
+import { SocketProvider } from "@/context/SocketContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,12 +16,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <body className={inter.className}>
         <Providers>
-          <SocketProvider>
-            {children}
-          </SocketProvider>
+          <SocketProvider>{children}</SocketProvider>
         </Providers>
       </body>
     </html>

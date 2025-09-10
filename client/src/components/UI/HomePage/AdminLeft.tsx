@@ -60,7 +60,7 @@ const AdminLeftPage = () => {
         ))}
       </div>
 
-      <div className="bg-white shadow-md rounded-lg p-6">
+      <div className="shadow-md rounded-lg p-6">
         <h3 className="text-xl font-semibold mb-4">Recent Activities</h3>
         <div className="text-gray-600">
           <p>No recent activities to display</p>

@@ -48,8 +48,20 @@ export const userApi = baseApi.injectEndpoints({
       transformResponse: (response: IUser) => response, // response.user,
       invalidatesTags: [tagTypes.user],
     }),
+    updateUserStatus: build.mutation({
+      query: ({ id, ...payload }) => ({
+        url: `${USER_URL}/update/${id}`,
+        method: "PATCH",
+        data: payload,
+      }),
+      invalidatesTags: [tagTypes.user, tagTypes.admin],
+    }),
   }),
 });
 
-export const { useProfileQuery, useUsersQuery, useUpdateMyProfileMutation } =
-  userApi;
+export const {
+  useProfileQuery,
+  useUsersQuery,
+  useUpdateMyProfileMutation,
+  useUpdateUserStatusMutation,
+} = userApi;

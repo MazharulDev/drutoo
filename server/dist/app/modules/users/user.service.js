@@ -31,10 +31,18 @@ const paginationHelpers_1 = require("../../../helpers/paginationHelpers");
 const user_constant_1 = require("./user.constant");
 const user_utlis_1 = require("./user.utlis");
 const system_model_1 = require("../system/system.model");
-const createUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+const fileUploadHelper_1 = require("../../../helpers/fileUploadHelper");
+const createUser = (payload, file) => __awaiter(void 0, void 0, void 0, function* () {
+    if (typeof payload === "string") {
+        payload = JSON.parse(payload);
+    }
     const userExist = yield user_model_1.User.findOne({ mobile: payload.mobile });
     if (userExist) {
         throw new ApiError_1.default(http_status_1.default.BAD_REQUEST, "User already exists. Please login.");
+    }
+    if (file) {
+        const uploadedImg = (yield fileUploadHelper_1.fileUploadHelper.uploadToCloudinary(file));
+        payload.profilePicture = uploadedImg.secure_url;
     }
     let status;
     if (payload.role === "agent") {
@@ -55,10 +63,7 @@ const agents = (filters, paginationOptions) => __awaiter(void 0, void 0, void 0,
     if (searchTerm) {
         andConditions.push({
             $or: user_constant_1.userSearchableFields.map((field) => ({
-                [field]: {
-                    $regex: searchTerm,
-                    $options: "i",
-                },
+                [field]: new RegExp(searchTerm, "i"),
             })),
         });
     }
@@ -98,9 +103,20 @@ const singleUser = (mobile) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield user_model_1.User.findOne({ mobile: mobile }).populate("transactions");
     return result;
 });
+const updateMyProfile = (mobile, payload, file) => __awaiter(void 0, void 0, void 0, function* () {
+    if (file) {
+        const uploadedImg = (yield fileUploadHelper_1.fileUploadHelper.uploadToCloudinary(file));
+        payload.profilePicture = uploadedImg.secure_url;
+    }
+    const result = yield user_model_1.User.findOneAndUpdate({ mobile: mobile }, payload, {
+        new: true,
+    });
+    return result;
+});
 exports.UserService = {
     createUser,
     agents,
     updateAgentStatus,
     singleUser,
+    updateMyProfile,
 };
