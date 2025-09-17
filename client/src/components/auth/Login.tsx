@@ -65,7 +65,7 @@ const LoginPage = () => {
           userId: string;
         };
         if (userId) {
-          router.push("/");
+          router.push("/dashboard");
           message.success("User logged in successfully");
           storeUserInfo({ accessToken: res?.accessToken });
         }

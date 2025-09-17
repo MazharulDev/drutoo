@@ -50,4 +50,109 @@
   border-color: #595959;
 }
 
+/* Landing Page Styles */
+.landing-page {
+  font-family: "Inter", "Open Sans", sans-serif;
+}
 
+/* Smooth scrolling for anchor links */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom button hover effects */
+.btn-primary-custom {
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-primary-custom:hover {
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+}
+
+/* Card hover animations */
+.feature-card {
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.feature-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  border-color: #e5e7eb;
+}
+
+.dark .feature-card:hover {
+  border-color: #374151;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Hero section animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.5rem !important;
+    line-height: 1.2;
+  }
+
+  .hero-subtitle {
+    font-size: 1.1rem !important;
+  }
+
+  .feature-grid {
+    gap: 1rem;
+  }
+}
+
+/* Dark mode specific adjustments */
+.dark .ant-layout-header {
+  background-color: #111827 !important;
+}
+
+.dark .ant-menu-horizontal {
+  background-color: transparent !important;
+  border-bottom: none !important;
+}
+
+.dark .ant-menu-item {
+  color: #d1d5db !important;
+}
+
+.dark .ant-menu-item:hover {
+  color: #3b82f6 !important;
+}
+
+.dark .ant-drawer-content {
+  background-color: #111827 !important;
+}
+
+.dark .ant-drawer-header {
+  background-color: #111827 !important;
+  border-bottom-color: #374151 !important;
+}
