@@ -37,14 +37,14 @@ const LandingNavbar: React.FC = () => {
       key: "features",
       label: "Features",
     },
-    {
-      key: "about",
-      label: "About",
-    },
-    {
-      key: "contact",
-      label: "Contact",
-    },
+    // {
+    //   key: "about",
+    //   label: "About",
+    // },
+    // {
+    //   key: "contact",
+    //   label: "Contact",
+    // },
   ];
 
   return (
@@ -109,11 +109,7 @@ const LandingNavbar: React.FC = () => {
         width={280}
       >
         <div className="flex flex-col space-y-4">
-          <Menu
-            mode="vertical"
-            items={menuItems}
-            className="border-none"
-          />
+          <Menu mode="vertical" items={menuItems} className="border-none" />
           <div className="flex flex-col space-y-3 pt-4 border-t">
             <Button
               type="default"

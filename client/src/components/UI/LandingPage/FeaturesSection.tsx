@@ -117,12 +117,9 @@ const FeaturesSection: React.FC = () => {
         {/* Call to Action */}
         <div className="text-center mt-16">
           <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 lg:p-12">
-            <Title
-              level={3}
-              className="text-2xl lg:text-4xl font-bold text-white mb-4"
-            >
+            <h2 className="text-2xl lg:text-4xl font-bold text-white mb-4">
               Ready to Get Started?
-            </Title>
+            </h2>
             <Paragraph className="text-lg text-blue-100 mb-8 max-w-2xl mx-auto">
               Join thousands of satisfied customers who trust Drutoo for their
               banking needs. Create your account today and experience the future
