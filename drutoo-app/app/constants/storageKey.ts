@@ -1,0 +1,1 @@
+export const authkey = 'drutoo-auth-token';
