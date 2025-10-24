@@ -19,7 +19,7 @@ const authRateLimit = rateLimit({
 
 router.post(
   "/login",
-  authRateLimit,
+  // authRateLimit,
   validateRequest(AuthValidation.loginZodSchema),
   AuthController.loginUser
 );

@@ -40,7 +40,7 @@ export default function LoginScreen() {
       
       if (res?.data?.accessToken) {
         await storeUserInfo(res.data.accessToken);
-        Alert.alert("Success", "Login successful!");
+        // Navigate directly to home page
         router.replace("/(dashboard)/home");
       }
     } catch (error: any) {

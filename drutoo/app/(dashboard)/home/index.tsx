@@ -30,8 +30,8 @@ export default function HomeScreen() {
   const loadUserInfo = async () => {
     try {
       const user = await getUserInfo();
-      if (user?.mobile) {
-        setUserMobile(user.mobile);
+      if (user?.userId) {
+        setUserMobile(user.userId); // userId is the mobile number in the JWT
       } else {
         router.replace("/(auth)/login");
       }
