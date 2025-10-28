@@ -3,7 +3,7 @@
 import { getUserInfo } from "@/services/auth.service";
 import { useState } from "react";
 import { useDebounced } from "@/redux/hooks";
-import { Button, Input } from "antd";
+import { Button, Input, Select } from "antd";
 import {
   useUpdateUserStatusMutation,
   useUsersQuery,
@@ -18,6 +18,7 @@ const UsersManageTable = () => {
   const [sortBy, setSortBy] = useState<string>("");
   const [sortOrder, setSortOrder] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [loadingUserId, setLoadingUserId] = useState<string | null>(null);
 
   query["limit"] = size;
   query["page"] = page;
@@ -36,22 +37,15 @@ const UsersManageTable = () => {
     query["searchTerm"] = debouncedSearchTerm;
   }
   const { data, isLoading } = useUsersQuery({ ...query });
-  const [updateUserStatus, { isLoading: updateLoading }] =
-    useUpdateUserStatusMutation();
-
-  const toggleStatus = async (record: any) => {
-    let newStatus = "inactive";
-    if (record.status === "inactive") {
-      newStatus = "active";
-    } else if (record.status === "active") {
-      newStatus = "blocked";
-    } else if (record.status === "blocked") {
-      newStatus = "active";
+  const [updateUserStatus] = useUpdateUserStatusMutation();
+  const handleStatusChange = async (id: string, newStatus: string) => {
+    setLoadingUserId(id);
+    try {
+      await updateUserStatus({ id, status: newStatus });
+    } finally {
+      setLoadingUserId(null);
     }
-
-    await updateUserStatus({ id: record.id, status: newStatus });
   };
-
   const meta = data?.meta;
   const columns = [
     {
@@ -122,20 +116,20 @@ const UsersManageTable = () => {
     {
       title: "Action",
       dataIndex: "action",
-      render: function (data: any, record: any) {
+      render: function (_: any, record: any) {
         return (
-          <Button
+          <Select
             size="small"
-            type="primary"
-            loading={updateLoading}
-            onClick={() => toggleStatus(record)}
-          >
-            {record.status === "active"
-              ? "Block"
-              : record.status === "inactive"
-              ? "Activate"
-              : "Unblock"}
-          </Button>
+            value={record.status}
+            style={{ width: 120 }}
+            loading={loadingUserId === record.id}
+            onChange={(value) => handleStatusChange(record.id, value)}
+            options={[
+              { label: "Active", value: "active" },
+              { label: "Inactive", value: "inactive" },
+              { label: "Block", value: "block" },
+            ]}
+          />
         );
       },
     },

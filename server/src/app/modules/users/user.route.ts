@@ -9,12 +9,22 @@ const router = express.Router();
 
 router.post(
   "/create-user",
-  // validateRequest(UserValidation.createUserZodSchema),
   fileUploadHelper.upload.single("profilePicture"),
+  (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const parsedData = JSON.parse(req.body.data || "{}");
+      req.body = {
+        data: parsedData,
+        profilePicture: req.file?.filename || undefined,
+      };
+      validateRequest(UserValidation.createUserZodSchema)(req, res, next);
+    } catch (err) {
+      return res.status(400).json({ message: "Invalid JSON in 'data' field" });
+    }
+  },
   (req: Request, res: Response, next: NextFunction) => {
     return UserController.createUser(req, res, next);
   }
-  // UserController.createUser
 );
 
 router.get("/filter", auth(ENUM_USER_ROLE.ADMIN), UserController.agents);

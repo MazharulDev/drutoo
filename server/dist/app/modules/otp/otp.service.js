@@ -103,7 +103,7 @@ const resetPin = (mobile, pin) => __awaiter(void 0, void 0, void 0, function* ()
     }
     // Encrypt password
     const hashedPin = yield hashingHelpers_1.hashingHelper.encrypt_password(pin);
-    const updatedUser = yield user_model_1.User.findOneAndUpdate({ mobile }, { pin: hashedPin }, {
+    const updatedUser = yield user_model_1.User.findOneAndUpdate({ mobile }, { pin: hashedPin, isPinReset: true }, {
         new: true,
     }).select("-pin");
     // Delete otp

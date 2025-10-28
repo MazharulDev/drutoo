@@ -24,13 +24,13 @@ exports.UserSchema = new mongoose_1.Schema({
                 type: String,
                 required: true,
                 maxlength: 20,
-                minlength: 3
+                minlength: 3,
             },
             lastName: {
                 type: String,
                 required: true,
                 maxlength: 20,
-                minlength: 3
+                minlength: 3,
             },
         },
         required: true,
@@ -40,14 +40,14 @@ exports.UserSchema = new mongoose_1.Schema({
         required: true,
         unique: true,
         maxlength: 11,
-        minlength: 11
+        minlength: 11,
     },
     pin: {
         type: String,
         required: true,
         select: false,
-        minlength: 4,
-        maxlength: 4,
+        // minlength: 4,
+        // maxlength: 4,
     },
     email: {
         type: String,
@@ -108,7 +108,7 @@ exports.UserSchema = new mongoose_1.Schema({
         type: String,
         required: true,
     },
-    image: {
+    profilePicture: {
         type: String,
     },
     transactions: [
@@ -117,6 +117,10 @@ exports.UserSchema = new mongoose_1.Schema({
             ref: "Transaction",
         },
     ],
+    isPinReset: {
+        type: Boolean,
+        default: false,
+    },
 }, {
     timestamps: true,
     toJSON: {
