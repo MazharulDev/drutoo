@@ -17,12 +17,13 @@ export default function Home() {
       setUserLoggedIn(loggedIn);
 
       if (loggedIn) {
-        // Redirect authenticated users to dashboard
-        router.replace("/dashboard");
-      } else {
-        // Show landing page for new visitors
-        setIsLoading(false);
+        // Redirect authenticated users to main dashboard page in route group
+        router.replace("/"); // This will show (dashboard)/page.tsx for logged-in users
+        return;
       }
+      
+      // Show landing page for new visitors
+      setIsLoading(false);
     };
 
     checkAuthStatus();
