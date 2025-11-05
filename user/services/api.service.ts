@@ -25,7 +25,7 @@ export interface UserProfile {
   balance: number;
   status: string;
   profilePicture?: string;
-  nidNumber: string;
+  nid: string;
   address: {
     division: string;
     district: string;

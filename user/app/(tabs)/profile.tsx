@@ -109,7 +109,7 @@ export default function ProfileScreen() {
             <View style={styles.infoContent}>
               <Text style={styles.infoLabel}>NID Number</Text>
               <Text style={styles.infoValue}>
-                {profile?.nidNumber || "Not provided"}
+                {profile?.nid || "Not provided"}
               </Text>
             </View>
           </View>
