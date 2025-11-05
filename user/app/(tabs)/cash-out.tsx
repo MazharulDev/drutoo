@@ -13,12 +13,14 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { transactionService } from "@/services/api.service";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function CashOutScreen() {
   const [agentId, setAgentId] = useState("");
   const [amount, setAmount] = useState("");
   const [pin, setPin] = useState("");
   const [loading, setLoading] = useState(false);
+  const { user } = useAuth();
 
   const handleCashOut = async () => {
     if (!agentId || !amount || !pin) {
@@ -45,7 +47,8 @@ export default function CashOutScreen() {
     setLoading(true);
     try {
       const response = await transactionService.cashOut({
-        agentId,
+        receivedId: agentId,
+        senderId: user?.userId || "",
         amount: amountValue,
         pin,
       });

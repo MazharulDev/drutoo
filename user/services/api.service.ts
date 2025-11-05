@@ -90,7 +90,8 @@ export const transactionService = {
   },
 
   cashOut: async (payload: {
-    agentId: string;
+    receivedId: string;
+    senderId: string;
     amount: number;
     pin: string;
   }) => {
