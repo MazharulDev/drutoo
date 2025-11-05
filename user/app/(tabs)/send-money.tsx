@@ -13,12 +13,14 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { transactionService } from "@/services/api.service";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function SendMoneyScreen() {
   const [receiverId, setReceiverId] = useState("");
   const [amount, setAmount] = useState("");
   const [pin, setPin] = useState("");
   const [loading, setLoading] = useState(false);
+  const { user } = useAuth();
 
   const handleSendMoney = async () => {
     if (!receiverId || !amount || !pin) {
@@ -31,8 +33,8 @@ export default function SendMoneyScreen() {
       return;
     }
 
-    if (pin.length !== 5) {
-      Alert.alert("Error", "PIN must be 5 digits");
+    if (pin.length !== 4) {
+      Alert.alert("Error", "PIN must be 4 digits");
       return;
     }
 
@@ -45,7 +47,8 @@ export default function SendMoneyScreen() {
     setLoading(true);
     try {
       const response = await transactionService.sendMoney({
-        receiverId,
+        receivedId: receiverId,
+        senderId: user?.userId || "",
         amount: amountValue,
         pin,
       });
@@ -61,6 +64,7 @@ export default function SendMoneyScreen() {
         },
       ]);
     } catch (error: any) {
+      console.log("Send money error:", error);
       Alert.alert(
         "Transaction Failed",
         error.response?.data?.message || error.message || "Failed to send money"
@@ -132,10 +136,10 @@ export default function SendMoneyScreen() {
               />
               <TextInput
                 style={styles.input}
-                placeholder="Enter your 5-digit PIN"
+                placeholder="Enter your 4-digit PIN"
                 keyboardType="number-pad"
                 secureTextEntry
-                maxLength={5}
+                maxLength={4}
                 value={pin}
                 onChangeText={setPin}
                 editable={!loading}

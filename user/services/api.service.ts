@@ -80,11 +80,12 @@ export const userService = {
 
 export const transactionService = {
   sendMoney: async (payload: {
-    receiverId: string;
+    receivedId: string;
+    senderId: string;
     amount: number;
     pin: string;
   }) => {
-    const response = await apiClient.post("/send-money", payload);
+    const response = await apiClient.post("money/send-money", payload);
     return response.data;
   },
 

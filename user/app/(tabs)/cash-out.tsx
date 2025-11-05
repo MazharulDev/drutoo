@@ -31,8 +31,8 @@ export default function CashOutScreen() {
       return;
     }
 
-    if (pin.length !== 5) {
-      Alert.alert("Error", "PIN must be 5 digits");
+    if (pin.length !== 4) {
+      Alert.alert("Error", "PIN must be 4 digits");
       return;
     }
 
@@ -49,6 +49,7 @@ export default function CashOutScreen() {
         amount: amountValue,
         pin,
       });
+      console.log("Cash out response:", response);
 
       Alert.alert("Success", response.message || "Cash out successful", [
         {
@@ -133,10 +134,10 @@ export default function CashOutScreen() {
               />
               <TextInput
                 style={styles.input}
-                placeholder="Enter your 5-digit PIN"
+                placeholder="Enter your 4-digit PIN"
                 keyboardType="number-pad"
                 secureTextEntry
-                maxLength={5}
+                maxLength={4}
                 value={pin}
                 onChangeText={setPin}
                 editable={!loading}
