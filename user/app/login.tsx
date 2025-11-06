@@ -71,10 +71,10 @@ export default function LoginScreen() {
             <Text style={styles.label}>PIN</Text>
             <TextInput
               style={styles.input}
-              placeholder="Enter 5-digit PIN"
+              placeholder="Enter 4-digit PIN"
               keyboardType="number-pad"
               secureTextEntry
-              maxLength={5}
+              maxLength={4}
               value={pin}
               onChangeText={setPin}
               editable={!loading}
