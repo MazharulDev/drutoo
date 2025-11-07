@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "user",
-    "slug": "user",
+    "name": "Drutoo",
+    "slug": "Drutoo",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "user",
+    "scheme": "Drutoo",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {

@@ -16,7 +16,6 @@ import { userService, UserProfile } from "@/services/api.service";
 export default function HomeScreen() {
   const { user, logout } = useAuth();
   const router = useRouter();
-  console.log("User data:", user);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -26,7 +25,6 @@ export default function HomeScreen() {
     if (!user?.userId) return;
     try {
       const data = await userService.getProfile(user.userId);
-      console.log("Fetched profile data:", data);
       setProfile(data);
     } catch (error) {
       console.error("Error fetching profile:", error);
@@ -106,11 +104,17 @@ export default function HomeScreen() {
       <View style={styles.quickActions}>
         <Text style={styles.sectionTitle}>Quick Actions</Text>
         <View style={styles.actionsGrid}>
-          <TouchableOpacity onPress={() => router.push("/(tabs)/send-money")} style={styles.actionCard}>
+          <TouchableOpacity
+            onPress={() => router.push("/(tabs)/send-money")}
+            style={styles.actionCard}
+          >
             <Ionicons name="send" size={32} color="#16a34a" />
             <Text style={styles.actionText}>Send Money</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => router.push("/(tabs)/cash-out")} style={styles.actionCard}>
+          <TouchableOpacity
+            onPress={() => router.push("/(tabs)/cash-out")}
+            style={styles.actionCard}
+          >
             <Ionicons name="cash-outline" size={32} color="#16a34a" />
             <Text style={styles.actionText}>Cash Out</Text>
           </TouchableOpacity>
