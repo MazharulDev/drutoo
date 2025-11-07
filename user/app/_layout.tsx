@@ -22,19 +22,20 @@ function RootLayoutNav() {
   useEffect(() => {
     if (isLoading) return;
 
-    const inAuthGroup = segments[0] === "(tabs)";
+    const inTabsGroup = segments[0] === "(tabs)";
+    const inLogin = segments[0] === "login";
 
-    if (!isAuthenticated && inAuthGroup) {
+    if (!isAuthenticated && !inLogin) {
       router.replace("/login");
-    } else if (isAuthenticated && !inAuthGroup) {
+    } else if (isAuthenticated && !inTabsGroup) {
       router.replace("/(tabs)");
     }
-  }, [isAuthenticated, isLoading, segments, router]);
+  }, [isAuthenticated, isLoading, segments]);
 
   return (
-    <Stack>
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="login" options={{ headerShown: false }} />
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="(tabs)" />
+      <Stack.Screen name="login" />
       <Stack.Screen
         name="modal"
         options={{ presentation: "modal", title: "Modal" }}
