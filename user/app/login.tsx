@@ -1,16 +1,17 @@
+import { ThemedText } from "@/components/themed-text";
+import { ThemedView } from "@/components/themed-view";
+import { useAuth } from "@/contexts/AuthContext";
 import React, { useState } from "react";
 import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  Alert,
   ActivityIndicator,
+  Alert,
   KeyboardAvoidingView,
   Platform,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
-import { useAuth } from "@/contexts/AuthContext";
 
 export default function LoginScreen() {
   const [mobile, setMobile] = useState("");
@@ -49,13 +50,13 @@ export default function LoginScreen() {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
-      <View style={styles.content}>
-        <Text style={styles.logo}>Drutoo</Text>
-        <Text style={styles.subtitle}>User Login</Text>
+      <ThemedView style={styles.content}>
+        <ThemedText style={styles.logo}>Drutoo</ThemedText>
+        <ThemedText style={styles.subtitle}>User Login</ThemedText>
 
-        <View style={styles.form}>
+        <ThemedView style={styles.form}>
           <View style={styles.inputContainer}>
-            <Text style={styles.label}>Mobile Number</Text>
+            <ThemedText style={styles.label}>Mobile Number</ThemedText>
             <TextInput
               style={styles.input}
               placeholder="01XXXXXXXXX"
@@ -68,7 +69,7 @@ export default function LoginScreen() {
           </View>
 
           <View style={styles.inputContainer}>
-            <Text style={styles.label}>PIN</Text>
+            <ThemedText style={styles.label}>PIN</ThemedText>
             <TextInput
               style={styles.input}
               placeholder="Enter 4-digit PIN"
@@ -89,11 +90,11 @@ export default function LoginScreen() {
             {loading ? (
               <ActivityIndicator color="#fff" />
             ) : (
-              <Text style={styles.buttonText}>Login</Text>
+              <ThemedText style={styles.buttonText}>Login</ThemedText>
             )}
           </TouchableOpacity>
-        </View>
-      </View>
+        </ThemedView>
+      </ThemedView>
     </KeyboardAvoidingView>
   );
 }

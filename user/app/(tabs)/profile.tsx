@@ -1,17 +1,43 @@
+import { useAuth } from "@/contexts/AuthContext";
+import { UserProfile, userService } from "@/services/api.service";
+import { Ionicons } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
 import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  RefreshControl,
-  TouchableOpacity,
   ActivityIndicator,
   Alert,
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { useAuth } from "@/contexts/AuthContext";
-import { userService, UserProfile } from "@/services/api.service";
+
+// Create a safe wrapper for ThemeSwitch
+function SafeThemeSwitch() {
+  const [isThemeAvailable, setIsThemeAvailable] = useState(true);
+
+  // Try to import and render ThemeSwitch dynamically
+  try {
+    const ThemeSwitchComponent = require("@/components/theme-switch").ThemeSwitch;
+    return <ThemeSwitchComponent />;
+  } catch (error: any) {
+    console.warn("ThemeSwitch not available:", error.message);
+    setIsThemeAvailable(false);
+  }
+
+  // Fallback UI if ThemeSwitch is not available
+  if (!isThemeAvailable) {
+    return (
+      <View style={styles.themeContainer}>
+        <Text style={styles.themeTitle}>Theme</Text>
+        <Text>Theme switching unavailable</Text>
+      </View>
+    );
+  }
+
+  return null;
+}
 
 export default function ProfileScreen() {
   const { user, logout } = useAuth();
@@ -86,6 +112,9 @@ export default function ProfileScreen() {
           <Text style={styles.roleText}>{profile?.role?.toUpperCase()}</Text>
         </View>
       </View>
+
+      {/* Theme Switch */}
+      <SafeThemeSwitch />
 
       {/* Profile Details */}
       <View style={styles.section}>
@@ -177,12 +206,6 @@ export default function ProfileScreen() {
 
       {/* Actions */}
       <View style={styles.section}>
-        <TouchableOpacity style={styles.actionButton}>
-          <Ionicons name="key-outline" size={20} color="#16a34a" />
-          <Text style={styles.actionButtonText}>Change PIN</Text>
-          <Ionicons name="chevron-forward" size={20} color="#666" />
-        </TouchableOpacity>
-
         <TouchableOpacity style={styles.actionButton} onPress={handleLogout}>
           <Ionicons name="log-out-outline" size={20} color="#dc2626" />
           <Text style={[styles.actionButtonText, { color: "#dc2626" }]}>
@@ -202,7 +225,6 @@ export default function ProfileScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f5f5f5",
   },
   loadingContainer: {
     flex: 1,
@@ -259,7 +281,6 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   infoCard: {
-    backgroundColor: "#fff",
     borderRadius: 12,
     padding: 16,
   },
@@ -289,7 +310,6 @@ const styles = StyleSheet.create({
   actionButton: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#fff",
     padding: 16,
     borderRadius: 12,
     marginBottom: 12,
@@ -308,5 +328,16 @@ const styles = StyleSheet.create({
   footerText: {
     fontSize: 12,
     color: "#999",
+  },
+  themeContainer: {
+    padding: 16,
+    borderRadius: 12,
+    marginBottom: 12,
+    backgroundColor: "#fff",
+  },
+  themeTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 12,
   },
 });

@@ -1,17 +1,18 @@
-﻿import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  RefreshControl,
-  TouchableOpacity,
-  ActivityIndicator,
-} from "react-native";
+﻿import { ThemedText } from "@/components/themed-text";
+import { ThemedView } from "@/components/themed-view";
+import { useAuth } from "@/contexts/AuthContext";
+import { UserProfile, userService } from "@/services/api.service";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { useAuth } from "@/contexts/AuthContext";
-import { userService, UserProfile } from "@/services/api.service";
+import React, { useEffect, useState } from "react";
+import {
+  ActivityIndicator,
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 export default function HomeScreen() {
   const { user, logout } = useAuth();
@@ -64,19 +65,19 @@ export default function HomeScreen() {
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
     >
-      <View style={styles.header}>
+      <ThemedView style={styles.header}>
         <View>
-          <Text style={styles.greeting}>Hello,</Text>
-          <Text style={styles.name}>
+          <ThemedText style={styles.greeting}>Hello,</ThemedText>
+          <ThemedText style={styles.name}>
             {profile?.name?.firstName} {profile?.name?.lastName}
-          </Text>
+          </ThemedText>
         </View>
         <TouchableOpacity onPress={logout}>
           <Ionicons name="log-out-outline" size={24} color="#dc2626" />
         </TouchableOpacity>
-      </View>
+      </ThemedView>
 
-      <View style={styles.balanceCard}>
+      <ThemedView style={styles.balanceCard}>
         <View style={styles.balanceHeader}>
           <Ionicons name="wallet" size={32} color="#16a34a" />
           <TouchableOpacity onPress={toggleBalance}>
@@ -87,45 +88,45 @@ export default function HomeScreen() {
             />
           </TouchableOpacity>
         </View>
-        <Text style={styles.balanceLabel}>Available Balance</Text>
-        <Text style={styles.balanceAmount}>
+        <ThemedText style={styles.balanceLabel}>Available Balance</ThemedText>
+        <ThemedText style={styles.balanceAmount}>
           ৳ {balanceVisible ? profile?.balance?.toFixed(2) || "0.00" : "••••••"}
-        </Text>
+        </ThemedText>
         <View
           style={[
             styles.statusBadge,
             profile?.status === "active" && styles.statusActive,
           ]}
         >
-          <Text style={styles.statusText}>Account {profile?.status}</Text>
+          <ThemedText style={styles.statusText}>Account {profile?.status}</ThemedText>
         </View>
-      </View>
+      </ThemedView>
 
-      <View style={styles.quickActions}>
-        <Text style={styles.sectionTitle}>Quick Actions</Text>
+      <ThemedView style={styles.quickActions}>
+        <ThemedText style={styles.sectionTitle}>Quick Actions</ThemedText>
         <View style={styles.actionsGrid}>
           <TouchableOpacity
             onPress={() => router.push("/(tabs)/send-money")}
             style={styles.actionCard}
           >
             <Ionicons name="send" size={32} color="#16a34a" />
-            <Text style={styles.actionText}>Send Money</Text>
+            <ThemedText style={styles.actionText}>Send Money</ThemedText>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => router.push("/(tabs)/cash-out")}
             style={styles.actionCard}
           >
             <Ionicons name="cash-outline" size={32} color="#16a34a" />
-            <Text style={styles.actionText}>Cash Out</Text>
+            <ThemedText style={styles.actionText}>Cash Out</ThemedText>
           </TouchableOpacity>
         </View>
-      </View>
+      </ThemedView>
 
-      <View style={styles.transactionsSection}>
-        <Text style={styles.sectionTitle}>Recent Transactions</Text>
+      <ThemedView style={styles.transactionsSection}>
+        <ThemedText style={styles.sectionTitle}>Recent Transactions</ThemedText>
         {profile?.transactions && profile.transactions.length > 0 ? (
           profile.transactions.slice(0, 5).map((transaction) => (
-            <View key={transaction._id} style={styles.transactionCard}>
+            <ThemedView key={transaction._id} style={styles.transactionCard}>
               <View style={styles.transactionIcon}>
                 <Ionicons
                   name={
@@ -142,19 +143,19 @@ export default function HomeScreen() {
                 />
               </View>
               <View style={styles.transactionDetails}>
-                <Text style={styles.transactionType}>
+                <ThemedText style={styles.transactionType}>
                   {profile.mobile === transaction.senderId
                     ? "Sent to"
                     : "Received from"}{" "}
                   {profile.mobile === transaction.senderId
                     ? transaction.receivedId
                     : transaction.senderId}
-                </Text>
-                <Text style={styles.transactionId}>
+                </ThemedText>
+                <ThemedText style={styles.transactionId}>
                   {transaction.transactionId}
-                </Text>
+                </ThemedText>
               </View>
-              <Text
+              <ThemedText
                 style={[
                   styles.transactionAmount,
                   profile.mobile === transaction.senderId && styles.sentAmount,
@@ -162,13 +163,13 @@ export default function HomeScreen() {
               >
                 {profile.mobile === transaction.senderId ? "-" : "+"}৳
                 {transaction.amount.toFixed(2)}
-              </Text>
-            </View>
+              </ThemedText>
+            </ThemedView>
           ))
         ) : (
-          <Text style={styles.noTransactions}>No transactions yet</Text>
+          <ThemedText style={styles.noTransactions}>No transactions yet</ThemedText>
         )}
-      </View>
+      </ThemedView>
     </ScrollView>
   );
 }
@@ -176,7 +177,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f5f5f5",
+//     backgroundColor: "#f5f5f5",
   },
   loadingContainer: {
     flex: 1,
@@ -188,23 +189,18 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     padding: 20,
-    backgroundColor: "#fff",
   },
   greeting: {
-    fontSize: 14,
-    color: "#666",
+    fontSize: 14
   },
   name: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#333",
   },
   balanceCard: {
     margin: 20,
     padding: 24,
-    backgroundColor: "#fff",
     borderRadius: 16,
-    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
@@ -218,14 +214,13 @@ const styles = StyleSheet.create({
   },
   balanceLabel: {
     fontSize: 14,
-    color: "#666",
     marginBottom: 8,
   },
   balanceAmount: {
-    fontSize: 36,
+    fontSize: 26,
     fontWeight: "bold",
     color: "#16a34a",
-    marginBottom: 12,
+    marginBottom: 12
   },
   statusBadge: {
     alignSelf: "flex-start",
@@ -248,7 +243,6 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#333",
     marginBottom: 16,
   },
   actionsGrid: {
@@ -257,7 +251,6 @@ const styles = StyleSheet.create({
   },
   actionCard: {
     flex: 1,
-    backgroundColor: "#fff",
     padding: 20,
     borderRadius: 12,
     alignItems: "center",
@@ -274,7 +267,6 @@ const styles = StyleSheet.create({
   transactionCard: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#fff",
     padding: 16,
     borderRadius: 12,
     marginBottom: 12,
