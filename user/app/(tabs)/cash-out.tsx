@@ -1,19 +1,20 @@
+import { ThemedText } from "@/components/themed-text";
+import { ThemedView } from "@/components/themed-view";
+import { useAuth } from "@/contexts/AuthContext";
+import { transactionService } from "@/services/api.service";
+import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  Alert,
   ActivityIndicator,
+  Alert,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { transactionService } from "@/services/api.service";
-import { useAuth } from "@/contexts/AuthContext";
 
 export default function CashOutScreen() {
   const [agentId, setAgentId] = useState("");
@@ -80,17 +81,17 @@ export default function CashOutScreen() {
       style={styles.container}
     >
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        <View style={styles.header}>
+        <ThemedView style={styles.header}>
           <Ionicons name="cash-outline" size={64} color="#16a34a" />
-          <Text style={styles.title}>Cash Out</Text>
-          <Text style={styles.subtitle}>
+          <ThemedText style={styles.title}>Cash Out</ThemedText>
+          <ThemedText style={styles.subtitle}>
             Withdraw cash from an authorized agent
-          </Text>
-        </View>
+          </ThemedText>
+        </ThemedView>
 
-        <View style={styles.form}>
+        <ThemedView style={styles.form}>
           <View style={styles.inputContainer}>
-            <Text style={styles.label}>Agent Mobile Number</Text>
+            <ThemedText style={styles.label}>Agent Mobile Number</ThemedText>
             <View style={styles.inputWrapper}>
               <Ionicons
                 name="person-outline"
@@ -111,9 +112,9 @@ export default function CashOutScreen() {
           </View>
 
           <View style={styles.inputContainer}>
-            <Text style={styles.label}>Amount to Cash Out</Text>
+            <ThemedText style={styles.label}>Amount to Cash Out</ThemedText>
             <View style={styles.inputWrapper}>
-              <Text style={styles.currency}>৳</Text>
+              <ThemedText style={styles.currency}>৳</ThemedText>
               <TextInput
                 style={styles.input}
                 placeholder="0.00"
@@ -123,11 +124,11 @@ export default function CashOutScreen() {
                 editable={!loading}
               />
             </View>
-            <Text style={styles.hint}>A service charge may apply</Text>
+            <ThemedText style={styles.hint}>Charge may apply</ThemedText>
           </View>
 
           <View style={styles.inputContainer}>
-            <Text style={styles.label}>PIN</Text>
+            <ThemedText style={styles.label}>PIN</ThemedText>
             <View style={styles.inputWrapper}>
               <Ionicons
                 name="lock-closed-outline"
@@ -158,23 +159,23 @@ export default function CashOutScreen() {
             ) : (
               <>
                 <Ionicons name="cash-outline" size={20} color="#fff" />
-                <Text style={styles.buttonText}>Cash Out</Text>
+                <ThemedText style={styles.buttonText}>Cash Out</ThemedText>
               </>
             )}
           </TouchableOpacity>
-        </View>
+        </ThemedView>
 
-        <View style={styles.infoCard}>
+        <ThemedView style={styles.infoCard}>
           <Ionicons
             name="information-circle-outline"
             size={24}
             color="#16a34a"
           />
-          <Text style={styles.infoText}>
+          <ThemedText style={styles.infoText}>
             Visit an authorized agent and provide them with your mobile number
             and the amount you wish to cash out.
-          </Text>
-        </View>
+          </ThemedText>
+        </ThemedView>
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -183,19 +184,19 @@ export default function CashOutScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f5f5f5",
   },
   scrollContent: {
     padding: 20,
   },
   header: {
     alignItems: "center",
-    marginBottom: 32,
+    marginBottom: 20,
+    borderRadius: 12,
+    padding: 24
   },
   title: {
     fontSize: 28,
     fontWeight: "bold",
-    color: "#333",
     marginTop: 16,
   },
   subtitle: {
@@ -206,20 +207,21 @@ const styles = StyleSheet.create({
   },
   form: {
     gap: 20,
-    marginBottom: 24,
+    marginBottom: 20,
+    borderRadius: 12,
+    padding: 24
   },
   inputContainer: {
     gap: 8,
   },
   label: {
     fontSize: 14,
-    fontWeight: "600",
-    color: "#333",
+    fontWeight: "600"
   },
   inputWrapper: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#fff",
+    backgroundColor: "#ddd",
     borderWidth: 1,
     borderColor: "#ddd",
     borderRadius: 12,

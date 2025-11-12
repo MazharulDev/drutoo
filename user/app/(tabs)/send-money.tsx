@@ -1,19 +1,20 @@
+import { ThemedText } from "@/components/themed-text";
+import { ThemedView } from "@/components/themed-view";
+import { useAuth } from "@/contexts/AuthContext";
+import { transactionService } from "@/services/api.service";
+import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  Alert,
   ActivityIndicator,
+  Alert,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { transactionService } from "@/services/api.service";
-import { useAuth } from "@/contexts/AuthContext";
 
 export default function SendMoneyScreen() {
   const [receiverId, setReceiverId] = useState("");
@@ -80,17 +81,17 @@ export default function SendMoneyScreen() {
       style={styles.container}
     >
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        <View style={styles.header}>
+        <ThemedView style={styles.header}>
           <Ionicons name="send" size={64} color="#16a34a" />
-          <Text style={styles.title}>Send Money</Text>
-          <Text style={styles.subtitle}>
+          <ThemedText style={styles.title}>Send Money</ThemedText>
+          <ThemedText style={styles.subtitle}>
             Transfer money to another user instantly
-          </Text>
-        </View>
+          </ThemedText>
+        </ThemedView>
 
-        <View style={styles.form}>
+        <ThemedView style={styles.form}>
           <View style={styles.inputContainer}>
-            <Text style={styles.label}>Receiver Mobile Number</Text>
+            <ThemedText style={styles.label}>Receiver Mobile Number</ThemedText>
             <View style={styles.inputWrapper}>
               <Ionicons
                 name="person-outline"
@@ -111,9 +112,9 @@ export default function SendMoneyScreen() {
           </View>
 
           <View style={styles.inputContainer}>
-            <Text style={styles.label}>Amount</Text>
+            <ThemedText style={styles.label}>Amount</ThemedText>
             <View style={styles.inputWrapper}>
-              <Text style={styles.currency}>৳</Text>
+              <ThemedText style={styles.currency}>৳</ThemedText>
               <TextInput
                 style={styles.input}
                 placeholder="0.00"
@@ -126,7 +127,7 @@ export default function SendMoneyScreen() {
           </View>
 
           <View style={styles.inputContainer}>
-            <Text style={styles.label}>PIN</Text>
+            <ThemedText style={styles.label}>PIN</ThemedText>
             <View style={styles.inputWrapper}>
               <Ionicons
                 name="lock-closed-outline"
@@ -157,23 +158,23 @@ export default function SendMoneyScreen() {
             ) : (
               <>
                 <Ionicons name="send" size={20} color="#fff" />
-                <Text style={styles.buttonText}>Send Money</Text>
+                <ThemedText style={styles.buttonText}>Send Money</ThemedText>
               </>
             )}
           </TouchableOpacity>
-        </View>
+        </ThemedView>
 
-        <View style={styles.infoCard}>
+        <ThemedView style={styles.infoCard}>
           <Ionicons
             name="information-circle-outline"
             size={24}
             color="#16a34a"
           />
-          <Text style={styles.infoText}>
+          <ThemedText style={styles.infoText}>
             Make sure to verify the receiver&apos;s mobile number before sending
             money. Transactions cannot be reversed.
-          </Text>
-        </View>
+          </ThemedText>
+        </ThemedView>
       </ScrollView>
     </KeyboardAvoidingView>
   );
@@ -182,43 +183,45 @@ export default function SendMoneyScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f5f5f5",
+
   },
   scrollContent: {
     padding: 20,
   },
   header: {
     alignItems: "center",
-    marginBottom: 32,
+    marginBottom: 20,
+    borderRadius: 12,
+    padding: 24
   },
   title: {
     fontSize: 28,
     fontWeight: "bold",
-    color: "#333",
     marginTop: 16,
   },
   subtitle: {
     fontSize: 14,
-    color: "#666",
     marginTop: 8,
     textAlign: "center",
+    color: "#666",
   },
   form: {
     gap: 20,
-    marginBottom: 24,
+    marginBottom: 20,
+    borderRadius: 12,
+    padding: 24
   },
   inputContainer: {
     gap: 8,
   },
   label: {
     fontSize: 14,
-    fontWeight: "600",
-    color: "#333",
+    fontWeight: "600"
   },
   inputWrapper: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#fff",
+    backgroundColor: "#ddd",
     borderWidth: 1,
     borderColor: "#ddd",
     borderRadius: 12,
