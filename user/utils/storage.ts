@@ -9,7 +9,7 @@ export const STORAGE_KEYS = {
 export interface DecodedToken {
   userId: string;
   mobile: string;
-  user_type: string;
+  role: string;
   exp: number;
 }
 

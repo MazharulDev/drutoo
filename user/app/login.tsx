@@ -110,11 +110,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
   },
   logo: {
-    fontSize: 48,
+    fontSize: 42,
     fontWeight: "bold",
     color: "#16a34a",
     textAlign: "center",
     marginBottom: 8,
+    padding: 8
   },
   subtitle: {
     fontSize: 18,
