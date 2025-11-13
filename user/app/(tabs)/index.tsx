@@ -7,6 +7,7 @@ import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
+  Alert,
   RefreshControl,
   ScrollView,
   StyleSheet,
@@ -37,7 +38,13 @@ export default function HomeScreen() {
 
   useEffect(() => {
     fetchProfile();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (user?.role !== "user") {
+      Alert.alert(
+        "Access Denied",
+        "This application is only available for users with 'user' role.",
+        [{ text: "OK", onPress: () => logout() }]
+      );
+    }
   }, [user]);
 
   const onRefresh = () => {
@@ -177,7 +184,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-//     backgroundColor: "#f5f5f5",
+    //     backgroundColor: "#f5f5f5",
   },
   loadingContainer: {
     flex: 1,
@@ -217,10 +224,11 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   balanceAmount: {
-    fontSize: 26,
+    fontSize: 36,
     fontWeight: "bold",
     color: "#16a34a",
-    marginBottom: 12
+    marginBottom: 12,
+    padding: 8
   },
   statusBadge: {
     alignSelf: "flex-start",
